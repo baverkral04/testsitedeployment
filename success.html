@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Successful</title>
+    <link rel="stylesheet" href="css/app.css">
+    <script src="user.js"></script>
+</head>
+<body>
+    <div style="text-align: center; padding: 50px;">
+        <h1 id="status-message">Verifying your payment... please wait.</h1>
+        <p>You will be redirected to your account page shortly.</p>
+    </div>
+
+    <script>
+        (async () => {
+            const messageEl = document.getElementById('status-message');
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            const user = window.getCurrentUser();
+
+            if (sessionId && user) {
+                try {
+                    const response = await fetch(`${window.API_ROOT}/order/success`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ session_id: sessionId, user: user })
+                    });
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        messageEl.textContent = 'Thank you for your order!';
+                        
+                        // Clear the cart in the browser's local storage
+                        const updatedUser = { ...user, user_cart: '[]' };
+                        window.setCurrentUser(updatedUser);
+                        
+                        // Redirect to account/dashboard after 3 seconds
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 3000);
+                    } else {
+                        throw new Error(data.error || 'Failed to process order.');
+                    }
+                } catch (error) {
+                    messageEl.textContent = `Error: ${error.message}`;
+                }
+            } else {
+                messageEl.textContent = 'Could not verify payment. Session ID or user missing.';
+            }
+        })();
+    </script>
+</body>
+</html>

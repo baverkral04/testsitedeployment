@@ -21,6 +21,25 @@
     <!--====== App ======-->
     <link rel="stylesheet" href="css/app.css">
     <script src="user.js"></script>
+    <script>
+  (() => {
+    try {
+      const user = window.getCurrentUser();
+      // The backend sends '1' for admin status
+      const isAdmin = user && user.user_isAdmin === 1;
+
+      if (!isAdmin) {
+        // If there's no user or the user is not an admin, deny access
+        alert('Access Denied. You must be an admin to view this page.');
+        window.location.href = 'index.html';
+      }
+    } catch (e) {
+      // If any error occurs, it's safest to deny access
+      console.error("Admin check failed:", e);
+      window.location.href = 'index.html';
+    }
+  })();
+</script>
 </head>
 <body class="config">
     <div class="preloader is-active">
@@ -82,7 +101,7 @@
                                         <a href="index.html">Home</a>
                                     </li>
                                     <li class="is-marked">
-                                        <a href="dash-track-order.html">Customer Orders</a>
+                                        <a href="admin_order.html">Admin Orders</a>
                                     </li>
                                 </ul>
                             </div>
@@ -123,6 +142,7 @@
         })();
         </script>
         </div>
+
     </div>
     <!--====== End - Main App ======-->
 
@@ -159,55 +179,34 @@
     </noscript>
 <script>
 (() => {
-  // Check if this script has already been run to avoid duplicates
-  if (window.__CUSTOMER_ORDERS_PATCH__) return;
-  window.__CUSTOMER_ORDERS_PATCH__ = true;
+  if (window.__ADMIN_ORDERS_PATCH__) return;
+  window.__ADMIN_ORDERS_PATCH__ = true;
 
   const ORDERS_API = `${API_ROOT}/orders`;
 
-  // Helper function to safely get the current user from user.js
-  const getUserSafe = () => (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
-
   let currentFilter = 'paid';
 
-  async function fetchAndFilterOrders() {
-    const currentUser = getUserSafe();
-    if (!currentUser) {
-        // If no user is logged in, return an empty array.
-        // You might want to redirect to login page here instead.
-        return [];
-    }
-
+  async function fetchOrders() {
     try {
-      const response = await fetch(ORDERS_API);
-      if (!response.ok) return [];
-      
-      const allOrders = await response.json();
-      
-      // CHANGED: Filter orders to only include those matching the current user's email or ID.
-      const userOrders = allOrders.filter(order => {
-        try {
-          const orderUser = JSON.parse(order.order_user);
-          const hasUserId = currentUser.user_id && (orderUser.user_id == currentUser.user_id);
-          const hasUserEmail = currentUser.user_email && (orderUser.user_email == currentUser.user_email);
-          return hasUserId || hasUserEmail;
-        } catch (e) {
-          return false;
-        }
-      });
-      
-      return userOrders;
+      const r = await fetch(ORDERS_API);
+      if (!r.ok) return [];
+      return await r.json();
+    } catch { return []; }
+  }
 
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-      return [];
+  function formatUser(jsonStr) {
+    try {
+      const u = JSON.parse(jsonStr);
+      return `${u.user_name || ''} ${u.user_surname || ''} (${u.user_email || ''})`;
+    } catch {
+      return jsonStr;
     }
   }
 
   function formatProducts(jsonStr) {
     try {
       const prods = JSON.parse(jsonStr);
-      return prods.map(p => `${p.product_name} x ${p.product_amount}`).join('<br>');
+      return prods.map(p => `${p.product_name} x ${p.product_amount} @ $${p.product_unit_price} = $${p.product_total}`).join('<br>');
     } catch {
       return jsonStr;
     }
@@ -217,12 +216,6 @@
     const filtered = orders.filter(o => o.order_status === currentFilter);
     const container = document.getElementById('orders-container');
     if (!container) return;
-
-    if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center u-s-m-b-30">You have no orders with the status "${currentFilter}".</div>`;
-        return;
-    }
-
     container.innerHTML = '';
     for (let i = 0; i < filtered.length; i += 3) {
       const rowDiv = document.createElement('div');
@@ -230,28 +223,18 @@
       for (let j = 0; j < 3; j++) {
         const ord = filtered[i + j];
         if (!ord) break;
-
-        // CHANGED: Logic to display tracking number as text or a link.
-        let trackingInfoHtml = '';
-        if (ord.order_trackingNumber) {
-            // Make it a clickable link to a generic tracking search for better UX
-            trackingInfoHtml = `<a href="https://www.google.com/search?q=${encodeURIComponent(ord.order_trackingNumber)}" target="_blank" rel="noopener noreferrer">${ord.order_trackingNumber}</a>`;
-        } else {
-            trackingInfoHtml = 'Not yet available';
-        }
-        
         const colDiv = document.createElement('div');
         colDiv.className = 'col-lg-4';
-        
-        // CHANGED: The HTML no longer includes an input box or a save button.
         colDiv.innerHTML = `
           <table class="o-summary__table">
             <tbody>
               <tr><td>Order ID</td><td>${ord.order_id}</td></tr>
+              <tr><td>User</td><td>${formatUser(ord.order_user)}</td></tr>
               <tr><td>Products</td><td>${formatProducts(ord.order_product)}</td></tr>
               <tr><td>Address</td><td>${ord.order_address}</td></tr>
               <tr><td>Status</td><td>${ord.order_status}</td></tr>
-              <tr><td>Tracking</td><td>${trackingInfoHtml}</td></tr>
+              <tr><td>Tracking</td><td><input type="text" id="track-${ord.order_id}" value="${ord.order_trackingNumber || ''}" class="input-text input-text--primary-style"></td></tr>
+              <tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="saveTrack('${ord.order_id}')">Save</button></td></tr>
             </tbody>
           </table>
         `;
@@ -261,21 +244,37 @@
     }
   }
 
-  // This function is now globally available to be called by the filter buttons' onclick attributes.
   window.showFilter = async function(filter) {
     currentFilter = filter;
-    const orders = await fetchAndFilterOrders();
+    const orders = await fetchOrders();
     renderOrders(orders);
   };
 
-  // REMOVED: The saveTrack function is no longer needed for customers.
-  // window.saveTrack = async function(order_id) { ... };
+  window.saveTrack = async function(order_id) {
+    const input = document.getElementById(`track-${order_id}`);
+    if (!input) return;
+    const track = input.value.trim();
+    try {
+      const r = await fetch(`${ORDERS_API}/${order_id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order_trackingNumber: track })
+      });
+      if (r.ok) {
+        await init();
+      } else {
+        alert('Failed to update');
+      }
+    } catch {
+      alert('Error updating');
+    }
+  };
 
   async function init() {
-    const orders = await fetchAndFilterOrders();
+    const orders = await fetchOrders();
     renderOrders(orders);
-    const preloader = document.querySelector('.preloader');
-    if (preloader) preloader.classList.remove('is-active');
+    const pre = document.querySelector('.preloader');
+    if (pre) pre.classList.remove('is-active');
   }
 
   document.addEventListener('DOMContentLoaded', init);

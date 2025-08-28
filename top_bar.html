@@ -1,0 +1,793 @@
+<!-- Header Content -->
+<header class="header--style-1">
+  <!-- Nav 1 -->
+  <nav class="primary-nav primary-nav-wrapper--border">
+    <div class="container">
+      <div class="primary-nav">
+        <a class="main-logo" href="index.html">
+          <img data-brand="logo" src="images/logo/logo-1.png" alt="Brand Logo">
+        </a>
+
+        <form class="main-form">
+          <label for="main-search"></label>
+          <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Search">
+          <button class="btn btn--icon fas fa-search main-search-button" type="submit"></button>
+        </form>
+
+        <div class="menu-init" id="navigation">
+          <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-cogs" type="button"></button>
+          <div class="ah-lg-mode">
+            <span class="ah-close">✕ Close</span>
+            <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
+                <li class="has-dropdown" data-tooltip="tooltip" data-placement="left" title="Account">
+                  <a><i class="far fa-user-circle"></i></a>
+                  <span class="js-menu-toggle"></span>
+                  <ul style="width:120px">
+                    <li data-show-when="signed-in" style="display: none;">
+                      <a href="dashboard.html"><i class="fas fa-user-circle u-s-m-r-6"></i><span>Account</span></a>
+                    </li>
+                    <li data-show-when="admin" style="display: none;">
+                      <a href="admin.html"><i class="fas fa-tachometer-alt u-s-m-r-6"></i><span>Dashboard</span></a>
+                    </li>
+                    
+                    <li data-show-when="admin" style="display: none;">
+                      <a href="admin_order.html"><i class="fas fa-dolly u-s-m-r-6"></i><span>Manage Orders</span></a>
+                    </li>
+                    <li data-show-when="admin" style="display: none;">
+                      <a href="user_admin_panel.html"><i class="fas fa-users-cog u-s-m-r-6"></i><span>User Panel</span></a>
+                    </li>
+                    <li data-show-when="signed-in" style="display: none;">
+                      <a href="#" onclick="clearCurrentUser(); window.location.reload(); return false;">
+                        <i class="fas fa-lock-open u-s-m-r-6"></i><span>Sign out</span>
+                      </a>
+                    </li>
+                    <li data-show-when="guest" style="display: none;">
+                      <a href="signup.html"><i class="fas fa-user-plus u-s-m-r-6"></i><span>Sign up</span></a>
+                    </li>
+                    <li data-show-when="guest" style="display: none;">
+                      <a href="signin.html"><i class="fas fa-lock u-s-m-r-6"></i><span>Sign in</span></a>
+                    </li>
+                  </ul>
+                </li>
+              
+              <li data-tooltip="tooltip" data-placement="left" title="Contact">
+                <a data-brand-link="phone" href="#"><i class="fas fa-phone-volume"></i></a>
+              </li>
+              
+              <li data-tooltip="tooltip" data-placement="left" title="Mail">
+                <a data-brand-link="email" href="#"><i class="far fa-envelope"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Nav 2 -->
+  <nav class="secondary-nav-wrapper">
+    <div class="container">
+      <div class="secondary-nav">
+        <!-- Mega Menu -->
+        <div class="menu-init" id="navigation1">
+          <button class="btn btn--icon toggle-mega-text toggle-button" type="button">M</button>
+          <div class="ah-lg-mode">
+            <span class="ah-close">✕ Close</span>
+            <ul class="ah-list">
+              <li class="has-dropdown">
+                <span class="mega-text">M</span>
+                <span class="js-menu-toggle"></span>
+<!-- in Nav 2 > #navigation1, replace the inner mega-menu markup with: -->
+                <div class="mega-menu">
+                <div class="mega-menu-grid" id="mega-grid">
+                    <!-- Columns will be injected here: one column per tree level + products panel -->
+                </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Pages -->
+        <div class="menu-init" id="navigation2">
+          <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-cog" type="button"></button>
+          <div class="ah-lg-mode">
+            <span class="ah-close">✕ Close</span>
+            <ul class="ah-list ah-list--design2 ah-list--link-color-secondary">
+              <li><a href="shop-side-version-2.html">PRODUCTS</a></li>
+              <li><a href="shop-side-version-2.html">GIFT CARDS</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Cart -->
+        <div class="menu-init" id="navigation3">
+          <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-shopping-bag toggle-button-shop" type="button"></button>
+          <span class="total-item-round">2</span>
+          <div class="ah-lg-mode">
+            <span class="ah-close">✕ Close</span>
+            <ul class="ah-list ah-list--design1 ah-list--link-color-secondary">
+              <li><a href="index.html"><i class="fas fa-home u-c-brand"></i></a></li>
+              <li><a href="wishlist.html"><i class="far fa-heart"></i></a></li>
+              <li class="has-dropdown">
+                <a class="mini-cart-shop-link"><i class="fas fa-shopping-bag"></i><span class="total-item-round">2</span></a>
+                <span class="js-menu-toggle"></span>
+                <div class="mini-cart">
+                    <div class="mini-product-container gl-scroll u-s-m-b-15"></div>
+
+                    <div class="mini-product-stat">
+                        <div class="mini-total">
+                        <span class="subtotal-text">SUBTOTAL</span>
+                        <span class="subtotal-value">$0.00</span>
+                        </div>
+                        <div class="mini-action">
+                        <a class="mini-link btn--e-brand-b-2" href="checkout.html">PROCEED TO CHECKOUT</a>
+                        <a class="mini-link btn--e-transparent-secondary-b-2" href="cart.html">VIEW CART</a>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Mega Menu Styles -->
+<style>
+  .mega-menu { display:none; position:absolute; background:#fff; border:1px solid #ddd; padding:14px; z-index:1000; min-width:720px; }
+  .menu-init:hover .mega-menu { display:block !important; opacity:1; visibility:visible; }
+
+  .mega-menu-grid { display:flex; gap:24px; align-items:flex-start; }
+
+  .mm-col { min-width:220px; max-width:320px; }
+  .mm-col .col-title { font-weight:700; font-size:13px; text-transform:uppercase; margin-bottom:8px; color:#555; }
+  .mm-list { list-style:none; margin:0; padding:0; max-height:420px; overflow:auto; }
+  .mm-list li { margin:2px 0; }
+  .mm-list a { display:block; padding:6px 8px; color:#000; text-decoration:none; border-radius:6px; }
+  .mm-list a:hover { background:#f3f5f7; color:#007bff; }
+  .mm-list a.active { background:#e9eef5; color:#0d6efd; }
+
+  .mm-products { min-width:320px; max-width:380px; }
+  .mm-products .col-title { margin-bottom:8px; }
+  .mm-prod-list { display:grid; grid-template-columns:1fr; gap:8px; }
+  .mm-prod { display:flex; align-items:center; gap:10px; padding:8px; border:1px solid #eee; border-radius:8px; }
+  .mm-prod:hover { border-color:#ddd; }
+  .mm-prod img { width:44px; height:44px; object-fit:cover; border-radius:6px; }
+  .mm-prod .name { font-size:13px; line-height:1.25; color:#111; }
+  .mm-prod .price { font-size:12px; color:#0a7; margin-left:auto; white-space:nowrap; }
+  #navigation1.open .mega-menu { display:block !important; }
+  /* Mini-cart list can show many items */
+  .mini-cart .mini-product-container {
+    max-height: 360px;       /* adjust as you like */
+    overflow-y: auto;
+    }
+
+</style>
+<!-- Dynamic Mega Menu Script -->
+<script>
+async function initHeaderMenu() {
+  const DEBUG = true;
+  const log = (...a)=> DEBUG && console.log('[MEGA]', ...a);
+
+  const PRODUCTS_API = `${API_ROOT}/products`; // Use global API_ROOT
+  const IMAGE_FALLBACK = 'images/product/default.jpg';
+
+  const grid = document.getElementById('mega-grid');
+  if (!grid) return console.error('mega-grid not found');
+
+  // ----- helpers
+  const fmtMoney = n => Number(n||0).toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2});
+  const getId = p => p.product_id ?? p.rowid ?? p.id;
+  function imageURL(p) {
+    try {
+      let path = '';
+      const v = p.product_imagePath;
+      if (!v) return IMAGE_FALLBACK;
+      if (typeof v === 'string') {
+        try { const arr = JSON.parse(v); if (Array.isArray(arr) && arr.length) path = arr[0]; }
+        catch { path = v; }
+      } else if (Array.isArray(v) && v.length) { path = v[0]; }
+      if (!path) return IMAGE_FALLBACK;
+      return `${API_HOST}/${String(path).replace(/^\/+/,'')}`;
+    } catch { return IMAGE_FALLBACK; }
+  }
+  function productLink(p) {
+    const img = encodeURIComponent(imageURL(p));
+    return `product-detail-variable.html?product_id=${encodeURIComponent(getId(p))}&image=${img}`;
+  }
+  const sortKeys = ks => ks.slice().sort((a,b)=>a.localeCompare(b));
+
+  // ----- fetch
+  let products = [];
+  try {
+    const res = await fetch(PRODUCTS_API);
+    if (!res.ok) throw new Error('HTTP '+res.status);
+    products = await res.json();
+  } catch (e) {
+    console.error('MegaMenu fetch failed:', e);
+    grid.innerHTML = `<div style="padding:8px;color:#b00">Error loading categories</div>`;
+    return;
+  }
+  if (!products.length) {
+    grid.innerHTML = `<div style="padding:8px;">No categories found</div>`;
+    return;
+  }
+
+  // ----- detect tree fields EXACTLY like your filter
+  const treeFields = Object.keys(products[0] || {})
+    .filter(k => /^product_tree\d+$/.test(k))
+    .sort((a,b) => +a.match(/\d+$/)[0] - +b.match(/\d+$/)[0]);
+  if (!treeFields.length) {
+    grid.innerHTML = `<div style="padding:8px;">No categories found</div>`;
+    return;
+  }
+  log('treeFields', treeFields);
+
+  // ----- build the same nested structure as the filter:
+  // for each product, walk each tree field; at deepest, store an array of products
+  // Example for N levels: index[level1][level2]...[levelN] = [products...]
+  const index = {};
+  for (const p of products) {
+    let node = index;
+    treeFields.forEach((field, i) => {
+      const key = p[field] || 'Uncategorized';
+      const isLeaf = i === treeFields.length - 1;
+      if (isLeaf) {
+        if (!node[key]) node[key] = [];
+        node[key].push(p);
+      } else {
+        if (!node[key]) node[key] = {};
+        node = node[key];
+      }
+    });
+  }
+
+  // ----- create columns dynamically (N category columns + 1 products column)
+  grid.innerHTML = '';
+  const colEls = [];
+  for (let i = 0; i < treeFields.length; i++) {
+    const col = document.createElement('div');
+    col.className = 'mm-col';
+    col.innerHTML = `
+      <div class="col-title">${(i===0?'Categories':`Level ${i+1}`)}</div>
+      <ul class="mm-list" data-level="${i}"></ul>
+    `;
+    grid.appendChild(col);
+    colEls.push(col);
+  }
+  // products panel
+  const prodCol = document.createElement('div');
+  prodCol.className = 'mm-col mm-products';
+  prodCol.innerHTML = `
+    <div class="col-title">Products</div>
+    <div class="mm-prod-list" id="mm-prod-list"></div>
+  `;
+  grid.appendChild(prodCol);
+
+  const prodList = prodCol.querySelector('#mm-prod-list');
+
+  // ----- state
+  const activeKeys = Array(treeFields.length).fill(null);
+
+  // ----- renderers
+  function renderList(level, keys, activeKey) {
+    const list = colEls[level].querySelector('.mm-list');
+    list.innerHTML = sortKeys(keys).map(k =>
+      `<li><a href="#" data-key="${encodeURIComponent(k)}" class="${k===activeKey?'active':''}">${k}</a></li>`
+    ).join('') || '<li><span style="color:#777">No items</span></li>';
+  }
+
+  function renderProducts(items) {
+    const list = (items||[])
+      .slice()
+      .sort((a,b) => (Number(a.product_index)||0) - (Number(b.product_index)||0) || String(a.product_name||'').localeCompare(String(b.product_name||'')))
+      .slice(0,5);
+
+    prodList.innerHTML = list.map(p => `
+      <a class="mm-prod" href="${productLink(p)}">
+        <img src="${imageURL(p)}" alt="">
+        <div class="name">${p.product_name || 'Product'}</div>
+        <div class="price">${fmtMoney(p.product_price)}</div>
+      </a>
+    `).join('') || '<div style="padding:6px;color:#666">No products in this category</div>';
+  }
+
+  function getNodeForPath(path) {
+    // path length <= treeFields.length
+    let node = index;
+    for (let i = 0; i < path.length; i++) {
+      const key = path[i];
+      if (!key) return null;
+      node = node?.[key];
+      if (!node) return null;
+    }
+    return node;
+  }
+
+  function populateLevel(level) {
+    // For level 0, keys are Object.keys(index)
+    // For level k>0, keys are Object.keys(node at path up to k-1)
+    const parentPath = activeKeys.slice(0, level);
+    const parentNode = level === 0 ? index : getNodeForPath(parentPath);
+    let keys = [];
+    if (parentNode) {
+      if (Array.isArray(parentNode)) {
+        keys = []; // at a leaf array, no further keys
+      } else {
+        keys = Object.keys(parentNode);
+      }
+    }
+    renderList(level, keys, activeKeys[level]);
+
+    // Clear deeper levels & products when repopulating
+    for (let l = level + 1; l < treeFields.length; l++) {
+      colEls[l].querySelector('.mm-list').innerHTML = '<li><span style="color:#777">Hover previous level</span></li>';
+      activeKeys[l] = null;
+    }
+    prodList.innerHTML = '';
+  }
+
+  function handleHover(level, key) {
+    activeKeys[level] = key;
+
+    // Re-apply active classes for current level
+    const list = colEls[level].querySelector('.mm-list');
+    list.querySelectorAll('a').forEach(a => {
+      a.classList.toggle('active', decodeURIComponent(a.dataset.key) === key);
+    });
+
+    const isDeepest = (level === treeFields.length - 1);
+    if (isDeepest) {
+      // resolve products at this deepest path
+      const node = getNodeForPath(activeKeys);
+      const items = Array.isArray(node) ? node : [];
+      renderProducts(items);
+    } else {
+      // populate next level keys
+      populateLevel(level + 1);
+    }
+  }
+
+  function wireLevel(level) {
+    const list = colEls[level].querySelector('.mm-list');
+    list.onmouseover = (e) => {
+      const a = e.target.closest('a[data-key]');
+      if (!a) return;
+      e.preventDefault();
+      const key = decodeURIComponent(a.dataset.key);
+      handleHover(level, key);
+    };
+    list.onclick = (e) => e.preventDefault(); // disable navigation on category labels
+  }
+
+  // ----- initial paint
+  populateLevel(0);
+  for (let i = 0; i < treeFields.length; i++) wireLevel(i);
+
+  // Seed the first path (first key in each level) so you SEE content immediately
+  const AUTO_SEED = false;
+
+  if (AUTO_SEED && Object.keys(index).length) {   // <- wrap the seed block
+    const firstL1 = sortKeys(Object.keys(index))[0];
+    handleHover(0, firstL1);
+    for (let lvl = 1; lvl < treeFields.length; lvl++) {
+      const node = getNodeForPath(activeKeys.slice(0, lvl));
+      const keys = node && !Array.isArray(node) ? sortKeys(Object.keys(node)) : [];
+      if (keys.length) handleHover(lvl, keys[0]);
+    }
+  }
+
+
+  // ----- build dynamic specials between PRODUCTS and GIFT CARDS
+  (function buildSpecialsMenu() {
+    const menuUl = document.querySelector('#navigation2 .ah-list');
+    if (!menuUl) return;
+
+    // Helper: find an <li> by its anchor text (case-insensitive)
+    const findLiByText = (txt) => {
+      const T = String(txt).trim().toUpperCase();
+      return [...menuUl.children].find(li => {
+        const a = li.querySelector('a');
+        return a && a.textContent.trim().toUpperCase() === T;
+      }) || null;
+    };
+
+    const startLi = findLiByText('PRODUCTS');
+    const endLi   = findLiByText('GIFT CARDS');
+
+    // Remove any previously injected specials
+    menuUl.querySelectorAll('li[data-special]').forEach(el => el.remove());
+
+    // Remove everything currently between PRODUCTS and GIFT CARDS (exclusive)
+    if (startLi && endLi) {
+      let node = startLi.nextElementSibling;
+      while (node && node !== endLi) {
+        const next = node.nextElementSibling;
+        node.remove();
+        node = next;
+      }
+    }
+    const EXCEPTIONS = ["FEATURED PRODUCTS","SPECIAL PRODUCTS", "WEEKLY PRODUCTS","FLASH PRODUCTS"]
+
+    // Collect unique specials from products_specialDescription
+    const seen = new Set();
+    const specials = [];
+    for (const p of products) {
+      const raw = (p.products_specialDescription ?? '').trim();
+      if (!raw) continue;
+
+      if (EXCEPTIONS.some(ex => ex.toLowerCase() === raw.toLowerCase())) continue;
+
+
+      const key = raw.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      specials.push(raw);
+    }
+    specials.sort((a,b)=>a.localeCompare(b));
+
+    // Insert specials right before GIFT CARDS (or best effort fallback)
+    const insertBefore = endLi || null;
+    for (const name of specials) {
+      const li = document.createElement('li');
+      li.setAttribute('data-special', name);
+      li.innerHTML = `<a href="shop-side-version-2.html?special=${encodeURIComponent(name)}">${name}</a>`;
+      if (insertBefore) {
+        menuUl.insertBefore(li, insertBefore);
+      } else if (startLi && startLi.nextElementSibling) {
+        menuUl.insertBefore(li, startLi.nextElementSibling);
+      } else {
+        menuUl.appendChild(li);
+      }
+    }
+
+    // Re-init shopnav for mobile on this nav (and keep navigation1 fresh too)
+    if (typeof jQuery !== 'undefined' && jQuery.fn.shopnav) {
+      jQuery('#navigation2').shopnav();
+      jQuery('#navigation1').shopnav();
+    }
+  })();
+
+  // Re-init shopnav for mobile (ensure both navs are wired)
+  if (typeof jQuery !== 'undefined' && jQuery.fn.shopnav) {
+    jQuery('#navigation2').shopnav();
+    jQuery('#navigation1').shopnav();
+    log('shopnav re-initialized for #navigation1 and #navigation2');
+  }
+}
+</script>
+<script>document.addEventListener('DOMContentLoaded', initHeaderMenu);</script>
+<script>
+(function(){
+  const nav = document.getElementById('navigation1');
+  if (!nav) return;
+
+  const toggleBtn  = nav.querySelector('.toggle-mega-text'); // the "M" button
+  const megaMenu   = nav.querySelector('.mega-menu');
+  const megaText   = nav.querySelector('.mega-text'); // the "M" label inside list (desktop)
+  const CLOSE_DELAY_MS = 1500; // <<< adjust here
+
+  let hideTimer = null;
+
+  const openMenu = () => {
+    clearTimeout(hideTimer);
+    nav.classList.add('open');
+  };
+
+  const scheduleClose = () => {
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => nav.classList.remove('open'), CLOSE_DELAY_MS);
+  };
+
+  // Keep open while mouse moves between trigger and the menu
+  [nav, toggleBtn, megaText, megaMenu].forEach(el => {
+    if (!el) return;
+    el.addEventListener('mouseenter', openMenu);
+    el.addEventListener('mouseleave', scheduleClose);
+    el.addEventListener('focusin',  openMenu);     // keyboard accessibility
+    el.addEventListener('focusout', scheduleClose);
+  });
+
+  // Close if user clicks outside or presses Esc
+  document.addEventListener('click', (e) => {
+    if (!nav.contains(e.target)) nav.classList.remove('open');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') nav.classList.remove('open');
+  });
+})();
+</script>
+<script>
+// ====== THIS IS THE CORRECTED SCRIPT FOR top_bar.html ======
+(() => {
+  // =================================================================
+  // 1. SETUP & CONFIGURATION
+  // =================================================================
+  const nav3 = document.getElementById('navigation3');
+  if (!nav3) return;
+
+  const containerEl = nav3.querySelector('.mini-product-container');
+  const subtotalEl = nav3.querySelector('.subtotal-value');
+  const badgeEls = nav3.querySelectorAll('.total-item-round');
+
+  const IMAGE_FALLBACK = 'images/product/default.jpg';
+
+  let productsMapCache = null;
+
+  // =================================================================
+  // 2. HELPER UTILITIES
+  // =================================================================
+  const money = n => (Number(n) || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  
+  // *** FIX: Prioritize product_id over rowid ***
+  const getProductId = p => p?.product_id ?? p?.rowid;
+  
+  const getUserSafe = () => (typeof window.getCurrentUser === 'function') ? window.getCurrentUser() : null;
+  const setCurrentUserSafe = u => (typeof window.setCurrentUser === 'function') ? window.setCurrentUser(u) : null;
+  const imageURL = (p) => {
+    try {
+      let path = '';
+      const v = p?.product_imagePath;
+      if (!v) return IMAGE_FALLBACK;
+      const arr = JSON.parse(v);
+      if (Array.isArray(arr) && arr.length) path = arr[0];
+      return path ? `${API_HOST}/${String(path).replace(/^\/+/, '')}` : IMAGE_FALLBACK;
+    } catch { return IMAGE_FALLBACK; }
+  };
+  
+  // =================================================================
+  // 3. API & DATA LOGIC
+  // =================================================================
+  function normalizeAndAggregateCart(rawCart) {
+    if (!rawCart) return [];
+    let items = [];
+    try { items = typeof rawCart === 'string' ? JSON.parse(rawCart) : rawCart; } catch { return []; }
+    if (!Array.isArray(items)) return [];
+
+    const quantityMap = new Map();
+    for (const item of items) {
+      const id = String(item.product_id ?? item.id);
+      const amount = Math.max(1, Number(item.product_amount || 1));
+      if (id) {
+        quantityMap.set(id, (quantityMap.get(id) || 0) + amount);
+      }
+    }
+    return Array.from(quantityMap, ([product_id, product_amount]) => ({ product_id, product_amount }));
+  }
+
+  async function getProductsMap() {
+    if (productsMapCache) return productsMapCache;
+    try {
+      const allProducts = window.__ALL_PRODUCTS__ || (await (await fetch(`${API_ROOT}/products`)).json());
+      
+      // *** FIX: Build the map using product_id as the key ***
+      productsMapCache = new Map(allProducts.map(p => [String(p.product_id), p]));
+
+      window.__ALL_PRODUCTS__ = allProducts;
+      return productsMapCache;
+    } catch (error) {
+      console.error("Mini-cart: Failed to fetch products.", error);
+      return new Map();
+    }
+  }
+
+    async function removeFromCartAPI(productId) {
+      const user = getUserSafe();
+      if (!user) return;
+      try {
+        // CHANGED: Call the new 'decrement-cart-item' endpoint
+        const res = await fetch(`${API_ROOT}/users/decrement-cart-item`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ product_id: productId, user_id: user.user_id, user_email: user.user_email })
+        });
+        if (!res.ok) throw new Error("Server failed to remove item.");
+        const updatedUser = await res.json();
+        setCurrentUserSafe(updatedUser);
+      } catch (error) {
+        console.error("Mini-cart: Failed to remove item via API.", error);
+        alert("Could not remove item. Please try again.");
+      }
+    }
+
+  // =================================================================
+  // 4. RENDERING LOGIC
+  // =================================================================
+  async function renderMiniCart() {
+    const user = getUserSafe();
+    if (!user) {
+      containerEl.innerHTML = '<div style="padding:12px;color:#666">Sign in to view cart</div>';
+      subtotalEl.textContent = money(0);
+      badgeEls.forEach(el => el.textContent = '0');
+      return;
+    }
+
+    const cart = normalizeAndAggregateCart(user.user_cart);
+    if (cart.length === 0) {
+      containerEl.innerHTML = '<div style="padding:12px;color:#666">Your cart is empty</div>';
+      subtotalEl.textContent = money(0);
+      badgeEls.forEach(el => el.textContent = '0');
+      return;
+    }
+
+    const productsMap = await getProductsMap();
+    let subtotal = 0;
+    let totalItems = 0;
+    let html = '';
+
+    for (const item of cart) {
+      const product = productsMap.get(item.product_id); // Look up by product_id
+      if (!product) continue;
+
+      const price = Number(product.product_price) || 0;
+      subtotal += price * item.product_amount;
+      totalItems += item.product_amount;
+
+      html += `
+        <div class="card-mini-product" data-product-id="${getProductId(product)}">
+          <div class="mini-product">
+            <div class="mini-product__image-wrapper">
+              <a class="mini-product__link" href="product-detail-variable.html?product_id=${getProductId(product)}">
+                <img class="u-img-fluid" src="${imageURL(product)}" alt="">
+              </a>
+            </div>
+            <div class="mini-product__info-wrapper">
+              <span class="mini-product__name"><a href="#">${product.product_name || 'Product'}</a></span>
+              <span class="mini-product__quantity">${item.product_amount} &times; ${money(price)}</span>
+            </div>
+          </div>
+          <a class="mini-product__delete-link far fa-trash-alt" href="#" data-remove-id="${getProductId(product)}"></a>
+        </div>
+      `;
+    }
+
+    containerEl.innerHTML = html || `<div style="padding:12px;color:#b00">Error: Items in cart not found in products list.</div>`;
+    subtotalEl.textContent = money(subtotal);
+    badgeEls.forEach(el => el.textContent = totalItems);
+  }
+
+  // =================================================================
+  // 5. EVENT LISTENERS & INITIALIZATION
+  // =================================================================
+  containerEl.addEventListener('click', (e) => {
+    const removeBtn = e.target.closest('[data-remove-id]');
+    if (removeBtn) {
+      e.preventDefault();
+      const productId = removeBtn.dataset.removeId;
+      removeBtn.style.pointerEvents = 'none';
+      removeBtn.parentElement.style.opacity = '0.5';
+      removeFromCartAPI(productId);
+    }
+  });
+
+  document.addEventListener('user:changed', renderMiniCart);
+  renderMiniCart();
+})();
+</script>
+</script>
+<script>
+(function(){
+  // Handle special category pages like shop-side-version-2.html?special=...
+  const params = new URLSearchParams(window.location.search);
+  const specialRaw = params.get('special');
+  if (!specialRaw) return; // nothing to do
+
+  const SPECIAL = specialRaw.trim();
+
+  // Config (reuse globals if present)
+
+  const PRODUCTS_URL = `${API_ROOT}/products`;
+  const IMAGE_FALLBACK = 'images/product/default.jpg';
+
+  const money = n => Number(n||0).toLocaleString('en-US', { style:'currency', currency:'USD' });
+  const getId = p => p?.product_id ?? p?.rowid ?? p?.id;
+
+  function imageURL(p) {
+    try {
+      let path = '';
+      const v = p.product_imagePath;
+      if (!v) return IMAGE_FALLBACK;
+      if (typeof v === 'string') {
+        try { const arr = JSON.parse(v); if (Array.isArray(arr) && arr.length) path = arr[0]; }
+        catch { path = v; }
+      } else if (Array.isArray(v) && v.length) { path = v[0]; }
+      if (!path) return IMAGE_FALLBACK;
+      return `${API_HOST}/${String(path).replace(/^\/+/, '')}`;
+    } catch { return IMAGE_FALLBACK; }
+  }
+
+  function productLink(p) {
+    const img = encodeURIComponent(imageURL(p));
+    return `product-detail-variable.html?product_id=${encodeURIComponent(getId(p))}&image=${img}`;
+  }
+
+  async function fetchProducts() {
+    if (Array.isArray(window.__ALL_PRODUCTS__) && window.__ALL_PRODUCTS__.length) return window.__ALL_PRODUCTS__;
+    try {
+      const res = await fetch(PRODUCTS_URL);
+      if (res.ok) {
+        const data = await res.json();
+        window.__ALL_PRODUCTS__ = data;
+        return data;
+      }
+    } catch {}
+    return [];
+  }
+
+  function findTargetContainer() {
+    // Try common grid containers on your listing page. Adjust selectors if you have a known one.
+    return document.querySelector('#product-grid')
+        || document.querySelector('.product-grid')
+        || document.querySelector('.shop-p__collection .row')
+        || null;
+  }
+
+  function ensureContainer() {
+    let el = findTargetContainer();
+    if (el) return el;
+    // Fallback: create a simple responsive grid near top of the page
+    el = document.createElement('div');
+    el.id = 'product-grid';
+    el.style.marginTop = '16px';
+    el.style.display = 'grid';
+    el.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
+    el.style.gap = '16px';
+
+    const title = document.createElement('h3');
+    title.className = 'special-title';
+    title.textContent = `Special: ${SPECIAL}`;
+
+    const wrapper = document.createElement('section');
+    wrapper.className = 'special-results';
+    wrapper.style.padding = '16px';
+    wrapper.appendChild(title);
+    wrapper.appendChild(el);
+
+    const anchor = document.querySelector('main') || document.body;
+    anchor.insertBefore(wrapper, anchor.firstChild ? anchor.firstChild.nextSibling : null);
+    return el;
+  }
+
+  function card(p) {
+    const price = Number(p.product_price)||0;
+    const disc  = Number(p.product_discount)||0;
+    const final = disc > 0 ? price * (1 - disc/100) : price;
+    return `
+      <a class="c-card" href="${productLink(p)}" style="display:block;border:1px solid #eee;border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;">
+        <div style="padding:8px 8px 0">
+          <img src="${imageURL(p)}" alt="" style="width:100%;height:160px;object-fit:cover;border-radius:6px">
+        </div>
+        <div style="padding:10px">
+          <div style="font-size:14px;font-weight:600;line-height:1.3;min-height:36px">${p.product_name || 'Product'}</div>
+          <div style="margin-top:6px;font-size:13px;color:#0a7">${money(final)}</div>
+        </div>
+      </a>`;
+  }
+
+  (async function run(){
+    document.title = `${SPECIAL} – ${document.title}`;
+    const all = await fetchProducts();
+    const list = all.filter(p => String(p.products_specialDescription || '').trim().toLowerCase() === SPECIAL.toLowerCase());
+
+    const grid = ensureContainer();
+    if (!list.length) {
+      grid.innerHTML = `<div style="grid-column:1 / -1;color:#666">No products found for “${SPECIAL}”.</div>`;
+      return;
+    }
+
+    list.sort((a,b) => (Number(a.product_index)||0) - (Number(b.product_index)||0) || String(a.product_name||'').localeCompare(String(b.product_name||'')));
+    grid.innerHTML = list.map(card).join('');
+  })();
+})();
+</script>
+<script>
+  // This ensures the brand info is populated when the header is loaded.
+  if (typeof window.updateBrandUI === 'function') {
+    window.updateBrandUI();
+  }
+</script>

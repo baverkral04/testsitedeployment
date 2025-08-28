@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Multi‑DB Product Admin</title>
+  <style>
+    body { font-family: sans-serif; padding: 1rem; }
+    label { display: block; margin: .5rem 0 .2rem; }
+    input, select, button { padding: .4rem; margin-bottom: .6rem; width: 100%; max-width: 400px; }
+    #formContainer { margin-top: 1rem; }
+  </style>
+  <script src="user.js"></script>
+  <script>
+  (() => {
+    try {
+      const user = window.getCurrentUser();
+      // The backend sends '1' for admin status
+      const isAdmin = user && user.user_isAdmin === 1;
+
+      if (!isAdmin) {
+        // If there's no user or the user is not an admin, deny access
+        alert('Access Denied. You must be an admin to view this page.');
+        window.location.href = 'index.html';
+      }
+    } catch (e) {
+      // If any error occurs, it's safest to deny access
+      console.error("Admin check failed:", e);
+      window.location.href = 'index.html';
+    }
+  })();
+</script>
+</head>
+<body>
+  <h1>Product Administration (Customer: exampleCustomer)</h1>
+
+  <label for="productSelect">Select Product:</label>
+  <select id="productSelect"></select>
+  <button id="addProductBtn" type="button">Add Product</button>
+  <div id="formContainer"></div>
+
+  <script src="user_admin_panel.js"></script>
+</body>
+</html>

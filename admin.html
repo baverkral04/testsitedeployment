@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 1rem; background-color: #f4f7f6; color: #333; }
+    h1 { color: #2c3e50; }
+    h3 { border-bottom: 1px solid #eee; padding-bottom: 0.5rem; margin-top: 2rem; color: #34495e; }
+    label { display: block; margin: .8rem 0 .3rem; font-weight: bold; color: #555; }
+    input, select, button {
+      padding: .6rem;
+      margin-bottom: .8rem;
+      width: 100%;
+      max-width: 500px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      cursor: pointer;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+    button:hover { background-color: #2980b9; }
+    #navContainer button {
+        width: auto;
+        max-width: 200px;
+        background-color: #7f8c8d;
+        margin-right: 10px;
+    }
+    #navContainer button.active {
+        background-color: #2c3e50;
+    }
+    .view { display: none; }
+    #productsView { display: block; }
+    #formContainer, #brandForm, .image-uploader-container { margin-top: 1rem; padding: 1.5rem; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .form-message { margin-top: 1rem; font-weight: bold; }
+    .success { color: #27ae60; }
+    .error { color: #c0392b; }
+    .image-uploader-box { border: 2px dashed #ccc; padding: 1rem; margin-bottom: 1.5rem; border-radius: 5px; }
+    .image-uploader-box p { margin: 0 0 1rem; color: #555; }
+    .image-uploader-box .path-display { font-family: monospace; background-color: #eee; padding: 0.5rem; border-radius: 4px; color: #333; word-wrap: break-word; }
+  </style>
+  <script src="user.js"></script>
+  <script>
+    (() => {
+      try {
+        const user = window.getCurrentUser();
+        const isAdmin = user && user.user_isAdmin === 1;
+        if (!isAdmin) {
+          alert('Access Denied. You must be an admin to view this page.');
+          window.location.href = 'index.html';
+        }
+      } catch (e) {
+        console.error("Admin check failed:", e);
+        window.location.href = 'index.html';
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <h1>Admin Dashboard</h1>
+  <p>Customer: <strong id="customerDisplay"></strong></p>
+
+  <div id="navContainer">
+    <button id="showProductsBtn" class="active" type="button">Manage Products</button>
+    <button id="showBrandBtn" type="button">Manage Brand Info</button>
+    <button id="showImagesBtn" type="button">Manage Site Images</button>
+  </div>
+
+  <hr>
+
+  <div id="productsView" class="view">
+    <h2>Product Administration</h2>
+    <label for="productSelect">Select Product:</label>
+    <select id="productSelect"></select>
+    <button id="addProductBtn" type="button">Add New Product</button>
+    <div id="formContainer"></div>
+  </div>
+
+  <div id="brandView" class="view">
+    <h2>Brand Information</h2>
+    <form id="brandForm">
+      <p>Fill out your brand's public information. Click save when you're done.</p>
+      
+      <label for="brand_name">Brand Name</label>
+      <input type="text" id="brand_name" name="brand_name" placeholder="Your Company LLC">
+
+      <label for="brand_logoPath">Logo Path URL</label>
+      <input type="text" id="brand_logoPath" name="brand_logoPath" placeholder="/images/logo.png">
+
+      <label for="brand_phoneNumber">Phone Number</label>
+      <input type="tel" id="brand_phoneNumber" name="brand_phoneNumber" placeholder="555-123-4567">
+
+      <label for="brand_email">Public Email</label>
+      <input type="email" id="brand_email" name="brand_email" placeholder="contact@yourcompany.com">
+
+      <label for="brand_address">Address</label>
+      <input type="text" id="brand_address" name="brand_address" placeholder="123 Main St, Anytown, USA">
+
+      <label for="brand_facebookAddress">Facebook URL</label>
+      <input type="url" id="brand_facebookAddress" name="brand_facebookAddress" placeholder="https://facebook.com/yourcompany">
+
+      <label for="brand_instagramAddress">Instagram URL</label>
+      <input type="url" id="brand_instagramAddress" name="brand_instagramAddress" placeholder="https://instagram.com/yourcompany">
+
+      <label for="brand_tiktokAddress">TikTok URL</label>
+      <input type="url" id="brand_tiktokAddress" name="brand_tiktokAddress" placeholder="https://tiktok.com/@yourcompany">
+
+      <label for="brand_stripeToken">Stripe Token (Private)</label>
+      <input type="text" id="brand_stripeToken" name="brand_stripeToken" placeholder="sk_live_...">
+      
+      <button type="submit">Save Brand Info</button>
+      <div id="brandFormMsg" class="form-message"></div>
+    </form>
+  </div>
+
+  <div id="imagesView" class="view">
+    <h2>Site Image Management</h2>
+    <p>Upload images for your homepage and other non-product sections. The recommended resolution is a guideline for best appearance.</p>
+
+    <div class="image-uploader-container">
+      <h3>Header & Sliders</h3>
+      <div class="image-uploader-box" data-image-key="logo">
+        <label for="uploader-logo">Brand Logo (e.g., 200x50 pixels)</label>
+        <input type="file" id="uploader-logo" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+      
+      <div class="image-uploader-box" data-image-key="hero1">
+        <label for="uploader-hero1">Hero Slider Image 1 (e.g., 1920x600 pixels)</label>
+        <input type="file" id="uploader-hero1" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <div class="image-uploader-box" data-image-key="hero2">
+        <label for="uploader-hero2">Hero Slider Image 2 (e.g., 1920x600 pixels)</label>
+        <input type="file" id="uploader-hero2" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <div class="image-uploader-box" data-image-key="hero3">
+        <label for="uploader-hero3">Hero Slider Image 3 (e.g., 1920x600 pixels)</label>
+        <input type="file" id="uploader-hero3" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <div class="image-uploader-box" data-image-key="globalOffers">
+        <label for="uploader-globalOffers">Global Offers Banner (e.g., 1920x450 pixels)</label>
+        <input type="file" id="uploader-globalOffers" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <h3>"Shop by Deals" Section</h3>
+      <div class="image-uploader-box" data-image-key="coll1">
+        <label for="uploader-coll1">Collection Image 1 (Square, e.g., 500x500 pixels)</label>
+        <input type="file" id="uploader-coll1" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+      
+      <div class="image-uploader-box" data-image-key="coll2">
+        <label for="uploader-coll2">Collection Image 2 (Wide, e.g., 700x490 pixels)</label>
+        <input type="file" id="uploader-coll2" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+      
+      <div class="image-uploader-box" data-image-key="coll3">
+        <label for="uploader-coll3">Collection Image 3 (Wide, e.g., 700x490 pixels)</label>
+        <input type="file" id="uploader-coll3" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <div class="image-uploader-box" data-image-key="coll4">
+        <label for="uploader-coll4">Collection Image 4 (Square, e.g., 500x500 pixels)</label>
+        <input type="file" id="uploader-coll4" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <h3>Promotion Section</h3>
+      <div class="image-uploader-box" data-image-key="promo1">
+        <label for="uploader-promo1">Promotion Image 1 (Square, e.g., 400x400 pixels)</label>
+        <input type="file" id="uploader-promo1" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <div class="image-uploader-box" data-image-key="promo2">
+        <label for="uploader-promo2">Promotion Image 2 (Square, e.g., 400x400 pixels)</label>
+        <input type="file" id="uploader-promo2" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+
+      <div class="image-uploader-box" data-image-key="promo3">
+        <label for="uploader-promo3">Promotion Image 3 (Square, e.g., 400x400 pixels)</label>
+        <input type="file" id="uploader-promo3" class="image-uploader-input" accept="image/png, image/jpeg">
+        <div class="path-display">No image uploaded.</div>
+      </div>
+      
+      <hr>
+      <button id="saveImagePathsBtn" type="button">Save All Image Paths</button>
+      <div id="imageFormMsg" class="form-message"></div>
+    </div>
+  </div>
+
+  <script src="auth.js"></script> 
+  <script>
+    // Site Images view logic
+    (() => {
+        const BRAND_API = `${window.API_ROOT}/brand`;
+        const BRAND_IMAGE_UPLOAD_URL = `${window.API_ROOT}/upload-brand-image`;
+        const imageFormMsg = document.getElementById('imageFormMsg');
+        
+        let siteImagePaths = {};
+
+        async function fetchJSON(url, opts = {}) {
+            const res = await fetch(url, opts);
+            let data;
+            try { data = await res.json(); } catch (e) {}
+            if (!res.ok) {
+                const errorMsg = data?.error || `${res.status} ${res.statusText}`;
+                throw new Error(errorMsg);
+            }
+            return data;
+        }
+
+        async function loadAndDisplayBrandImages() {
+            try {
+                const brandData = await fetchJSON(BRAND_API);
+                const paths = brandData.brand_nonProductImagePath ? JSON.parse(brandData.brand_nonProductImagePath) : {};
+                siteImagePaths = paths;
+                
+                document.querySelectorAll('.image-uploader-box').forEach(box => {
+                    const key = box.dataset.imageKey;
+                    const pathDisplay = box.querySelector('.path-display');
+                    if (paths[key]) {
+                        pathDisplay.textContent = paths[key];
+                    } else {
+                        pathDisplay.textContent = 'No image uploaded.';
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading brand images:', error);
+            }
+        }
+
+        document.querySelectorAll('.image-uploader-input').forEach(input => {
+            input.addEventListener('change', async (event) => {
+                const file = event.target.files[0];
+                if (!file) return;
+
+                const box = event.target.closest('.image-uploader-box');
+                const pathDisplay = box.querySelector('.path-display');
+                const key = box.dataset.imageKey;
+                
+                pathDisplay.textContent = 'Uploading...';
+                
+                const formData = new FormData();
+                formData.append('file', file);
+
+                try {
+                    const result = await fetchJSON(BRAND_IMAGE_UPLOAD_URL, {
+                        method: 'POST',
+                        body: formData
+                    });
+                    
+                    pathDisplay.textContent = result.path;
+                    siteImagePaths[key] = result.path;
+                    
+                } catch (error) {
+                    pathDisplay.textContent = `Upload failed: ${error.message}`;
+                    console.error('Upload error:', error);
+                }
+            });
+        });
+
+        document.getElementById('saveImagePathsBtn').addEventListener('click', async () => {
+            imageFormMsg.textContent = 'Saving...';
+            imageFormMsg.className = 'form-message';
+            
+            try {
+                const brandData = await fetchJSON(BRAND_API).catch(() => ({}));
+                
+                // Safely get the old paths from the data we just fetched
+                const oldPaths = brandData.brand_nonProductImagePath ? JSON.parse(brandData.brand_nonProductImagePath) : {};
+
+                // Merge the old paths with any newly uploaded paths
+                const finalImagePaths = { ...oldPaths, ...siteImagePaths };
+
+                const payload = {
+                    ...brandData,
+                    brand_logoPath: finalImagePaths.logo || brandData.brand_logoPath,
+                    brand_nonProductImagePath: JSON.stringify(finalImagePaths) // Use the complete, merged object
+                };
+                delete payload.rowid;
+
+                await fetchJSON(BRAND_API, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                imageFormMsg.textContent = 'Image paths saved successfully!';
+                imageFormMsg.className = 'form-message success';
+
+            } catch (error) {
+                imageFormMsg.textContent = `Error saving paths: ${error.message}`;
+                imageFormMsg.className = 'form-message error';
+                console.error('Save error:', error);
+            }
+        });
+
+        window.loadAndDisplayBrandImages = loadAndDisplayBrandImages;
+    })();
+  </script>
+  <script src="admin.js"></script> 
+</body>
+</html>
