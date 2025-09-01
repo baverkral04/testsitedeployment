@@ -2807,10 +2807,16 @@ input::-ms-clear {
     vertical-align: middle;
     background-color: #f5f5f5;
     width: 120px;
-    height: 120px; }
+    height: 120px;
+    overflow: hidden;
+   }
     .table-p__img-wrap img {
       display: block;
-      min-width: 120px; }
+      height: 100%;
+      width: 100%;
+      object-fit: cover; /* This is the key property */
+      object-position: center; /* This centers the image nicely */
+       }
   .table-p__info {
     margin-left: 18px; }
   .table-p__name {
@@ -2889,7 +2895,12 @@ input::-ms-clear {
     height: 120px; }
     .w-r__img-wrap img {
       display: block;
-      min-width: 120px; }
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+
+       }
   .w-r__info {
     margin-left: 18px; }
   .w-r__name {
@@ -3185,14 +3196,21 @@ input::-ms-clear {
     -ms-flex-align: center;
         align-items: center; }
   .o-card__img-wrap {
-    display: inline-block;
-    vertical-align: middle;
-    width: 60px;
-    height: 60px;
-    background-color: #f5f5f5; }
+      display: inline-block;
+      vertical-align: middle;
+      width: 60px;
+      height: 60px;
+      background-color: #f5f5f5;
+      flex-shrink: 0; /* Prevents the image from getting squished */
+      overflow: hidden; /* Safely hides any cropped parts of the image */ 
+}
     .o-card__img-wrap img {
       display: block;
-      min-width: 60px; }
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center; 
+}
   .o-card__info-wrap {
     margin-left: 18px; }
   .o-card__name {
@@ -5880,7 +5898,11 @@ input::-ms-clear {
     height: 80px; }
     .mini-product__link img {
       display: block;
-      min-width: 80px; }
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+       }
   .mini-product__category {
     display: block; }
     .mini-product__category > a {
@@ -6035,7 +6057,11 @@ input::-ms-clear {
   width: 100%; }
 
 .hero-slide {
-  background: center center/cover no-repeat; }
+  background: center center/cover no-repeat; 
+
+
+
+}
   .hero-slide--1 {
     background-image: url(../images/slider/slide-1.jpg); }
   .hero-slide--2 {

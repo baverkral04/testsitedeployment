@@ -686,6 +686,33 @@
             }
         }
 
+        // ===============================================
+        // THE NEW HELPER FUNCTION RIGHT HERE 👇
+        // ===============================================
+        function getImageUrl(product) {
+            try {
+                let primaryPath = '';
+                const v = product.product_imagePath;
+
+                if (v) {
+                    // This handles both new arrays and old JSON strings gracefully
+                    const pathArray = Array.isArray(v) ? v : JSON.parse(v);
+                    if (Array.isArray(pathArray) && pathArray.length > 0) {
+                        primaryPath = pathArray[0];
+                    }
+                }
+              
+                if (primaryPath) {
+                    // If it's a full S3 URL, use it directly. Otherwise, build the path.
+                    return primaryPath.startsWith('http') ? primaryPath : `${API_HOST}/${primaryPath.replace(/^\/+/, '')}`;
+                }
+            } catch (e) {
+                console.warn('Could not parse image path for product:', product.product_id);
+            }
+            return IMAGE_FALLBACK; // Return the fallback if anything fails
+        }
+
+
         // Data Fetching
         async function fetchProducts() {
             showLoading();
@@ -714,6 +741,7 @@
             }
         }
 
+        
         // Filter Tree
         function buildFilterTree() {
             if (!products.length) return;
@@ -821,16 +849,8 @@
                 const saleBadge = product.product_sale === '1'
                     ? '<div class="product-m__sale-badge"><span class="u-s-m-b-4 d-block">SALE</span></div>'
                     : '';
-                let primaryPath = '';
-                try {
-                    const arr = JSON.parse(product.product_imagePath || '[]');
-                    if (Array.isArray(arr) && arr.length) primaryPath = arr[0];
-                } catch (_) {
-                    primaryPath = product.product_imagePath || '';
-                }
-                const imagePath = primaryPath
-                    ? `${API_HOST}/${primaryPath.replace(/^\/+/, '')}`
-                    : IMAGE_FALLBACK;
+                // ADD THIS ONE LINE IN ITS PLACE
+                const imagePath = getImageUrl(product);
                 const price = Number(product.product_price) || 0;
                 const discountPct = Number(product.product_discount) || 0;
                 const hasDiscount = discountPct > 0;

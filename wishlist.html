@@ -333,18 +333,28 @@
   const money = (n) => Number(n||0).toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2});
   const getId = (p) => p?.rowid ?? p?.product_id ?? p?.id;
 
+// REPLACE IT WITH THIS
   function imageURL(p) {
-    try {
-      let path = '';
-      const v = p.product_imagePath;
-      if (!v) return IMAGE_FALLBACK;
-      if (typeof v === 'string') {
-        try { const arr = JSON.parse(v); if (Array.isArray(arr) && arr.length) path = arr[0]; }
-        catch { path = v; }
-      } else if (Array.isArray(v) && arr.length) path = v[0];
-      if (!path) return IMAGE_FALLBACK;
-      return `${API_HOST}/${String(path).replace(/^\/+/, '')}`;
-    } catch { return IMAGE_FALLBACK; }
+      const IMAGE_FALLBACK = 'images/product/default.jpg';
+      try {
+          let primaryPath = '';
+          const v = p.product_imagePath;
+
+          if (v) {
+              const pathArray = Array.isArray(v) ? v : JSON.parse(v);
+              if (Array.isArray(pathArray) && pathArray.length > 0) {
+                  primaryPath = pathArray[0];
+              }
+          }
+        
+          if (primaryPath) {
+              // This is the key change: check for a full URL
+              return primaryPath.startsWith('http') ? primaryPath : `${API_HOST}/${primaryPath.replace(/^\/+/, '')}`;
+          }
+      } catch (e) {
+          console.warn('Could not parse wishlist image path for product:', p.product_id);
+      }
+      return IMAGE_FALLBACK;
   }
 
   function productLink(p) {

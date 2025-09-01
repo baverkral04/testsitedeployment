@@ -188,7 +188,8 @@
     const wrap = document.createElement('div');
     wrap.style.position = 'relative';
     const img = document.createElement('img');
-    img.src = path.startsWith('http') ? path : `${window.API_HOST}/${path.replace(/^\/+/, '')}`;
+    
+    img.src = path;
     img.dataset.path = path;
     img.style.cssText = 'max-width: 100px; cursor: move;';
     img.draggable = true;
@@ -285,12 +286,14 @@
         fileInput.multiple = true;
         fileInput.name = 'imagesUploader';
         imageListEl.innerHTML = '';
-        try {
-          const paths = JSON.parse(data[c] || '[]');
-          paths.forEach(p => addThumb(p));
-        } catch (_) {
-          if (data[c]) addThumb(data[c]);
+
+
+        const paths = data[c]; 
+        if (Array.isArray(paths)) {
+            paths.forEach(p => addThumb(p));
         }
+
+        
         fileInput.addEventListener('change', async () => {
           for (const file of fileInput.files) {
             const fd = new FormData();

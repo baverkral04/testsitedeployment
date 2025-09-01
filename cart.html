@@ -161,7 +161,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
-                                <form class="f-cart">
+                                <form class="f-cart" action="checkout.html">
                                     <div class="row">
                                         <!-- <div class="col-lg-4 col-md-6 u-s-m-b-30">
                                             <div class="f-cart__pad-box">
@@ -379,15 +379,29 @@
     const category = pick(product, 'product_category', 'category') || '';
     const price = parseFloat(pick(product, 'product_price', 'price') || 0);
     const productId = pick(product, 'product_id','rowid' );
-
-    let primaryPath = '';
+    // --- START: With this more robust logic ---
+    let imagePath = IMAGE_FALLBACK;
     try {
-      const rawImg = pick(product, 'product_imagePath', 'image') || '[]';
-      const arr = JSON.parse(rawImg);
-      if (Array.isArray(arr) && arr.length) primaryPath = arr[0];
-    } catch (_) { primaryPath = ''; }
-    const imagePath = primaryPath ? `${API_HOST}/${primaryPath.replace(/^\/+/, '')}` : IMAGE_FALLBACK;
+    let primaryPath = '';
+    const v = pick(product, 'product_imagePath', 'image');
 
+    if (v) {
+        // This handles both new arrays and old JSON strings gracefully
+        const pathArray = Array.isArray(v) ? v : JSON.parse(v);
+        if (Array.isArray(pathArray) && pathArray.length > 0) {
+        primaryPath = pathArray[0];
+        }
+    }
+    
+    if (primaryPath) {
+        // If it's a full S3 URL, use it directly. Otherwise, build the path.
+        imagePath = primaryPath.startsWith('http') ? primaryPath : `${API_HOST}/${primaryPath.replace(/^\/+/, '')}`;
+    }
+    } catch (e) {
+    console.warn('Could not parse image path for product:', product.product_id, e);
+    // The imagePath variable is already set to IMAGE_FALLBACK
+    }
+    // --- END: With this more robust logic ---
     const qty = Math.max(1, parseInt(cartItem.product_amount || '1', 10));
     const subtotal = price * qty;
 

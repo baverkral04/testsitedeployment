@@ -665,50 +665,39 @@ function wireWishlist(product) {
             productBreadcrumb.innerHTML = breadcrumbHtml;
         }
         
-// ===== helper: turn DB text → clean array of paths =======================
-        function getImageArray(raw) {
-        if (!raw) return [];
-        try {
-            // most-likely: '["p1","p2"]'
-            const arr = JSON.parse(raw);
-            if (Array.isArray(arr)) return arr;
-        } catch (_) { /* not JSON */ }
-        // fallback: comma-separated string
-        return raw.split(',').map(s => s.trim()).filter(Boolean);
-        }
-
-        // Make any path absolute to the Flask server (or keep absolute/data URLs)
-        function urlify(p) {
-          const s = String(p || "");
-          if (s.startsWith("http") || s.startsWith("data:")) return s;
-          return `${API_HOST}/${s.replace(/^\/+/, "")}`;
-        }
-
-        // Get the first image URL from a JSON array or CSV stored in DB
-        function firstImageUrlFromField(raw) {
-          const arr = getImageArray(raw);
-          const first = (arr && arr.length) ? arr[0] : "";
-          return first ? urlify(first) : IMAGE_FALLBACK;
-        }
-
-        // ===== gallery ===========================================================
-        function renderGallery(product) {
-            // 1) collect image paths strictly from DB (ignore ?image=… param)
-            let imagePaths = getImageArray(product.product_imagePath);
-            // fallback to overrideImage only if DB had none
-            if (!imagePaths.length && overrideImage) {
-                imagePaths = [overrideImage];
+        // This one new function replaces the three old ones.
+        function getFirstImageUrl(product) {
+            const fallback = 'images/product/default.jpg';
+            
+            // The backend now provides a clean array, so we just check it.
+            if (product && Array.isArray(product.product_imagePath) && product.product_imagePath.length > 0) {
+                // The path is already a full S3 URL, so we return it directly.
+                return product.product_imagePath[0];
             }
-            if (!imagePaths.length) imagePaths = [IMAGE_FALLBACK];
+            
+            // Fallback if no images are found.
+            return fallback;
+        }
 
-            // 2) normalise first (main) image URL
-            const mainUrl = urlify(imagePaths[0]);
+        function renderGallery(product) {
+            // 1) Get the image paths directly from the product object.
+            // This is now a clean array of full S3 URLs.
+            let imagePaths = (product && Array.isArray(product.product_imagePath)) 
+                ? product.product_imagePath 
+                : [];
 
-            // 3) build the DOM
+            // Fallback logic for safety
+            if (imagePaths.length === 0) {
+                imagePaths.push(overrideImage || IMAGE_FALLBACK);
+            }
+            
+            const mainUrl = imagePaths[0]; // The first image is the main one.
+
+            // 3) Build the thumbnail HTML. No need to call 'urlify' anymore.
             let thumbsHtml = '';
-            imagePaths.forEach((p, idx) => {
-                const thumbUrl = urlify(p);
-                thumbsHtml += `<img src="${thumbUrl}" data-idx="${idx}" class="${idx === 0 ? 'active' : ''}">`;
+            imagePaths.forEach((path, idx) => {
+                // The 'path' is already a full URL.
+                thumbsHtml += `<img src="${path}" data-idx="${idx}" class="${idx === 0 ? 'active' : ''}">`;
             });
 
             productGallery.innerHTML = `
@@ -719,7 +708,7 @@ function wireWishlist(product) {
                     ${thumbsHtml}
                 </div>`;
 
-            // 4) interactivity – swap main image on thumbnail click
+            // 4) Interactivity remains the same.
             const mainImg = document.getElementById('gallery-main-image');
             productGallery.querySelectorAll('.gallery-thumbs img').forEach(img => {
                 img.addEventListener('click', () => {
@@ -729,7 +718,7 @@ function wireWishlist(product) {
                 });
             });
         }
-        
+
         function renderProductDetails(product) {
             // Calculate price and discount
             const price = Number(product.product_price) || 0;
@@ -1063,7 +1052,7 @@ function wireWishlist(product) {
                     const discountedPrice = hasDiscount ? price * (1 - discountPct / 100) : price;
 
                     // Get image path (robust: JSON array or CSV from DB)
-                    const imagePath = firstImageUrlFromField(product.product_imagePath);
+                    const imagePath = getFirstImageUrl(product)
 
                     // Get real review stats
                     const { avg, count } = getReviewStats(product);

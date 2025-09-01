@@ -136,6 +136,33 @@
             // ... your existing checkout script remains here, unchanged ...
         })();
 
+        // --- Add this helper function here ---
+        function getImageUrl(product) {
+            const IMAGE_FALLBACK = 'images/product/default.jpg';
+            try {
+                let primaryPath = '';
+                // The 'pick' function is not defined here, so we'll access the property directly
+                const v = product.product_imagePath;
+
+                if (v) {
+                    // This handles both new arrays and old JSON strings gracefully
+                    const pathArray = Array.isArray(v) ? v : JSON.parse(v);
+                    if (Array.isArray(pathArray) && pathArray.length > 0) {
+                        primaryPath = pathArray[0];
+                    }
+                }
+            
+                if (primaryPath) {
+                    // If it's a full S3 URL, use it directly. Otherwise, build the path.
+                    return primaryPath.startsWith('http') ? primaryPath : `${window.API_HOST}/${primaryPath.replace(/^\/+/, '')}`;
+                }
+            } catch (e) {
+                console.warn('Could not parse image path for product:', product.product_id);
+            }
+            return IMAGE_FALLBACK; // Return the fallback if anything fails
+        }
+
+    
         // Checkout Logic
         (async () => {
             await new Promise(resolve => document.addEventListener('DOMContentLoaded', resolve));
@@ -173,7 +200,7 @@
                             <div class="o-card">
                                 <div class="o-card__flex">
                                     <div class="o-card__img-wrap">
-                                        <img class="u-img-fluid" src="${window.API_HOST}/${product.product_imagePath.replace(/^\//, '')}" alt="">
+                                        <img class="u-img-fluid" src="${getImageUrl(product)}" alt="">
                                     </div>
                                     <div class="o-card__info-wrap">
                                         <span class="o-card__name"><a href="#">${product.product_name}</a></span>

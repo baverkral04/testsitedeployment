@@ -46,21 +46,25 @@
     .image-uploader-box .path-display { font-family: monospace; background-color: #eee; padding: 0.5rem; border-radius: 4px; color: #333; word-wrap: break-word; }
   </style>
   <script src="user.js"></script>
-  <script>
-    (() => {
-      try {
-        const user = window.getCurrentUser();
-        const isAdmin = user && user.user_isAdmin === 1;
-        if (!isAdmin) {
-          alert('Access Denied. You must be an admin to view this page.');
-          window.location.href = 'index.html';
-        }
-      } catch (e) {
-        console.error("Admin check failed:", e);
-        window.location.href = 'index.html';
-      }
-    })();
-  </script>
+    <script>
+        (function() {
+            // This script acts as a gatekeeper for the admin dashboard
+            const user = window.getCurrentUser(); // Assumes getCurrentUser is available from user.js
+
+            if (!user) {
+                // Not signed in, redirect to login
+                window.location.href = 'signin.html';
+                return;
+            }
+
+            if (user.user_isSuperAd != 1) {
+                // Not a super admin, redirect to the orders page
+                alert("Access Denied. You do not have permission to view this page.");
+                window.location.href = 'admin_order.html';
+            }
+        })();
+    </script>
+
 </head>
 <body>
 
@@ -230,7 +234,7 @@
         async function loadAndDisplayBrandImages() {
             try {
                 const brandData = await fetchJSON(BRAND_API);
-                const paths = brandData.brand_nonProductImagePath ? JSON.parse(brandData.brand_nonProductImagePath) : {};
+                const paths = brandData.brand_nonProductImagePath || {};
                 siteImagePaths = paths;
                 
                 document.querySelectorAll('.image-uploader-box').forEach(box => {
@@ -285,7 +289,7 @@
                 const brandData = await fetchJSON(BRAND_API).catch(() => ({}));
                 
                 // Safely get the old paths from the data we just fetched
-                const oldPaths = brandData.brand_nonProductImagePath ? JSON.parse(brandData.brand_nonProductImagePath) : {};
+                const oldPaths = brandData.brand_nonProductImagePath || {};
 
                 // Merge the old paths with any newly uploaded paths
                 const finalImagePaths = { ...oldPaths, ...siteImagePaths };

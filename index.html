@@ -1180,6 +1180,9 @@
             catch { path = v; }
           } else if (Array.isArray(v) && v.length) path = v[0];
           if (!path) return IMAGE_FALLBACK;
+          if (path.startsWith('http')) {
+            return path;
+        }
           return `${API_HOST}/${String(path).replace(/^\/+/, '')}`;
         } catch { return IMAGE_FALLBACK; }
       }
@@ -1297,7 +1300,12 @@
             
             // Loop through each found element and apply the style
             elements.forEach(element => {
-                const imageUrl = path ? `${window.API_HOST}/${path}` : fallback;
+            let imageUrl = fallback; // Default to the fallback
+            if (path) {
+                // If the path is a full URL, use it directly. Otherwise, build it.
+                imageUrl = path.startsWith('http') ? path : `${window.API_HOST}/${path}`;
+            }
+
                 if (isBackground) {
                     element.style.backgroundImage = `url('${imageUrl}')`;
                 } else {
@@ -1311,9 +1319,7 @@
             if (!res.ok) return;
             const brandData = await res.json();
             
-            const imagePaths = brandData.brand_nonProductImagePath 
-                ? JSON.parse(brandData.brand_nonProductImagePath) 
-                : {};
+            const imagePaths = brandData.brand_nonProductImagePath || {};
 
             // --- Update Images on the Page ---
 
@@ -1334,7 +1340,23 @@
             setImage('.promotion__img[src="images/promo/promo-img-1.jpg"]', imagePaths.promo1, 'images/promo/promo-img-1.jpg');
             setImage('.promotion__img[src="images/promo/promo-img-2.jpg"]', imagePaths.promo2, 'images/promo/promo-img-2.jpg');
             setImage('.promotion__img[src="images/promo/promo-img-3.jpg"]', imagePaths.promo3, 'images/promo/promo-img-3.jpg');
-
+            
+            const slider = $('#hero-slider');
+            
+            // First, destroy the old, incorrectly sized slider instance
+            slider.trigger('destroy.owl.carousel');
+            
+            // Second, re-initialize it. Now it will measure correctly.
+            slider.owlCarousel({
+                items: 1,
+                loop: true,
+                margin: 0,
+                nav: false,
+                dots: true,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                autoplayHoverPause: true
+            });
         } catch (error) {
             console.error("Failed to load dynamic site images:", error);
         }

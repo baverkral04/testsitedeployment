@@ -2,7 +2,7 @@
 // All shared variables are explicitly attached to the global 'window' object.
 window.CUSTOMER_ID = window.CUSTOMER_ID || 'products_test_user';
 window.customerId = window.CUSTOMER_ID; // Alias for admin.js compatibility
-window.API_HOST = 'https://kardiytest.xyz';
+window.API_HOST = 'http://localhost:5050';
 window.API_ROOT = `${window.API_HOST}/api/${window.CUSTOMER_ID}`;
 
 // Global placeholders for brand information
@@ -41,22 +41,36 @@ window.clearCurrentUser = clearCurrentUser;
 // 2. UI UPDATE FUNCTIONS (USER & BRAND)
 // =================================================================
 
+
+// REPLACE the old updateUserUI function with this one
 function updateUserUI() {
   const user = getCurrentUser();
-  const isAdmin = user && user.user_isAdmin === 1;
+  const isSignedIn = !!user;
+  const isGuest = !isSignedIn;
 
-  document.querySelectorAll('[data-show-when="signed-in"]').forEach(el => { 
-    el.style.display = user ? '' : 'none'; 
+  // Define our admin roles
+  const isSuperAdmin = isSignedIn && user.user_isSuperAd == 1;
+  const isAdmin = isSignedIn && user.user_isAdmin == 1;
+  const isAnyAdmin = isSuperAdmin || isAdmin; // True if the user is EITHER type of admin
+
+  // Update visibility based on all possible roles
+  document.querySelectorAll('[data-show-when="signed-in"]').forEach(el => {
+    el.style.display = isSignedIn ? '' : 'none';
   });
-  document.querySelectorAll('[data-show-when="guest"]').forEach(el => { 
-    el.style.display = user ? 'none' : ''; 
+  document.querySelectorAll('[data-show-when="guest"]').forEach(el => {
+    el.style.display = isGuest ? '' : 'none';
   });
-  document.querySelectorAll('[data-show-when="admin"]').forEach(el => { 
-    el.style.display = isAdmin ? '' : 'none'; 
+  document.querySelectorAll('[data-show-when="super-admin"]').forEach(el => {
+    el.style.display = isSuperAdmin ? '' : 'none';
+  });
+  document.querySelectorAll('[data-show-when="any-admin"]').forEach(el => {
+    el.style.display = isAnyAdmin ? '' : 'none';
   });
 
   const nameSpan = document.querySelector('[data-user-name]');
-  if (nameSpan) nameSpan.textContent = user?.user_name || user?.user_email || '';
+  if (nameSpan && isSignedIn) {
+    nameSpan.textContent = user.user_name || user.user_email || '';
+  }
 }
 window.updateUserUI = updateUserUI;
 
