@@ -1165,7 +1165,7 @@
     <script>
     async function populateDynamicSections() {
 
-      const IMAGE_FALLBACK = 'images/product/default.jpg';
+      const IMAGE_FALLBACK = '';
       const fmtMoney = n => Number(n||0).toLocaleString('en-US', {style:'currency', currency:'USD'});
 
       const getId = p => p?.product_id ?? p?.rowid ?? p?.id;
@@ -1329,17 +1329,17 @@
             setImage('.hero-slide--3', imagePaths.hero3, '', true);
 
             // Collection "Shop by Deals" Images
-            setImage('.collection__img[src="images/collection/coll-1.jpg"]', imagePaths.coll1, 'images/collection/coll-1.jpg');
-            setImage('.collection__img[src="images/collection/coll-2.jpg"]', imagePaths.coll2, 'images/collection/coll-2.jpg');
-            setImage('.collection__img[src="images/collection/coll-3.jpg"]', imagePaths.coll3, 'images/collection/coll-3.jpg');
-            setImage('.collection__img[src="images/collection/coll-4.jpg"]', imagePaths.coll4, 'images/collection/coll-4.jpg');
+            setImage('.collection__img[src="images/collection/coll-1.jpg"]', imagePaths.coll1, '');
+            setImage('.collection__img[src="images/collection/coll-2.jpg"]', imagePaths.coll2, '');
+            setImage('.collection__img[src="images/collection/coll-3.jpg"]', imagePaths.coll3, '');
+            setImage('.collection__img[src="images/collection/coll-4.jpg"]', imagePaths.coll4, '');
 
-            setImage('.banner-bg', imagePaths.globalOffers, 'images/banner/banner-bg.jpg', true);
+            setImage('.banner-bg', imagePaths.globalOffers, '', true);
 
             // Promotion Section Images
-            setImage('.promotion__img[src="images/promo/promo-img-1.jpg"]', imagePaths.promo1, 'images/promo/promo-img-1.jpg');
-            setImage('.promotion__img[src="images/promo/promo-img-2.jpg"]', imagePaths.promo2, 'images/promo/promo-img-2.jpg');
-            setImage('.promotion__img[src="images/promo/promo-img-3.jpg"]', imagePaths.promo3, 'images/promo/promo-img-3.jpg');
+            setImage('.promotion__img[src="images/promo/promo-img-1.jpg"]', imagePaths.promo1, '');
+            setImage('.promotion__img[src="images/promo/promo-img-2.jpg"]', imagePaths.promo2, '');
+            setImage('.promotion__img[src="images/promo/promo-img-3.jpg"]', imagePaths.promo3, '');
 
             const slider = $('#hero-slider');
             
