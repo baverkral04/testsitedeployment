@@ -172,28 +172,28 @@
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img collection__img" src="" alt=""></div>
+                                        <img class="aspect__img collection__img" src="" alt="" data-id="coll-1"></div>
                                 </a></div>
                             <div class="col-lg-7 col-md-7 u-s-m-b-30">
 
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--1286-890">
 
-                                        <img class="aspect__img collection__img" src="" alt=""></div>
+                                        <img class="aspect__img collection__img" src="" alt="" data-id="coll-2"></div>
                                 </a></div>
                             <div class="col-lg-7 col-md-7 u-s-m-b-30">
 
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--1286-890">
 
-                                        <img class="aspect__img collection__img" src="" alt=""></div>
+                                        <img class="aspect__img collection__img" src="" alt="" data-id="coll-3"></div>
                                 </a></div>
                             <div class="col-lg-5 col-md-5 u-s-m-b-30">
 
                                 <a class="collection" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img collection__img" src="" alt=""></div>
+                                        <img class="aspect__img collection__img" src="" alt="" data-id="coll-4"></div>
                                 </a></div>
                         </div>
                     </div>
@@ -450,7 +450,7 @@
                                 <a class="promotion" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img promotion__img" src="" alt=""></div>
+                                        <img class="aspect__img promotion__img" src="" alt="" data-id="promo-1" ></div>
                                     <div class="promotion__content">
                                         <div class="promotion__text-wrap">
                                             <div class="promotion__text-1">
@@ -469,7 +469,7 @@
                                 <a class="promotion" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img promotion__img" src="" alt=""></div>
+                                        <img class="aspect__img promotion__img" src="" alt="" data-id="promo-2"></div>
                                     <div class="promotion__content">
                                         <div class="promotion__text-wrap">
                                             <div class="promotion__text-1">
@@ -488,7 +488,7 @@
                                 <a class="promotion" href="shop-side-version-2.html">
                                     <div class="aspect aspect--bg-grey aspect--square">
 
-                                        <img class="aspect__img promotion__img" src="" alt=""></div>
+                                        <img class="aspect__img promotion__img" src="" alt="" data-id="promo-3"></div>
                                     <div class="promotion__content">
                                         <div class="promotion__text-wrap">
                                             <div class="promotion__text-1">
@@ -1329,18 +1329,17 @@
             setImage('.hero-slide--3', imagePaths.hero3, '', true);
 
             // Collection "Shop by Deals" Images
-            setImage('.collection__img[src="images/collection/coll-1.jpg"]', imagePaths.coll1, '');
-            setImage('.collection__img[src="images/collection/coll-2.jpg"]', imagePaths.coll2, '');
-            setImage('.collection__img[src="images/collection/coll-3.jpg"]', imagePaths.coll3, '');
-            setImage('.collection__img[src="images/collection/coll-4.jpg"]', imagePaths.coll4, '');
+            setImage('.collection__img[data-id="coll-1"]', imagePaths.coll1, '');
+            setImage('.collection__img[data-id="coll-2"]', imagePaths.coll2, '');
+            setImage('.collection__img[data-id="coll-3"]', imagePaths.coll3, '');
+            setImage('.collection__img[data-id="coll-4"]', imagePaths.coll4, '');
 
             setImage('.banner-bg', imagePaths.globalOffers, '', true);
 
             // Promotion Section Images
-            setImage('.promotion__img[src="images/promo/promo-img-1.jpg"]', imagePaths.promo1, '');
-            setImage('.promotion__img[src="images/promo/promo-img-2.jpg"]', imagePaths.promo2, '');
-            setImage('.promotion__img[src="images/promo/promo-img-3.jpg"]', imagePaths.promo3, '');
-
+            setImage('.promotion__img[data-id="promo-1"]', imagePaths.promo1, '');
+            setImage('.promotion__img[data-id="promo-2"]', imagePaths.promo2, '');
+            setImage('.promotion__img[data-id="promo-3"]', imagePaths.promo3, '');
             const slider = $('#hero-slider');
             
             // First, destroy the old, incorrectly sized slider instance
@@ -1387,7 +1386,7 @@ async function populateTopRatedProducts() {
     };
 
     const getImageUrl = (p) => {
-        const IMAGE_FALLBACK = 'images/product/default.jpg';
+        const IMAGE_FALLBACK = '';
         try {
             let path = '';
             const v = p.product_imagePath;
