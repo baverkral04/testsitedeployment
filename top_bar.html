@@ -266,14 +266,7 @@
 </style>
 </header>
 
-<div id="mobile-menu-panel" class="mobile-menu-panel">
-  <div class="mobile-menu-header">
-    <button id="mobile-menu-close" class="mobile-menu-close" type="button" aria-label="Close Menu">&times;</button>
-  </div>
-  <div id="mobile-menu-content" class="mobile-menu-content">
-    </div>
-</div>
-<div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+
 <!-- Mega Menu Styles -->
 <style>
   .mega-menu { display:none; position:absolute; background:#fff; border:1px solid #ddd; padding:14px; z-index:1000; min-width:720px; }
@@ -951,18 +944,33 @@ async function initHeaderMenu() {
 <!-- Hamburger Menu Styles (Mobile) -->
 
 
-<!-- Hamburger Menu HTML Structure -->
-<div id="mobile-menu-panel" class="mobile-menu-panel">
-  <div class="mobile-menu-header">
-    <button id="mobile-menu-close" class="mobile-menu-close" type="button" aria-label="Close Menu">&times;</button>
-  </div>
-  <div id="mobile-menu-content" class="mobile-menu-content"></div>
-</div>
-<div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
 
 <!-- Hamburger Menu Script -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+(() => {
+  // This function runs immediately.
+  // First, check if the mobile menu has already been created on the page.
+  // This makes the script safe to be included on any page without creating duplicates.
+  if (document.getElementById('mobile-menu-panel')) {
+    return; // If it exists, stop here.
+  }
+
+  // If it doesn't exist, create the HTML for the panel and overlay.
+  const mobileMenuHtml = `
+    <div id="mobile-menu-panel" class="mobile-menu-panel">
+      <div class="mobile-menu-header">
+        <button id="mobile-menu-close" class="mobile-menu-close" type="button" aria-label="Close Menu">&times;</button>
+      </div>
+      <div id="mobile-menu-content" class="mobile-menu-content"></div>
+    </div>
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay"></div>
+  `;
+
+  // Add the new HTML to the end of the page's <body>. This is the best place for an overlay panel.
+  document.body.insertAdjacentHTML('beforeend', mobileMenuHtml);
+
+  // --- NOW, THE ORIGINAL SCRIPT LOGIC CAN RUN SAFELY ---
+
   // --- 1. ELEMENT & STATE SETUP ---
   const hamburgerBtn = document.getElementById('hamburger-button');
   const closeBtn = document.getElementById('mobile-menu-close');
@@ -975,7 +983,6 @@ document.addEventListener('DOMContentLoaded', function() {
     return;
   }
 
-  // State variable to hold the parsed category data
   let categoryTree = {};
 
   // --- 2. UNIVERSAL HELPERS & API FUNCTIONS ---
@@ -1009,7 +1016,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
       const updatedUser = await res.json();
-      setCurrentUserSafe(updatedUser); // This triggers 'user:changed' to update all UIs
+      setCurrentUserSafe(updatedUser);
     } catch (error) {
       console.error("Mobile Menu Cart: Failed to remove item.", error);
       alert("Could not remove the item. Please refresh and try again.");
@@ -1018,7 +1025,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // --- 3. MENU BUILDER FUNCTIONS ---
   function buildMobileMenu() {
-    menuContent.innerHTML = ''; // Clear everything to prevent duplicates
+    menuContent.innerHTML = ''; 
 
     const accountNav = document.querySelector('#navigation .ah-list');
     if (accountNav) menuContent.appendChild(accountNav.cloneNode(true));
@@ -1031,7 +1038,6 @@ document.addEventListener('DOMContentLoaded', function() {
     buildMobileCartAndWishlist();
   }
 
-  // --- REWRITTEN FOR DYNAMIC ACCORDION ---
   function buildMobileCategories() {
     const products = window.__ALL_PRODUCTS__ || [];
     const container = document.createElement('ul');
@@ -1045,7 +1051,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (products.length > 0) {
       const treeFields = Object.keys(products[0] || {}).filter(k => /^product_tree\d+$/.test(k)).sort((a, b) => +a.match(/\d+$/)[0] - +b.match(/\d+$/)[0]);
 
-      // Build the category tree data structure
       categoryTree = {};
       for (const p of products) {
         let currentNode = categoryTree;
@@ -1063,7 +1068,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       }
 
-      // Render ONLY the top level
       const topLevelKeys = Object.keys(categoryTree).sort();
       if (topLevelKeys.length > 0) {
         topLevelKeys.forEach(key => {
@@ -1155,32 +1159,28 @@ document.addEventListener('DOMContentLoaded', function() {
     menuContent.appendChild(container);
   }
 
-  // --- 4. CORE EVENT LISTENERS (HEAVILY MODIFIED) ---
+  // --- 4. CORE EVENT LISTENERS ---
   menuContent.addEventListener('click', handleMenuClick);
 
   function handleMenuClick(e) {
     const trigger = e.target.closest('a');
-    if (!trigger) return; // Ignore clicks not on links
+    if (!trigger) return;
 
     const parentLi = trigger.parentElement;
 
-    // --- DYNAMIC CATEGORY ACCORDION LOGIC ---
     if (trigger.hasAttribute('data-cat-key')) {
       e.preventDefault();
       e.stopPropagation();
 
       const existingSubmenu = parentLi.querySelector(':scope > ul');
       if (existingSubmenu) {
-        // Submenu already exists, just toggle it
         parentLi.classList.toggle('submenu-open');
         return;
       }
 
-      // Submenu does not exist, so we build it dynamically
       const path = [];
       let current = trigger;
-      // Traverse up the DOM to build the path from ancestor data-cat-key attributes
-      while(current && current.hasAttribute('data-cat-key')) {
+      while (current && current.hasAttribute('data-cat-key')) {
         path.unshift(current.getAttribute('data-cat-key'));
         const ancestorLi = current.closest('li.has-dropdown');
         current = ancestorLi ? ancestorLi.parentElement.closest('li.has-dropdown')?.querySelector(':scope > a') : null;
@@ -1192,8 +1192,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!node) { console.error("Could not find category node for path:", path); return; }
 
       let newSubmenuHtml = '<ul>';
-      if (Array.isArray(node)) { // Reached a leaf node with products
-        const productsToShow = node.slice(0, 5); // Show max 5 products
+      if (Array.isArray(node)) {
+        const productsToShow = node.slice(0, 5);
         if (productsToShow.length > 0) {
           productsToShow.forEach(p => {
             newSubmenuHtml += `<li><a href="product-detail-variable.html?product_id=${p.product_id}">${p.product_name}</a></li>`;
@@ -1201,7 +1201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
           newSubmenuHtml += '<li><a>No products found</a></li>';
         }
-      } else if (typeof node === 'object') { // Reached another category level
+      } else if (typeof node === 'object') {
         Object.keys(node).sort().forEach(key => {
           newSubmenuHtml += `<li class="has-dropdown"><a href="#" data-cat-key="${key}">${key}</a></li>`;
         });
@@ -1209,21 +1209,20 @@ document.addEventListener('DOMContentLoaded', function() {
       newSubmenuHtml += '</ul>';
       
       parentLi.insertAdjacentHTML('beforeend', newSubmenuHtml);
-      requestAnimationFrame(() => parentLi.classList.add('submenu-open'));
+      requestAnimationFrame(() => {
+        parentLi.classList.add('submenu-open');
+      });
       return;
     }
-
-    // --- GENERIC ACCORDION LOGIC (for Cart, Account, etc.) ---
+    
     if (parentLi.classList.contains('has-dropdown')) {
-      const submenu = parentLi.querySelector(':scope > ul, :scope > .mini-cart');
-      if (submenu) {
+      if (parentLi.querySelector(':scope > ul, :scope > .mini-cart')) {
         e.preventDefault();
         e.stopPropagation();
         parentLi.classList.toggle('submenu-open');
       }
     }
 
-    // --- REMOVE FROM CART LOGIC ---
     if (trigger.matches('.mini-product__delete-link[data-remove-id]')) {
       e.preventDefault();
       e.stopPropagation();
@@ -1241,7 +1240,7 @@ document.addEventListener('DOMContentLoaded', function() {
     menuPanel.classList.add('is-open');
     overlay.classList.add('is-open');
     document.body.style.overflow = 'hidden';
-    waitForDataAndBuild(true); // Rebuild on open to ensure latest data
+    waitForDataAndBuild(true);
   }
 
   function closeMenu() {
@@ -1257,13 +1256,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (e.key === 'Escape' && menuPanel.classList.contains('is-open')) closeMenu();
   });
   
-  // Handle resize
-  window.addEventListener('resize', () => {
-    if (window.innerWidth <= 991 && menuPanel.classList.contains('is-open')) {
-      waitForDataAndBuild(true);
-    }
-  });
-  
   // --- 5. INITIALIZATION & DYNAMIC UPDATES ---
   document.addEventListener('user:changed', () => {
     if (menuPanel.classList.contains('is-open')) {
@@ -1274,16 +1266,19 @@ document.addEventListener('DOMContentLoaded', function() {
   let dataCheckTries = 0;
   function waitForDataAndBuild(forceRebuild = false) {
     if (window.__ALL_PRODUCTS__ && window.__ALL_PRODUCTS__.length > 0) {
-      buildMobileMenu();
-    } else if (dataCheckTries < 80) { // Timeout after ~20s
+      if (forceRebuild || menuContent.innerHTML.trim() === '') {
+         buildMobileMenu();
+      }
+    } else if (dataCheckTries < 80) {
       dataCheckTries++;
       setTimeout(() => waitForDataAndBuild(forceRebuild), 250);
     } else {
       console.error('Mobile Menu: Timed out waiting for product data.');
-      if (forceRebuild) buildMobileMenu(); // Build with fallbacks
+      if (forceRebuild) buildMobileMenu();
     }
   }
-
+  
+  // Initial check in case data is already available
   waitForDataAndBuild();
-});
+})();
 </script>
