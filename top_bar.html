@@ -1163,77 +1163,86 @@ async function initHeaderMenu() {
   menuContent.addEventListener('click', handleMenuClick);
 
   function handleMenuClick(e) {
-    const trigger = e.target.closest('a');
-    if (!trigger) return;
+      const trigger = e.target.closest('a');
+      if (!trigger) return;
 
-    const parentLi = trigger.parentElement;
+      const parentLi = trigger.parentElement;
 
-    if (trigger.hasAttribute('data-cat-key')) {
-      e.preventDefault();
-      e.stopPropagation();
-
-      const existingSubmenu = parentLi.querySelector(':scope > ul');
-      if (existingSubmenu) {
-        parentLi.classList.toggle('submenu-open');
-        return;
-      }
-
-      const path = [];
-      let current = trigger;
-      while (current && current.hasAttribute('data-cat-key')) {
-        path.unshift(current.getAttribute('data-cat-key'));
-        const ancestorLi = current.closest('li.has-dropdown');
-        current = ancestorLi ? ancestorLi.parentElement.closest('li.has-dropdown')?.querySelector(':scope > a') : null;
-      }
-      
-      let node = categoryTree;
-      for (const key of path) { node = node?.[key]; }
-
-      if (!node) { console.error("Could not find category node for path:", path); return; }
-
-      let newSubmenuHtml = '<ul>';
-      if (Array.isArray(node)) {
-        const productsToShow = node.slice(0, 5);
-        if (productsToShow.length > 0) {
-          productsToShow.forEach(p => {
-            newSubmenuHtml += `<li><a href="product-detail-variable.html?product_id=${p.product_id}">${p.product_name}</a></li>`;
-          });
-        } else {
-          newSubmenuHtml += '<li><a>No products found</a></li>';
-        }
-      } else if (typeof node === 'object') {
-        Object.keys(node).sort().forEach(key => {
-          newSubmenuHtml += `<li class="has-dropdown"><a href="#" data-cat-key="${key}">${key}</a></li>`;
-        });
-      }
-      newSubmenuHtml += '</ul>';
-      
-      parentLi.insertAdjacentHTML('beforeend', newSubmenuHtml);
-      requestAnimationFrame(() => {
-        parentLi.classList.add('submenu-open');
-      });
-      return;
-    }
-    
-    if (parentLi.classList.contains('has-dropdown')) {
-      if (parentLi.querySelector(':scope > ul, :scope > .mini-cart')) {
+      // --- CATEGORY TOGGLE LOGIC ---
+      if (trigger.hasAttribute('data-cat-key')) {
         e.preventDefault();
         e.stopPropagation();
-        parentLi.classList.toggle('submenu-open');
-      }
-    }
 
-    if (trigger.matches('.mini-product__delete-link[data-remove-id]')) {
-      e.preventDefault();
-      e.stopPropagation();
-      const productId = trigger.dataset.removeId;
-      if (productId) {
-        trigger.style.pointerEvents = 'none';
-        trigger.closest('.card-mini-product').style.opacity = '0.5';
-        removeFromCartAPI(productId);
+        const existingSubmenu = parentLi.querySelector(':scope > ul');
+
+        // NEW Simplified Logic: If the menu is there, remove it. If not, build it.
+        if (existingSubmenu) {
+          // Submenu exists, so we remove it to "close" the accordion
+          existingSubmenu.remove();
+          parentLi.classList.remove('submenu-open');
+
+        } else {
+          // Submenu doesn't exist, so we build it to "open" the accordion
+          const path = [];
+          let current = trigger;
+          while (current && current.hasAttribute('data-cat-key')) {
+            path.unshift(current.getAttribute('data-cat-key'));
+            const ancestorLi = current.closest('li.has-dropdown');
+            current = ancestorLi ? ancestorLi.parentElement.closest('li.has-dropdown')?.querySelector(':scope > a') : null;
+          }
+          
+          let node = categoryTree;
+          for (const key of path) { node = node?.[key]; }
+
+          if (!node) { console.error("Could not find category node for path:", path); return; }
+
+          let newSubmenuHtml = '<ul>';
+          if (Array.isArray(node)) {
+            const productsToShow = node.slice(0, 5);
+            if (productsToShow.length > 0) {
+              productsToShow.forEach(p => {
+                newSubmenuHtml += `<li><a href="product-detail-variable.html?product_id=${p.product_id}">${p.product_name}</a></li>`;
+              });
+            } else {
+              newSubmenuHtml += '<li><a>No products found</a></li>';
+            }
+          } else if (typeof node === 'object') {
+            Object.keys(node).sort().forEach(key => {
+              newSubmenuHtml += `<li class="has-dropdown"><a href="#" data-cat-key="${key}">${key}</a></li>`;
+            });
+          }
+          newSubmenuHtml += '</ul>';
+          
+          parentLi.insertAdjacentHTML('beforeend', newSubmenuHtml);
+          // We still add the class for the open/close icon styling
+          requestAnimationFrame(() => {
+            parentLi.classList.add('submenu-open');
+          });
+        }
+        return; // Stop after handling the category
+      }
+      
+      // --- OTHER DROPDOWN LOGIC (Account, Cart, etc.) ---
+      if (parentLi.classList.contains('has-dropdown')) {
+        if (parentLi.querySelector(':scope > ul, :scope > .mini-cart')) {
+          e.preventDefault();
+          e.stopPropagation();
+          parentLi.classList.toggle('submenu-open');
+        }
+      }
+
+      // --- DELETE FROM CART LOGIC ---
+      if (trigger.matches('.mini-product__delete-link[data-remove-id]')) {
+        e.preventDefault();
+        e.stopPropagation();
+        const productId = trigger.dataset.removeId;
+        if (productId) {
+          trigger.style.pointerEvents = 'none';
+          trigger.closest('.card-mini-product').style.opacity = '0.5';
+          removeFromCartAPI(productId);
+        }
       }
     }
-  }
 
   // Panel Open/Close Listeners
   function openMenu() {
