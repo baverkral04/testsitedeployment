@@ -8,11 +8,14 @@
           <img data-brand="logo" src="images/logo/logo-1.png" alt="Brand Logo">
         </a>
 
-        <form class="main-form">
+        <form class="main-form" id="main-search-form">
           <label for="main-search"></label>
-          <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Search">
+          <input class="input-text input-text--border-radius input-text--style-1" type="text" id="main-search" placeholder="Search" autocomplete="off">
           <button class="btn btn--icon fas fa-search main-search-button" type="submit"></button>
         </form>
+
+        <div id="search-results-dropdown"></div>
+
         <button id="hamburger-button" class="hamburger-button" type="button" aria-label="Open Menu">
           <i class="fas fa-bars"></i>
         </button>
@@ -296,6 +299,57 @@
     max-height: 360px;       /* adjust as you like */
     overflow-y: auto;
     }
+/* Make the form a positioning container for the dropdown */
+.main-form {
+  position: relative;
+}
+
+/* The dropdown container */
+#search-results-dropdown {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 100%; /* Position it right below the form */
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 2000; /* Ensure it's on top of other content */
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+/* A single result item inside the dropdown */
+.search-result-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+.search-result-item:last-child {
+  border-bottom: none;
+}
+
+.search-result-item:hover {
+  background-color: #f5f5f5;
+}
+
+.search-result-item img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  margin-right: 12px;
+  border-radius: 4px;
+}
+
+.search-result-item .info .price {
+  font-size: 0.8em;
+  color: #0b7;
+}    
 
 </style>
 <!-- Dynamic Mega Menu Script -->
@@ -941,9 +995,6 @@ async function initHeaderMenu() {
     window.updateBrandUI();
   }
 </script>
-<!-- Hamburger Menu Styles (Mobile) -->
-
-
 
 <!-- Hamburger Menu Script -->
 <script>
@@ -1290,4 +1341,92 @@ async function initHeaderMenu() {
   // Initial check in case data is already available
   waitForDataAndBuild();
 })();
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('main-search');
+    const resultsDropdown = document.getElementById('search-results-dropdown');
+    let debounceTimer;
+
+    // --- 1. Listen for typing in the search bar ---
+    searchInput.addEventListener('input', () => {
+      // Use a debounce to avoid sending too many requests
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        performSearch(searchInput.value.trim());
+      }, 300); // Wait 300ms after user stops typing
+    });
+
+    // --- 2. Perform the actual search ---
+    const performSearch = async (query) => {
+      if (query.length < 2) {
+        // Don't search for very short terms
+        resultsDropdown.style.display = 'none';
+        resultsDropdown.innerHTML = '';
+        return;
+      }
+
+      // Use the global API_ROOT variable
+      const API_SEARCH_URL = `${API_ROOT}/products/search?q=${encodeURIComponent(query)}`;
+
+      try {
+        const response = await fetch(API_SEARCH_URL);
+        if (!response.ok) throw new Error('Search request failed');
+        const products = await response.json();
+        displayResults(products);
+      } catch (error) {
+        console.error('Search error:', error);
+        resultsDropdown.style.display = 'none';
+      }
+    };
+
+    // --- 3. Display the results in the dropdown ---
+    const displayResults = (products) => {
+      if (products.length === 0) {
+        resultsDropdown.style.display = 'none';
+        return;
+      }
+      
+      // Clear previous results
+      resultsDropdown.innerHTML = '';
+      
+      // Take only the top 5 results
+      const top5Products = products.slice(0, 5);
+
+      top5Products.forEach(product => {
+        const primaryImage = Array.isArray(product.product_imagePath) && product.product_imagePath.length > 0
+          ? product.product_imagePath[0]
+          : 'images/product/default.jpg';
+        
+        const price = Number(product.product_price || 0).toLocaleString('en-US', {
+            style: 'currency', currency: 'USD'
+        });
+
+        const itemLink = document.createElement('a');
+        itemLink.className = 'search-result-item';
+        itemLink.href = `product-detail-variable.html?product_id=${product.product_id}`;
+        
+        itemLink.innerHTML = `
+          <img src="${primaryImage}" alt="${product.product_name}">
+          <div class="info">
+            <div class="name">${product.product_name}</div>
+            <div class="price">${price}</div>
+          </div>
+        `;
+        resultsDropdown.appendChild(itemLink);
+      });
+      
+      // Show the dropdown
+      resultsDropdown.style.display = 'block';
+    };
+
+    // --- 4. Hide the dropdown when clicking elsewhere ---
+    document.addEventListener('click', (event) => {
+      if (!searchInput.contains(event.target)) {
+        resultsDropdown.style.display = 'none';
+      }
+    });
+
+  });
 </script>
