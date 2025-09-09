@@ -311,7 +311,178 @@
         label.appendChild(imageListEl);
         label.appendChild(navBar);
         label.appendChild(previewEl);
-      } else {
+      } else if (c === 'product_table') {
+          // NEW LOGIC FOR THE SPECIFICATIONS TABLE
+          const tableContainer = document.createElement('div');
+          tableContainer.className = 'product-table-container';
+
+          const rowsContainer = document.createElement('div');
+          rowsContainer.className = 'product-table-rows';
+
+          const addRowBtn = document.createElement('button');
+          addRowBtn.type = 'button';
+          addRowBtn.textContent = '+ Add Specification';
+          addRowBtn.style.maxWidth = '200px';
+
+          const addTableRow = (key = '', value = '') => {
+            const row = document.createElement('div');
+            row.style.display = 'flex';
+            row.style.gap = '10px';
+            row.style.marginBottom = '5px';
+
+            const keyInput = document.createElement('input');
+            keyInput.type = 'text';
+            keyInput.className = 'product-table-key';
+            keyInput.placeholder = 'Specification Name (e.g., Color)';
+            keyInput.value = key;
+
+            const valueInput = document.createElement('input');
+            valueInput.type = 'text';
+            valueInput.className = 'product-table-value';
+            valueInput.placeholder = 'Specification Value (e.g., Red)';
+            valueInput.value = value;
+            
+            const removeRowBtn = document.createElement('button');
+            removeRowBtn.type = 'button';
+            removeRowBtn.textContent = '✕';
+            removeRowBtn.style.width = 'auto';
+            removeRowBtn.onclick = () => row.remove();
+
+            row.append(keyInput, valueInput, removeRowBtn);
+            rowsContainer.appendChild(row);
+          };
+
+          addRowBtn.onclick = () => addTableRow();
+
+          // Populate existing data if it exists
+          if (data[c]) {
+            try {
+              const specs = JSON.parse(data[c]);
+              for (const key in specs) {
+                addTableRow(key, specs[key]);
+              }
+            } catch (e) {
+              console.error('Could not parse product_table JSON:', data[c]);
+              addTableRow(); // Add one empty row as a fallback
+            }
+          }
+
+          tableContainer.append(rowsContainer, addRowBtn);
+          label.appendChild(tableContainer);
+          
+      } else if (c === 'product_description') {
+          // NEW: Use a <textarea> for the description field
+          const textarea = document.createElement('textarea');
+          textarea.name = c;
+          textarea.value = data[c] || '';
+          textarea.rows = 5; // You can adjust the default height
+          textarea.style.height = 'auto'; // Allows it to grow if needed
+          label.appendChild(textarea);
+      } else if (c === 'product_options') {
+    // === NEW LOGIC FOR DYNAMIC PRODUCT OPTIONS ===
+    const optionsContainer = document.createElement('div');
+    optionsContainer.className = 'product-options-container';
+
+    // --- Helper function to create a single choice tag/pill ---
+    const createChoiceTag = (text, tagsContainer) => {
+        const tag = document.createElement('span');
+        tag.className = 'choice-tag';
+        tag.textContent = text.trim();
+        tag.style.cssText = 'display: inline-flex; align-items: center; background: #e0e0e0; padding: 3px 8px; border-radius: 12px; margin: 2px;';
+        
+        const removeTagBtn = document.createElement('button');
+        removeTagBtn.type = 'button';
+        removeTagBtn.textContent = '✕';
+        removeTagBtn.style.cssText = 'border: none; background: none; margin-left: 5px; cursor: pointer; font-size: 12px;';
+        removeTagBtn.onclick = () => tag.remove();
+        
+        tag.appendChild(removeTagBtn);
+        tagsContainer.appendChild(tag);
+    };
+
+    // --- Helper function to create an entire option row (e.g., for "Color") ---
+    const addOptionRow = (name = '', choices = []) => {
+        const group = document.createElement('div');
+        group.className = 'product-option-group';
+        group.style.cssText = 'background: #f9f9f9; border: 1px solid #eee; padding: 10px; margin-bottom: 10px; border-radius: 4px;';
+
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.className = 'product-option-name';
+        nameInput.placeholder = 'Option Name (e.g., Color)';
+        nameInput.value = name;
+        nameInput.style.marginBottom = '5px';
+
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'tags-container';
+        tagsContainer.style.marginBottom = '5px';
+        
+        // Populate existing choices
+        choices.forEach(choice => createChoiceTag(choice, tagsContainer));
+
+        const newChoiceContainer = document.createElement('div');
+        newChoiceContainer.style.cssText = 'display: flex; gap: 5px;';
+        
+        const newChoiceInput = document.createElement('input');
+        newChoiceInput.type = 'text';
+        newChoiceInput.className = 'new-choice-input';
+        newChoiceInput.placeholder = 'Add a choice (e.g., Red)';
+
+        const addChoiceBtn = document.createElement('button');
+        addChoiceBtn.type = 'button';
+        addChoiceBtn.textContent = '+';
+        addChoiceBtn.style.width = 'auto';
+
+        const addChoiceAction = () => {
+            const choiceText = newChoiceInput.value.trim();
+            if (choiceText) {
+                createChoiceTag(choiceText, tagsContainer);
+                newChoiceInput.value = '';
+                newChoiceInput.focus();
+            }
+        };
+
+        addChoiceBtn.onclick = addChoiceAction;
+        newChoiceInput.onkeydown = (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                addChoiceAction();
+            }
+        };
+
+        const removeGroupBtn = document.createElement('button');
+        removeGroupBtn.type = 'button';
+        removeGroupBtn.textContent = 'Remove Option';
+        removeGroupBtn.style.marginTop = '5px';
+        removeGroupBtn.onclick = () => group.remove();
+
+        newChoiceContainer.append(newChoiceInput, addChoiceBtn);
+        group.append(nameInput, tagsContainer, newChoiceContainer, removeGroupBtn);
+        optionsContainer.appendChild(group);
+    };
+
+    // --- Main button to add a new option type ---
+    const addOptionBtn = document.createElement('button');
+    addOptionBtn.type = 'button';
+    addOptionBtn.textContent = 'Add New Option Type';
+    addOptionBtn.style.maxWidth = '250px';
+    addOptionBtn.onclick = () => addOptionRow();
+    
+    // Parse and display existing options data
+    if (data[c]) {
+        try {
+            const optionsData = JSON.parse(data[c]);
+            for (const name in optionsData) {
+                if (Array.isArray(optionsData[name])) {
+                    addOptionRow(name, optionsData[name]);
+                }
+            }
+        } catch (e) { console.error('Could not parse product_options JSON:', data[c]); }
+    }
+
+    // Add everything to the main form label
+    label.append(optionsContainer, addOptionBtn);
+  }else {
         const input = document.createElement('input');
         input.name = c;
         input.value = data[c] || '';
@@ -342,11 +513,45 @@
     const payload = {};
     
     cols.forEach(c => {
-        const input = formContainer.querySelector(`[name="${c}"]`);
         if (c === IMAGE_FIELD) {
             payload[c] = JSON.stringify(gatherImagePaths());
-        } else if (input) {
-            payload[c] = input.value;
+        } else if (c === 'product_table') {
+            // NEW LOGIC TO GATHER TABLE DATA
+            const specs = {};
+            const rows = formContainer.querySelectorAll('.product-table-rows > div');
+            rows.forEach(row => {
+                const key = row.querySelector('.product-table-key')?.value.trim();
+                const value = row.querySelector('.product-table-value')?.value.trim();
+                if (key) { // Only save if a key is provided
+                    specs[key] = value;
+                }
+            });
+            payload[c] = JSON.stringify(specs);
+        } else if (c === 'product_options') {
+          // === NEW LOGIC TO GATHER OPTIONS DATA ===
+          const optionsData = {};
+          const groups = formContainer.querySelectorAll('.product-option-group');
+
+          groups.forEach(group => {
+              const name = group.querySelector('.product-option-name')?.value.trim();
+              if (name) {
+                  const choices = [];
+                  const tags = group.querySelectorAll('.choice-tag');
+                  tags.forEach(tag => {
+                      // The text content of the span is the value, ignoring the remove button's '✕'
+                      choices.push(tag.firstChild.textContent.trim());
+                  });
+                  optionsData[name] = choices;
+              }
+          });
+
+          payload[c] = JSON.stringify(optionsData);
+      }else {
+            // This is the default logic for regular inputs
+            const input = formContainer.querySelector(`[name="${c}"]`);
+            if (input) {
+                payload[c] = input.value;
+            }
         }
     });
     

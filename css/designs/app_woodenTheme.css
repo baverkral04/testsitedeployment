@@ -54,7 +54,9 @@ html {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent; }
   html.boxed {
-    background-color: #eee; }
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
+    background-size: auto; }
 
 *,
 *::before,
@@ -62,9 +64,12 @@ html {
   box-sizing: inherit; }
 
 /**
- * Set up a background-color and height on the root and body element.
+ * Set up a background and height on the root and body element.
  */
 body {
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  background-size: auto;
   line-height: 1.5;
   font-size: 1rem;
   -webkit-font-smoothing: antialiased; }
@@ -77,33 +82,37 @@ body {
  */
 h1, h2, h3, h4, h5, h6 {
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #F5F5DC; /* Beige for contrast on wood background */ }
 
 h1 {
-  font-size: 50px;
-  line-height: 50px; }
+  font-size: 58px;
+  line-height: 1.2; }
 
 h2 {
-  font-size: 32px;
-  line-height: 46px; }
+  font-size: 37px;
+  line-height: 1.3; }
 
 h3 {
-  font-size: 18px;
-  line-height: 32px; }
+  font-size: 21px;
+  line-height: 1.4; }
 
 h4 {
-  font-size: 16px;
-  line-height: 30px; }
+  font-size: 18px;
+  line-height: 1.5; }
 
 h5 {
-  font-size: 15px;
-  line-height: 30px; }
+  font-size: 17px;
+  line-height: 1.5; }
 
 p {
   margin: 0;
   padding: 0;
-  font-size: 14px;
-  line-height: 24px; }
+  font-size: 16px;
+  line-height: 1.6;
+  color: #F5F5DC; /* Tan color for text readability */ }
 
 /**
  * Basic styles for links
@@ -111,7 +120,12 @@ p {
 a, a:hover, a:focus {
   outline: none;
   text-decoration: none;
-  cursor: pointer; }
+  cursor: pointer;
+  color: #F5F5DC; /* Burlywood for links */
+  transition: color 0.3s ease-in, opacity 0.3s ease-in; }
+  a:hover {
+    color: #F5F5DC;
+    opacity: 0.8; /* Sienna for hover effect */ }
 
 /**
  * Basic style for image element
@@ -137,7 +151,9 @@ Box Module
 /* Body Element */
 @media (min-width: 576px) {
   html.boxed body {
-    background-color: #ffffff;
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
+    background-size: auto;
     margin: 0 auto; } }
 
 @media (min-width: 576px) {
@@ -232,7 +248,9 @@ Box Module
 @media (min-width: 1025px) {
   html.boxed footer .container {
     padding-left: 40px;
-    padding-right: 40px; } }
+    padding-right: 40px; } 
+  
+  }
 
 /*--------------------------------------------------------------
 2.0 Typography
@@ -241,8 +259,8 @@ Box Module
  * Basic typography style for copy text
  */
 body {
-  color: #7f7f7f;
-  font-family: "Open Sans", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+  color: #F5F5DC;/* Tan color for body text */
+  font-family: 'Lato', sans-serif; }
 
 /*--------------------------------------------------------------
 3.0 Pre-configured styles
@@ -254,7 +272,8 @@ body {
   display: none; }
 
 .app-setting {
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -269,16 +288,18 @@ body {
   .app-setting__wrap {
     text-align: center;
     padding: 2.1875rem;
-    background-color: #fbfbfb;
-    border-left: 0.1875rem solid #ff4500; }
+    background-color: #DEB887; /* Burlywood for wrap background */
+    border-left: 0.1875rem solid #A0522D; /* Sienna border */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* Subtle shadow for depth */ }
   .app-setting__h1 {
     font-size: 2.0625rem;
     font-weight: 700;
     line-height: 42px;
-    color: #333333; }
+    color: #A0522D; /* Sienna for heading */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1); /* Subtle text shadow */ }
   .app-setting__text {
     font-size: 0.8125rem;
-    color: #ababab; }
+    color: #8B4513; /* SaddleBrown for text */ }
 
 /**
 * Preloader
@@ -291,7 +312,8 @@ body {
   left: 0;
   top: 0;
   z-index: 1000000;
-  background: white;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   display: block; }
 
 .preloader {
@@ -318,7 +340,7 @@ body {
   * Fitvids plugin modifier class
  */
 .fluid-width-video-wrapper {
-  background-color: #f5f5f5; }
+  background-color: #DEB887; /* Burlywood for video wrapper */ }
 
 /*
   * Social media classes with property background-color & color.
@@ -392,41 +414,35 @@ body {
   color: #25d366; }
 
 /*
-  * Global classes you can use these classes on elements and components of your application.
-  * Remember: Don't confuse your mind with utility classes & Global classes.
-  * Utility class has a prefix 'u' that represents root namespace also has a sub-namespace
-  * prefix. These are low-level utility classes that make it easy to build complex user interfaces.
-  * Global class has a prefix 'gl' and these classes are ready-made styles that you could
-  * use on different elements like span, div, h1, h3 and components like button, selectbox. scrollbar etc.
- */
-/*
-  * Chrome Default Style for scrollbar
+  * Global classes
  */
 .gl-scroll::-webkit-scrollbar {
   height: 8px;
   width: 8px; }
 
 .gl-scroll::-webkit-scrollbar-track {
-  background: #eee; }
+  background: #DEB887; /* Burlywood for scrollbar track */ }
 
 .gl-scroll::-webkit-scrollbar-thumb {
-  background: #888; }
+  background: #A0522D; /* Sienna for scrollbar thumb */ }
 
 .gl-scroll::-webkit-scrollbar-thumb:hover {
-  background: #555; }
+  background: #8B4513; /* SaddleBrown for thumb hover */ }
 
 /*
-  * Global Rating Style apply on any div that has `i` element as children
+  * Global Rating Style
  */
 .gl-rating-style > i {
   margin-left: 2px;
-  color: #ff9600; }
+  color: #DAA520; /* Goldenrod for rating stars */
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.1); /* Subtle shadow */ }
   .gl-rating-style > i:first-child {
     margin-left: 0; }
 
 .gl-rating-style-2 > i {
   margin-left: 2px;
-  color: #ff4500; }
+  color: #F5F5DC; /* Beige for rating stars */
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
   .gl-rating-style-2 > i:first-child {
     margin-left: 0; }
 
@@ -443,7 +459,7 @@ body {
     display: block;
     width: 100%;
     padding: 12px;
-    color: #ffffff;
+    color: #F5F5DC; /* Beige for button text */
     font-size: 14px;
     font-weight: 600;
     transition: background-color 0.5s linear; }
@@ -462,7 +478,7 @@ body {
 
 /*
  * Inline Maker 1
-  */
+ */
 .gl-inline {
   display: -ms-flexbox;
   display: flex;
@@ -506,25 +522,25 @@ body {
 .gl-link {
   font-size: 13px;
   font-weight: 600;
-  color: #ff4500;
+  color: #DEB887; /* Burlywood for links */
   transition: color 0.5s linear; }
   .gl-link:hover {
-    color: #fa4400; }
+    color: #A0522D; /* Sienna for hover */ }
 
 .gl-h1 {
-  color: #333333;
+  color: #A0522D; /* Sienna for heading */
   font-size: 18px;
   margin-bottom: 8px; }
 
 .gl-text {
   display: block;
-  color: #a0a0a0;
+  color: #F5F5DC; /* SaddleBrown for text */
   font-size: 13px; }
 
 .gl-label {
   margin-bottom: 8px;
   display: block;
-  color: #333333;
+  color: #A0522D; /* Sienna for labels */
   font-size: 13px;
   font-weight: 600; }
 
@@ -538,7 +554,10 @@ body {
   padding: 5px 13px;
   font-size: 12px;
   font-weight: 600;
-  border-radius: 22px; }
+  border-radius: 4px;
+  background-color: #DEB887; /* Burlywood for tags */
+  color: #8B4513; /* SaddleBrown for tag text */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Subtle shadow */ }
   .gl-tag:last-child {
     margin-right: 0; }
 
@@ -549,12 +568,12 @@ body {
   margin-bottom: 8px;
   line-height: 1;
   display: block;
-  color: #333333;
+  color: #A0522D; /* Sienna for modal heading */
   font-size: 20px;
   font-weight: 600; }
 
 .gl-modal-text {
-  color: #a0a0a0;
+  color: #F5F5DC; /* SaddleBrown for modal text */
   font-size: 13px; }
 
 .gl-modal-btn-group {
@@ -589,40 +608,40 @@ body {
  */
 @-webkit-keyframes mypulse {
   0% {
-    box-shadow: 0 0 0 0 #bdc3c7; }
+    box-shadow: 0 0 0 0 #D2B48C; /* Tan for pulse animation */
+  }
   100% {
-    box-shadow: 0 0 0 1.5em rgba(189, 195, 199, 0); } }
+    box-shadow: 0 0 0 1.5em rgba(210, 180, 140, 0); } }
 @keyframes mypulse {
   0% {
-    box-shadow: 0 0 0 0 #bdc3c7; }
+    box-shadow: 0 0 0 0 #D2B48C; /* Tan for pulse animation */
+  }
   100% {
-    box-shadow: 0 0 0 1.5em rgba(189, 195, 199, 0); } }
+    box-shadow: 0 0 0 1.5em rgba(210, 180, 140, 0); } }
 
 /*--------------------------------------------------------------
 4.0 Layout Utility Styles
 --------------------------------------------------------------*/
 /**
- * Utility classes for colors:
- * Convey meaning through color with a handful of color utility classes.
- * Includes support for styling links too.
+ * Utility classes for colors
  */
 .u-c-brand {
-  color: #ff4500 !important; }
+  color: #A0522D !important; /* Sienna for brand color */ }
 
 .u-c-secondary {
-  color: #333333 !important; }
+  color: #8B4513 !important; /* SaddleBrown for secondary color */ }
 
 .u-c-white {
-  color: #ffffff !important; }
+  color: #F5F5DC !important; /* Beige instead of white */ }
 
 .u-c-black {
-  color: #000000 !important; }
+  color: #3C2F2F !important; /* Dark brown instead of black */ }
 
 .u-c-grey {
-  color: #7f7f7f !important; }
+  color: #8B7E66 !important; /* Warm grey for contrast */ }
 
 .u-c-silver {
-  color: #a0a0a0 !important; }
+  color: #C2B280 !important; /* Light tan for silver */ }
 
 /*
   * Display Utility
@@ -632,7 +651,6 @@ body {
 
 /*
   * Sizing
-  * Easily make an element as wide or as tall (relative to its parent) with our width and height utilities.
  */
 .u-w-100 {
   width: 100%; }
@@ -653,9 +671,10 @@ body {
 --------------------------------------------------------------*/
 /* Breadcrumb Component */
 .breadcrumb__wrap {
-  background-color: #fbfbfb;
+  background-color: #DEB887; /* Burlywood for breadcrumb wrap */
   padding: 1.125rem;
-  border-radius: 0.1875rem; }
+  border-radius: 0.1875rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Subtle shadow */ }
 
 .breadcrumb__list {
   list-style: none;
@@ -665,17 +684,18 @@ body {
   .breadcrumb__list > li {
     display: inline-block; }
     .breadcrumb__list > li > a {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for breadcrumb links */
       font-size: 13px;
       font-weight: 700;
       transition: color 0.5s; }
       .breadcrumb__list > li > a:hover {
-        color: #333333; }
+        color: #A0522D; /* Sienna for hover */ }
     .breadcrumb__list > li.is-marked > a {
-      color: #333333; }
+      color: #A0522D; /* Sienna for marked links */ }
     .breadcrumb__list > li.has-separator:after {
       content: '/';
-      margin: 0 16px; }
+      margin: 0 16px;
+      color: #8B4513; /* SaddleBrown for separator */ }
 
 /* Button Component */
 .btn {
@@ -694,101 +714,108 @@ body {
   padding: 0; }
 
 .btn--e-brand {
-  color: #ffffff;
+  color: #F5F5DC; /* Beige text */
   border: 1px solid transparent;
-  background-color: #ff4500;
-  transition: background-color .5s ease-in; }
+  background-color: #A0522D; /* Sienna background */
+  transition: background-color .5s ease-in;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
   .btn--e-brand:hover {
-    background-color: #fa4400; }
+    background-color: #CD853F; /* Peru for hover */ }
 
 .btn--e-brand-b-2 {
-  color: #ffffff;
-  background-color: #ff4500;
-  border: 2px solid #ff4500;
-  transition: background-color 0.5s ease-in, border-color 0.5s ease-in; }
+  color: #F5F5DC; /* Beige text */
+  background-color: #A0522D; /* Sienna background */
+  border: 2px solid #A0522D;
+  transition: background-color 0.5s ease-in, border-color 0.5s ease-in;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
   .btn--e-brand-b-2:hover {
-    background-color: #fa4400;
-    border-color: #fa4400; }
+    background-color: #CD853F; /* Peru for hover */
+    border-color: #CD853F; }
 
 .btn--e-grey-b-2 {
-  color: #333333;
-  background-color: #f5f5f5;
-  border: 2px solid #f5f5f5;
-  transition: background-color 0.5s ease-in, border-color 0.5s ease-in; }
+  color: #A0522D; /* Sienna text */
+  background-color: #DEB887; /* Burlywood background */
+  border: 2px solid #DEB887;
+  transition: background-color 0.5s ease-in, border-color 0.5s ease-in;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
   .btn--e-grey-b-2:hover {
-    background-color: #f2f2f2;
-    border-color: #f2f2f2; }
+    background-color: #D2B48C; /* Tan for hover */
+    border-color: #D2B48C; }
 
 .btn--e-secondary {
-  color: #ffffff;
+  color: #F5F5DC; /* Beige text */
   border: 1px solid transparent;
-  background-color: #333333;
-  transition: background-color .5s ease-in; }
+  background-color: #8B4513; /* SaddleBrown background */
+  transition: background-color .5s ease-in;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
   .btn--e-secondary:hover {
-    background-color: #303030; }
+    background-color: #A0522D; /* Sienna for hover */ }
 
 .btn--e-white-brand {
   border: 1px solid transparent;
-  color: #333333;
-  background-color: #ffffff;
-  transition: background-color .3s linear, color .3s linear; }
+  color: #A0522D; /* Sienna text */
+  background-color: #DEB887; /* Burlywood instead of white */
+  transition: background-color .3s linear, color .3s linear;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
   .btn--e-white-brand:hover {
-    background-color: #ff4500;
-    color: #ffffff; }
+    background-color: #A0522D; /* Sienna for hover */
+    color: #F5F5DC; /* Beige text on hover */ }
 
 .btn--e-transparent-brand-b-2 {
-  color: #ff4500;
-  border: 2px solid #ff4500;
+  color: #A0522D; /* Sienna text */
+  border: 2px solid #DEB887; /* Burlywood border */
   background-color: transparent;
-  transition: border-color .5s ease-in; }
+  transition: border-color .5s ease-in;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
   .btn--e-transparent-brand-b-2:hover {
-    border-color: #fa4400; }
+    border-color: #CD853F; /* Peru for hover */ }
 
 .btn--e-transparent-hover-brand-b-2 {
-  color: #ff4500;
-  border: 2px solid #ff4500;
+  color: #F5F5DC; /* Beige text */
+  border: 2px solid #A0522D; /* Sienna border */
   background-color: transparent;
-  transition: background-color .1s ease-in,border-color .1s ease-in; }
+  transition: background-color .1s ease-in, border-color .1s ease-in;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
   .btn--e-transparent-hover-brand-b-2:hover {
-    background-color: #ff4500;
-    color: #ffffff; }
+    background-color: #A0522D; /* Sienna background */
+    color: #F5F5DC; /* Beige text */ }
 
 .btn--e-transparent-secondary-b-2 {
-  color: #333333;
-  border: 2px solid #333333;
+  color: #F5F5DC; /* Beige text */
+  border: 2px solid #8B4513; /* SaddleBrown border */
   background-color: transparent;
   transition: border-color .5s ease-in; }
   .btn--e-transparent-secondary-b-2:hover {
-    border-color: #303030; }
+    border-color: #A0522D; /* Sienna for hover */ }
 
 .btn--e-transparent-platinum-b-2 {
-  color: #333333;
-  border: 2px solid #e5e5e5;
+  color: #F5F5DC; /* Beige text */
+  border: 2px solid #C2B280; /* Light tan border */
   background-color: transparent;
   transition: border-color 0.5s linear; }
   .btn--e-transparent-platinum-b-2:hover {
-    border-color: #ff4500; }
+    border-color: #A0522D; /* Sienna for hover */ }
 
 .btn--e-white-brand-shadow {
-  border: 1px solid #eee;
+  border: 1px solid #C2B280; /* Light tan border */
   box-shadow: 1px 2px 8px 0 rgba(36, 37, 38, 0.08);
-  background-color: #ffffff;
-  color: #333333;
-  transition: background-color .3s linear, border-color .3s linear,color .3s linear; }
+  background-color: #DEB887; /* Burlywood instead of white */
+  color: #A0522D; /* Sienna text */
+  transition: background-color .3s linear, border-color .3s linear, color .3s linear; }
   .btn--e-white-brand-shadow:hover {
-    border-color: #ff4500;
-    background-color: #ff4500;
-    color: #ffffff; }
+    border-color: #A0522D; /* Sienna border */
+    background-color: #A0522D; /* Sienna background */
+    color: #F5F5DC; /* Beige text */ }
 
 .btn--e-brand-shadow {
-  border: 1px solid #ff4500;
+  border: 1px solid #A0522D; /* Sienna border */
   box-shadow: 1px 2px 8px 0 rgba(36, 37, 38, 0.08);
-  background-color: #ff4500;
-  color: #ffffff;
+  background-color: #A0522D; /* Sienna background */
+  color: #F5F5DC; /* Beige text */
   transition: background-color .3s linear, border-color .3s linear; }
   .btn--e-brand-shadow:hover {
-    border-color: #fa4400;
-    background-color: #fa4400; }
+    border-color: #CD853F; /* Peru border */
+    background-color: #CD853F; /* Peru background */ }
 
 /* Countdown Component */
 .countdown--style-special {
@@ -802,17 +829,18 @@ body {
     margin: 0 6px 10px;
     text-align: center;
     padding: 5px 24px;
-    background-color: rgba(255, 255, 255, 0.98); }
+    background-color: #DEB887; /* Burlywood background */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* Subtle shadow */ }
   .countdown--style-special .countdown__value {
     font-size: 35px;
     font-weight: 600;
     display: block;
-    color: #333333; }
+    color: #A0522D; /* Sienna text */ }
   .countdown--style-special .countdown__key {
     font-size: 12px;
     font-weight: 600;
     display: block;
-    color: #ff4500; }
+    color: #8B4513; /* SaddleBrown text */ }
 
 .countdown--style-banner {
   display: -ms-flexbox;
@@ -825,17 +853,18 @@ body {
     margin: 0 10px 10px;
     text-align: center;
     padding: 5px 24px;
-    background-color: #333333; }
+    background-color: #A0522D; /* Sienna background */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
   .countdown--style-banner .countdown__value {
     font-size: 48px;
     font-weight: 600;
     display: block;
-    color: #ffffff; }
+    color: #F5F5DC; /* Beige text */ }
   .countdown--style-banner .countdown__key {
     font-size: 12px;
     font-weight: 600;
     display: block;
-    color: #ffffff; }
+    color: #F5F5DC; /* Beige text */ }
 
 .countdown--style-section {
   display: -ms-flexbox;
@@ -850,17 +879,17 @@ body {
     margin: 18px 20px 20px 0;
     padding: 8px 22px;
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06);
-    background-color: rgba(255, 255, 255, 0.98); }
+    background-color: #DEB887; /* Burlywood background */ }
   .countdown--style-section .countdown__value {
     font-size: 26px;
     font-weight: 600;
     display: block;
-    color: #333333; }
+    color: #A0522D; /* Sienna text */ }
   .countdown--style-section .countdown__key {
     font-size: 10px;
     font-weight: 600;
     display: block;
-    color: #ff4500; }
+    color: #8B4513; /* SaddleBrown text */ }
 
 /* Input-Counter Component */
 .input-counter {
@@ -869,7 +898,7 @@ body {
   max-width: 132px;
   min-width: 132px; }
   .input-counter__text {
-    border-radius: 25px;
+    border-radius: 4px;
     display: block;
     width: 100%;
     height: 50px;
@@ -879,13 +908,13 @@ body {
     .input-counter__text:focus {
       outline: 0; }
   .input-counter--text-primary-style {
-    color: #333333;
+    color: #A0522D; /* Sienna text */
     transition: all 0.6s linear;
     border: 2px solid transparent;
-    background-color: #f1f1f1; }
+    background-color: #DEB887; /* Burlywood background */ }
     .input-counter--text-primary-style:focus {
       background-color: transparent;
-      border-color: #ff4500; }
+      border-color: #A0522D; /* Sienna border */ }
   .input-counter__minus, .input-counter__plus {
     top: 0;
     display: inline-block;
@@ -896,10 +925,10 @@ body {
     line-height: 50px;
     height: 100%;
     text-align: center;
-    color: #7f7f7f;
+    color: #8B4513; /* SaddleBrown for buttons */
     transition: color 0.5s; }
     .input-counter__minus:hover, .input-counter__plus:hover {
-      color: #333333; }
+      color: #A0522D; /* Sienna for hover */ }
   .input-counter__minus {
     left: 0; }
   .input-counter__plus {
@@ -912,100 +941,70 @@ body {
   padding: 0 18px;
   height: 40px; }
   .input-text--border-radius {
-    border-radius: 25px; }
+    border-radius: 4px; }
   .input-text--primary-style {
-    color: #333333;
+    color: #A0522D; /* Sienna text */
     transition: all 0.6s linear;
     border: 2px solid transparent;
-    background-color: #f1f1f1; }
+    background-color: #DEB887; /* Burlywood background */ }
     .input-text--primary-style:focus {
       background-color: transparent;
-      border-color: #ff4500; }
+      border-color: #A0522D; /* Sienna border */ }
   .input-text--style-1 {
-    color: #5c636c;
+    color: #8B4513; /* SaddleBrown text */
     transition: all 0.6s linear;
     border: 1px solid transparent;
-    background-color: #f1f1f1; }
+    background-color: #DEB887; /* Burlywood background */ }
     .input-text--style-1:focus {
       box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
       background-color: transparent;
-      border-color: #eee; }
+      border-color: #C2B280; /* Light tan border */ }
   .input-text--style-2 {
-    color: #5c636c;
+    color: #8B4513; /* SaddleBrown text */
     border: 1px solid transparent;
-    background-color: #f1f1f1;
+    background-color: #DEB887; /* Burlywood background */
     transition: all 0.6s linear; }
     .input-text--style-2:focus {
-      background-color: #ffffff; }
+      background-color: #F5F5DC; /* Beige on focus */ }
   .input-text--only-white {
     border: 1px solid transparent;
-    color: #333333;
-    background-color: #ffffff; }
+    color: #A0522D; /* Sienna text */
+    background-color: #DEB887; /* Burlywood instead of white */ }
   .input-text:focus {
     outline: 0; }
 
 .input-text:disabled {
-  background-color: #cecece; }
+  background-color: #C2B280; /* Light tan for disabled */ }
 
 input::-ms-clear {
   display: none; }
 
 /* Preload Aspect Ratio Component */
-/*
-  * Example 1 For Square: <a class="aspect aspect--bg-grey aspect--square u-d-block"><img src="a.jpg" class="aspect__img" alt=""></a>
-  * Example 2 For Non Square: <div class="aspect aspect--bg-grey aspect--1286-890"><img src="a.jpg" class="aspect__img" alt=""></div>
- */
-/*
-  * Some Points to use Aspect Ratio Component classes:
-  * Make sure the element on which it adds, it would be a block or inline-block element,
-  * if it is not then you could add utility class 'u-d-block', 'u-d-inline-block' or you
-  * could directly target that element with CSS to make inline or block.
-  * By default '.aspect--square' or '.aspect--16:9: resolution' class takes height according to
-  * the height of the child image element.
-  * But if the parent element is a flex element then aspect ratio technique doesn't work because
-  * '.aspect--square' or '.aspect--16:9: resolution' contains padding top/bottom property with a
-  * percentage value.
-  * There are also some cases you do not want to have '.aspect--square' or '.aspect--16:9: resolution'
-  * class to take width & height that match with child image element.
-  * Then you could append CSS class or directly target that parent element with CSS and
-  * set your custom width & height.
-  * If the image has aspect ratio square, i.e. 4:3 then you would add class '.aspect--square'
-  * on the element. This class has a padding-bottom:100% property.
-  * 100% means to take the entire height of the image.
-  * If the image doesn't have aspect ratio square then to make a custom class
-  * like '.aspect--imageWidth-imageHeight' and use ready-made sass function() nonsquare(imageWidth,imageHeight)
-  * that returns padding-bottom property with the value calculated according to image resolution.
-  * You could also change the background-color of placeholder according to your own choice.
-  * By default, only 2 classes are generated.
- */
 .aspect {
   position: relative; }
 
 .aspect--bg-grey {
-  background-color: #f5f5f5; }
+  background-color: #DEB887; /* Burlywood background */ }
 
 .aspect--bg-grey-fb {
-  background-color: #fbfbfb; }
+  background-color: #D2B48C; /* Tan background */ }
 
 .aspect--square {
   padding-bottom: 100%; }
 
-/*
-  * Add this class inside '.aspect' child image element. If you want to make an image responsive then
-  * you can use utility u-img-fluid class.
- */
 .aspect__img {
   position: absolute;
   width: 100%;
   height: 100%; }
-
 /* Product Component */
 .product-o {
-  padding: 20px;
-  background-color: #ffffff; }
+  padding: 25px;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Subtle shadow for depth */ }
 
 .product-o--hover-off {
-  box-shadow: 0 0 21px 0 rgba(0, 0, 0, 0.1); }
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 
 .product-o--radius {
   border-radius: 14px; }
@@ -1013,7 +1012,7 @@ input::-ms-clear {
 .product-o--hover-on {
   transition: all 0.4s ease-in-out; }
   .product-o--hover-on:hover {
-    box-shadow: 0 0 21px 0 rgba(0, 0, 0, 0.1); }
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
 
 .product-o:hover .product-o__wrap:before {
   opacity: 1; }
@@ -1032,7 +1031,7 @@ input::-ms-clear {
   position: relative; }
   .product-o__wrap:before {
     content: "";
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(139, 69, 19, 0.6); /* SaddleBrown overlay for wood theme */
     position: absolute;
     top: 0;
     left: 0;
@@ -1076,52 +1075,53 @@ input::-ms-clear {
       border-radius: 50%;
       height: 35px;
       line-height: 35px;
-      background-color: rgba(255, 255, 255, 0.25);
-      color: #ffffff;
+      background-color: #DEB887; /* Burlywood for action buttons */
+      color: #A0522D; /* Sienna text */
       font-size: 12px;
       transition: all 0.3s ease 0s; }
       .product-o__action-list > li > a:hover {
-        background-color: #333333;
-        color: #ffffff; }
+        background-color: #A0522D; /* Sienna for hover */
+        color: #F5F5DC; /* Beige text */ }
 
 .product-o__category {
   display: block;
   margin-top: 4px; }
   .product-o__category > a {
-    color: #a0a0a0;
+    color: #D2B48C; /* SaddleBrown for category links */
     transition: color 0.5s;
     font-size: 12px; }
     .product-o__category > a:hover {
-      color: #ff4500; }
+      color: #F5F5DC; /* Beige for hover */ }
 
 .product-o__name > a {
-  color: #333333;
+  color: #F5F5DC; /* Beige for name links */
   font-size: 14px;
   font-weight: 600;
   transition: color 0.5s; }
   .product-o__name > a:hover {
-    color: #ff4500; }
+    color: #D2B48C; /* Tan for hover */ }
 
 .product-o__rating {
   margin-bottom: 4px; }
   .product-o__rating i {
-    font-size: 12px; }
+    font-size: 12px;
+    color: #DAA520; /* Goldenrod for rating stars */ }
 
 .product-o__review {
   margin-left: 4px;
   font-size: 12px;
-  color: #a0a0a0; }
+  color: #8B4513; /* SaddleBrown for review text */ }
 
 .product-o__price {
   display: block;
-  color: #333333;
+  color: #F5F5DC; /* Sienna for price */
   font-size: 14px;
   font-weight: 600; }
 
 .product-o__discount {
   font-weight: 600;
   margin-left: 30px;
-  color: #333333;
+  color: #D2B48C; /* Tan for discount text */
   font-size: 14px;
   text-decoration: line-through; }
 
@@ -1134,12 +1134,12 @@ input::-ms-clear {
   bottom: 20px; }
 
 .x-product {
-  padding: 20px;
+  padding: 25px;
   border-radius: 6px;
   transition: -webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), -webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06); }
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .x-product .row {
     -ms-flex-align: center;
         align-items: center; }
@@ -1154,12 +1154,12 @@ input::-ms-clear {
 .feature {
   margin-bottom: 20px; }
   .feature__name {
-    color: #333333;
+    color: #F5F5DC; /* Beige for feature name */
     font-size: 13px;
     font-weight: 600;
     display: block; }
   .feature__value {
-    color: #7f7f7f;
+    color: #8B4513; /* SaddleBrown for feature value */
     font-size: 12px;
     display: block; }
 
@@ -1169,43 +1169,45 @@ input::-ms-clear {
   .product-l__img-wrap {
     margin-right: 20px; }
   .product-l__rating i {
-    font-size: 12px; }
+    font-size: 12px;
+    color: #DAA520; /* Goldenrod for rating stars */ }
   .product-l__link {
     width: 110px;
     height: 110px; }
   .product-l__category {
     display: block; }
     .product-l__category > a {
-      color: #a0a0a0;
+      color: #D2B48C; /* SaddleBrown for category links */
       transition: color 0.5s;
       font-size: 12px; }
       .product-l__category > a:hover {
-        color: #ff4500; }
+        color: #F5F5DC; /* Beige for hover */ }
   .product-l__name {
     display: block;
     margin-bottom: 4px; }
     .product-l__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       font-size: 14px;
       font-weight: 600;
       transition: color 0.5s; }
       .product-l__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .product-l__price {
     display: block;
-    color: #333333;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 14px;
     font-weight: 600; }
   .product-l__discount {
     font-weight: 600;
     margin-left: 15px;
-    color: #ff4500;
+    color: #D2B48C; /* Tan for discount */
     font-size: 14px;
     text-decoration: line-through; }
 
 .product-o2 {
-  background-color: #ffffff;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06); }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
   .product-o2__wrap {
     position: relative;
     overflow: hidden; }
@@ -1230,20 +1232,20 @@ input::-ms-clear {
         border-radius: 50%;
         height: 35px;
         line-height: 35px;
-        background-color: #ff4500;
-        color: #ffffff;
+        background-color: #A0522D; /* Sienna for action buttons */
+        color: #F5F5DC; /* Beige text */
         font-size: 12px;
         transition: all 0.3s ease 0.1s; }
         .product-o2__action-list > li > a:hover {
-          background-color: #ffffff;
-          color: #ff4500; }
+          background-color: #DEB887; /* Burlywood for hover */
+          color: #A0522D; /* Sienna text */ }
       .product-o2__action-list > li:last-child {
         margin-bottom: 0; }
   .product-o2__countdown-wrap {
     position: absolute;
     right: 0;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(139, 69, 19, 0.6); /* SaddleBrown overlay */
     width: 60px;
     height: 100%; }
   .product-o2__img {
@@ -1256,37 +1258,38 @@ input::-ms-clear {
     display: block;
     margin-top: 4px; }
     .product-o2__category > a {
-      color: #a0a0a0;
+      color: #D2B48C; /* SaddleBrown for category links */
       transition: color 0.5s;
       font-size: 12px; }
       .product-o2__category > a:hover {
-        color: #ff4500; }
+        color: #F5F5DC; /* Beige for hover */ }
   .product-o2__name {
     display: block; }
     .product-o2__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       font-size: 14px;
       font-weight: 600;
       transition: color 0.5s; }
       .product-o2__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .product-o2__rating {
     margin-bottom: 4px; }
     .product-o2__rating i {
-      font-size: 12px; }
+      font-size: 12px;
+      color: #DAA520; /* Goldenrod for rating stars */ }
   .product-o2__review {
     margin-left: 4px;
     font-size: 12px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for review text */ }
   .product-o2__price {
     display: block;
-    color: #333333;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 14px;
     font-weight: 600; }
   .product-o2__discount {
     font-weight: 600;
     margin-left: 30px;
-    color: #333333;
+    color: #D2B48C; /* Tan for discount */
     font-size: 14px;
     text-decoration: line-through; }
 
@@ -1300,11 +1303,12 @@ input::-ms-clear {
 .product-r {
   border-radius: 15px;
   overflow: hidden;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   transition: -webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), -webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  box-shadow: 2px 2px 8px 3px rgba(36, 37, 38, 0.08); }
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
   .product-r__container {
     position: relative; }
   .product-r__ribbon-wrap {
@@ -1344,25 +1348,25 @@ input::-ms-clear {
         border-radius: 50%;
         height: 35px;
         line-height: 35px;
-        background-color: #ffffff;
-        color: #ff4500;
+        background-color: #DEB887; /* Burlywood for action buttons */
+        color: #A0522D; /* Sienna text */
         box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06);
         font-size: 12px;
         transition: all 0.3s ease 0s; }
         .product-r__action-list > li > a:hover {
-          background-color: #ffffff;
-          color: #ff4500; }
+          background-color: #A0522D; /* Sienna for hover */
+          color: #F5F5DC; /* Beige text */ }
   .product-r__info-wrap {
-    padding: 14px; }
+    padding: 20px; }
   .product-r__category {
     display: block;
     margin-bottom: 2px; }
     .product-r__category > a {
-      color: #a0a0a0;
+      color: #D2B48C; /* SaddleBrown for category links */
       transition: color 0.5s;
       font-size: 12px; }
       .product-r__category > a:hover {
-        color: #ff4500; }
+        color: #F5F5DC; /* Beige for hover */ }
   .product-r__n-p-wrap {
     display: -ms-flexbox;
     display: flex;
@@ -1374,21 +1378,21 @@ input::-ms-clear {
   .product-r__name {
     display: block; }
     .product-r__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       font-size: 14px;
       font-weight: 600;
       transition: color 0.5s; }
       .product-r__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .product-r__price {
     display: block;
     font-weight: 600;
-    color: #ff4500;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 16px; }
   .product-r__description {
     margin-bottom: 6px;
     display: block;
-    color: #7f7f7f;
+    color: #F5F5DC; /* SaddleBrown for description */
     font-size: 12px; }
   .product-r:hover {
     -webkit-transform: translateY(-6px);
@@ -1403,13 +1407,14 @@ input::-ms-clear {
               transform: translateY(0); }
 
 .product-bs {
-  background-color: #ffffff;
-  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06);
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   transition: -webkit-transform 0.7s ease-in-out;
   transition: transform 0.7s ease-in-out;
   transition: transform 0.7s ease-in-out, -webkit-transform 0.7s ease-in-out; }
   .product-bs__container {
-    padding: 20px; }
+    padding: 25px; }
   .product-bs__wrap {
     position: relative;
     margin-bottom: 4px; }
@@ -1446,48 +1451,49 @@ input::-ms-clear {
         border-radius: 50%;
         height: 35px;
         line-height: 35px;
-        background-color: #ff4500;
-        color: #ffffff;
+        background-color: #A0522D; /* Sienna for action buttons */
+        color: #F5F5DC; /* Beige text */
         font-size: 12px;
         transition: all 0.3s ease 0s; }
         .product-bs__action-list > li > a:hover {
           box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06);
-          background-color: #ffffff;
-          color: #ff4500; }
+          background-color: #DEB887; /* Burlywood for hover */
+          color: #A0522D; /* Sienna text */ }
   .product-bs__category {
     display: block; }
     .product-bs__category > a {
-      color: #a0a0a0;
+      color: #D2B48C;  /* SaddleBrown for category links */
       transition: color 0.5s;
       font-size: 12px; }
       .product-bs__category > a:hover {
-        color: #ff4500; }
+        color: #F5F5DC; /* Beige for hover */ }
   .product-bs__name {
     display: block; }
     .product-bs__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       font-size: 14px;
       font-weight: 600;
       transition: color 0.5s; }
       .product-bs__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .product-bs__rating {
     margin-bottom: 4px; }
     .product-bs__rating i {
-      font-size: 12px; }
+      font-size: 12px;
+      color: #DAA520; /* Goldenrod for rating stars */ }
   .product-bs__review {
     margin-left: 4px;
     font-size: 12px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for review text */ }
   .product-bs__price {
     display: block;
-    color: #333333;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 14px;
     font-weight: 600; }
   .product-bs__discount {
     font-weight: 600;
     margin-left: 30px;
-    color: #333333;
+    color: #D2B48C; /* Tan for discount */
     font-size: 14px;
     text-decoration: line-through; }
 
@@ -1504,7 +1510,8 @@ input::-ms-clear {
             transform: translateY(0); }
 
 .product-short {
-  background-color: #fbfbfb;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   transition: -webkit-transform 0.7s ease-in-out;
   transition: transform 0.7s ease-in-out;
   transition: transform 0.7s ease-in-out, -webkit-transform 0.7s ease-in-out; }
@@ -1519,32 +1526,26 @@ input::-ms-clear {
     display: block;
     font-size: 12px;
     font-weight: 600;
-    color: #ff4500; }
+    color: #F5F5DC; /* Sienna for price */ }
   .product-short__name {
     display: block; }
     .product-short__name > a {
       font-size: 14px;
       font-weight: 600;
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       transition: color 0.5s; }
       .product-short__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .product-short__category {
     display: block; }
     .product-short__category > a {
       font-size: 11px;
-      color: #a0a0a0;
+      color: #D2B48C;  /* SaddleBrown for category links */
       transition: color 0.5s; }
       .product-short__category > a:hover {
-        color: #ff4500; }
+        color: #F5F5DC; /* Beige for hover */ }
 
 /* Checkbox, Radio Component */
-/*
-  * Remember these are very important styles and make sure input checkbox always has a greater z-index from label
-  * and any other div's.
-  * Remember these styles make checkbox horizontal center, and when you click out of the boundary region
-  * Behind the scenes checkbox has a opacity 0 but it will be checked.
- */
 .check-box [type="checkbox"] {
   position: absolute;
   left: 0;
@@ -1577,7 +1578,7 @@ input::-ms-clear {
     display: inline-block;
     font-weight: 600;
     font-size: 13px;
-    color: #333333;
+    color: #A0522D; /* Sienna for label text */
     margin-left: 24px;
     white-space: normal; }
     .check-box__label:before, .check-box__label:after {
@@ -1592,7 +1593,7 @@ input::-ms-clear {
       left: 0;
       top: 0; }
     .check-box__label:before {
-      background-color: #f1f1f1; }
+      background-color: #DEB887; /* Burlywood for checkbox background */ }
     .check-box__label:after {
       -webkit-transform: scale(0.6);
               transform: scale(0.6); }
@@ -1602,13 +1603,13 @@ input::-ms-clear {
           animation: mypulse 1s; }
 
 .check-box input:checked ~ .check-box__state.check-box__state--primary label:before {
-  border-color: #ff4500;
-  background-color: #ffffff; }
+  border-color: #A0522D; /* Sienna border */
+  background-color: #DEB887; /* Burlywood background */ }
 
 .check-box input:checked ~ .check-box__state.check-box__state--primary label:after {
   -webkit-transform: scale(0.4);
           transform: scale(0.4);
-  background-color: #ff4500; }
+  background-color: #A0522D; /* Sienna for checked state */ }
 
 .radio-box {
   position: relative;
@@ -1620,7 +1621,7 @@ input::-ms-clear {
     display: inline-block;
     font-weight: 600;
     font-size: 13px;
-    color: #333333;
+    color: #A0522D; /* Sienna for label text */
     white-space: normal;
     margin-left: 24px; }
     .radio-box__label:before, .radio-box__label:after {
@@ -1636,7 +1637,7 @@ input::-ms-clear {
       left: 0;
       top: 0; }
     .radio-box__label:before {
-      background-color: #f1f1f1; }
+      background-color: #DEB887; /* Burlywood for radio background */ }
     .radio-box__label:after {
       -webkit-transform: scale(0.6);
               transform: scale(0.6); }
@@ -1646,13 +1647,13 @@ input::-ms-clear {
           animation: mypulse 1s; }
 
 .radio-box input:checked ~ .radio-box__state.radio-box__state--primary label:before {
-  border-color: #ff4500;
-  background-color: #ffffff; }
+  border-color: #A0522D; /* Sienna border */
+  background-color: #DEB887; /* Burlywood background */ }
 
 .radio-box input:checked ~ .radio-box__state.radio-box__state--primary label:after {
   -webkit-transform: scale(0.4);
           transform: scale(0.4);
-  background-color: #ff4500; }
+  background-color: #A0522D; /* Sienna for checked state */ }
 
 /* Select-Box Component */
 .select-box {
@@ -1664,11 +1665,11 @@ input::-ms-clear {
   cursor: pointer;
   line-height: 1.2; }
   .select-box--primary-style {
-    color: #333333;
+    color: #A0522D; /* Sienna text */
     border: 2px solid transparent;
-    background-color: #f1f1f1; }
+    background-color: #DEB887; /* Burlywood background */ }
   .select-box--transparent-b-2 {
-    color: #333333;
+    color: #A0522D; /* Sienna text */
     border: 1px solid transparent;
     background-color: transparent; }
   .select-box:focus {
@@ -1678,15 +1679,15 @@ input::-ms-clear {
     border: 0; }
 
 .select-box:disabled {
-  background-color: #cecece; }
+  background-color: #C2B280; /* Light tan for disabled */ }
 
 .select-box--primary-style:focus::-ms-value {
-  color: #333333;
-  background-color: #f1f1f1; }
+  color: #A0522D; /* Sienna text */
+  background-color: #DEB887; /* Burlywood background */ }
 
 .select-box--transparent-b-2:focus::-ms-value {
-  color: #333333;
-  background-color: #ffffff; }
+  color: #A0522D; /* Sienna text */
+  background-color: #DEB887; /* Burlywood background */ }
 
 /* Textarea Component */
 .text-area {
@@ -1696,15 +1697,15 @@ input::-ms-clear {
   padding: 18px;
   resize: vertical; }
   .text-area--border-radius {
-    border-radius: 25px; }
+    border-radius: 4px; }
   .text-area--primary-style {
-    color: #5c636c;
+    color: #A0522D; /* Sienna text */
     transition: all 0.6s linear;
     border: 2px solid transparent;
-    background-color: #f1f1f1; }
+    background-color: #DEB887; /* Burlywood background */ }
     .text-area--primary-style:focus {
       background-color: transparent;
-      border-color: #ff4500; }
+      border-color: #A0522D; /* Sienna border */ }
   .text-area:focus {
     outline: 0; }
 
@@ -1718,18 +1719,20 @@ input::-ms-clear {
   padding: 8px;
   font-size: 24px;
   border: 0;
-  color: #ffffff;
+  color: #F5F5DC; /* Beige for dismiss button */
   cursor: pointer;
   transition: color 110ms ease-in-out; }
   .dismiss-button:hover {
-    color: #ff4500; }
+    color: #A0522D; /* Sienna for hover */ }
 
 #dash-newsletter .modal-dialog {
   width: 100%;
   max-width: 450px; }
 
 #dash-newsletter .modal-body {
-  padding: 1.875rem; }
+  padding: 1.875rem;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .d-modal__form {
   width: 100%; }
@@ -1740,17 +1743,19 @@ input::-ms-clear {
   .d-modal__form a {
     font-size: 15px;
     font-weight: 600;
-    color: #ff4500;
+    color: #A0522D; /* Sienna for links */
     transition: color 110ms ease-in-out; }
     .d-modal__form a:hover {
-      color: #7f7f7f; }
+      color: #8B4513; /* SaddleBrown for hover */ }
 
 #edit-ship-address .modal-dialog, #add-ship-address .modal-dialog {
   width: 100%;
   max-width: 750px; }
 
 #edit-ship-address .modal-body, #add-ship-address .modal-body {
-  padding: 1.875rem; }
+  padding: 1.875rem;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .checkout-modal1__form, .checkout-modal2__form {
   width: 100%; }
@@ -1766,6 +1771,10 @@ input::-ms-clear {
   width: 100%;
   max-width: 550px; }
 
+#add-to-cart .modal-body {
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
+
 #add-to-cart .row {
   -ms-flex-align: center;
       align-items: center; }
@@ -1777,15 +1786,15 @@ input::-ms-clear {
     .success__text-wrap i {
       margin-right: 8px;
       font-size: 16px;
-      color: #ff4500; }
+      color: #A0522D; /* Sienna for icon */ }
     .success__text-wrap span {
       font-weight: 700;
       font-size: 14px;
-      color: #333333; }
+      color: #A0522D; /* Sienna for text */ }
   .success__img-wrap {
     display: inline-block;
     vertical-align: middle;
-    background-color: #f5f5f5;
+    background-color: #DEB887; /* Burlywood for image wrap */
     width: 120px;
     height: 120px; }
     .success__img-wrap img {
@@ -1795,17 +1804,17 @@ input::-ms-clear {
     margin: 4px 0;
     font-size: 14px;
     font-weight: 600;
-    color: #333333; }
+    color: #A0522D; /* Sienna for name */ }
   .success__quantity {
     margin-bottom: 4px;
     display: block;
     font-size: 12px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for quantity */ }
   .success__price {
     display: block;
     font-weight: 700;
     font-size: 14px;
-    color: #ff4500; }
+    color: #F5F5DC; /* Sienna for price */ }
 
 .s-option {
   text-align: center; }
@@ -1813,7 +1822,7 @@ input::-ms-clear {
     display: block;
     margin-bottom: 20px;
     font-size: 12px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for text */ }
   .s-option__link-box {
     width: 85%;
     margin: 0 auto; }
@@ -1824,14 +1833,22 @@ input::-ms-clear {
     width: 100%;
     text-align: center;
     font-weight: 600;
-    font-size: 13px; }
+    font-size: 13px;
+    color: #A0522D; /* Sienna for links */
+    background-color: #DEB887; /* Burlywood background */
+    transition: all 0.3s ease; }
+    .s-option__link:hover {
+      color: #F5F5DC; /* Beige for hover */
+      background-color: #A0522D; /* Sienna for hover */ }
 
 #quick-look .modal-dialog {
   width: 100%;
   max-width: 991px; }
 
 #quick-look .modal-body {
-  padding: 1.875rem; }
+  padding: 1.875rem;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .new-l--center {
   text-align: center; }
@@ -1841,7 +1858,9 @@ input::-ms-clear {
   max-width: 800px; }
 
 #newsletter-modal .modal-body {
-  padding: 0; }
+  padding: 0;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 #newsletter-modal .new-l__dismiss {
   z-index: 2;
@@ -1852,7 +1871,7 @@ input::-ms-clear {
   padding: 8px;
   font-size: 16px;
   border: 0;
-  color: #515151;
+  color: #F5F5DC; /* Beige for dismiss button */
   cursor: pointer; }
 
 #newsletter-modal .row {
@@ -1860,8 +1879,7 @@ input::-ms-clear {
       align-items: center; }
 
 .new-l__img-wrap {
-  background-color: #f5f5f5;
-  position: relative; }
+  background-color: #DEB887; /* Burlywood for image wrap */ }
   .new-l__img-wrap:before {
     transition: all 0.6s linear;
     content: '';
@@ -1872,7 +1890,7 @@ input::-ms-clear {
     bottom: 0;
     top: 0;
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.4); }
+    background-color: rgba(139, 69, 19, 0.4); /* SaddleBrown overlay */ }
 
 .new-l__img-wrap:hover:before {
   opacity: 1; }
@@ -1880,22 +1898,23 @@ input::-ms-clear {
 .new-l__h3 {
   font-size: 26px;
   line-height: 1.2;
-  color: #333333; }
+  color: #A0522D; /* Sienna for heading */ }
 
 .new-l__p1 {
   font-size: 14px;
-  line-height: 21px; }
+  line-height: 21px;
+  color: #D2B48C; /* Tan for paragraph */ }
 
 .new-l__p2 {
   font-size: 12px;
-  color: #a0a0a0; }
+  color: #8B4513; /* SaddleBrown for secondary paragraph */ }
 
 .new-l__link {
   font-size: 13px;
-  color: #7f7f7f;
+  color: #8B4513; /* SaddleBrown for links */
   transition: all .3s; }
   .new-l__link:hover {
-    color: #ff4500;
+    color: #A0522D; /* Sienna for hover */
     text-decoration: underline; }
 
 .new-l__form {
@@ -1912,13 +1931,14 @@ input::-ms-clear {
   font-size: 12px;
   padding: 0 18px;
   height: 40px;
-  color: #333333;
+  color: #A0522D; /* Sienna text */
   transition: all 0.6s linear;
   border: 2px solid rgba(0, 0, 0, 0.08);
   border-radius: 4px;
-  background-color: #ffffff; }
+  background-color: #DEB887; /* Burlywood background */ }
   .news-l__input:focus {
-    border-color: #ff4500; }
+    border-color: #A0522D; /* Sienna border */
+    background-color: transparent; }
   .news-l__input:focus {
     outline: 0; }
   .news-l__input::-ms-clear {
@@ -1935,23 +1955,25 @@ input::-ms-clear {
   position: relative; }
 
 .header--style-1 {
-  background-color: #ffffff; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .header--style-2 {
-  background-color: #242424; }
+  background-color: #3C2F2F; /* Dark brown for header style 2 */ }
 
 .header--style-3 {
   position: absolute;
   width: 100%;
-  background-color: transparent;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   z-index: 2; }
 
 .header--box-shadow {
-  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.07); }
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2); }
 
 /* 6.1 Primary Nav */
 .primary-nav-wrapper--border {
-  border-bottom: 1px solid #f8f8f8; }
+  border-bottom: 1px solid #C2B280; /* Light tan for border */ }
 
 .primary-nav {
   display: -ms-flexbox;
@@ -1967,10 +1989,19 @@ input::-ms-clear {
       align-items: center; }
 
 .main-logo {
+  width: 200px;         /* Restored: The exact width you want */
+  height: 50px;         /* Restored: The exact height you want */
   display: inline-block;
-  vertical-align: top; }
-  .main-logo img {
-    display: block; }
+  vertical-align: top;
+  overflow: hidden;       /* Restored: Hides any parts of the image that spill out */
+}
+
+.main-logo img {
+  width: 100%;          /* Restored */
+  height: 100%;         /* Restored */
+  object-fit: cover;    /* Restored: This makes the image fill the box */
+  display: block;
+}
 
 .main-form {
   position: relative;
@@ -1978,7 +2009,15 @@ input::-ms-clear {
 
 #main-search {
   padding: 0 36px 0 18px;
-  width: 100%; }
+  width: 100%;
+  background-color: #DEB887; /* Burlywood for search input */
+  color: #A0522D; /* Sienna text */
+  border: 2px solid transparent;
+  transition: all 0.6s linear; }
+  #main-search:focus {
+    background-color: transparent;
+    border-color: #A0522D; /* Sienna border */
+    outline: 0; }
 
 .main-search-button {
   position: absolute;
@@ -1986,7 +2025,11 @@ input::-ms-clear {
   right: 15px;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  font-size: 18px; }
+  font-size: 18px;
+  color: #F5F5DC; /* Beige for search button */
+  transition: color 0.3s ease; }
+  .main-search-button:hover {
+    color: #A0522D; /* Sienna for hover */ }
 
 /* 6.2 Secondary Nav */
 .secondary-nav {
@@ -2011,7 +2054,8 @@ input::-ms-clear {
     left: 40px;
     font-size: 10px;
     padding: 1px 7px;
-    color: #ffffff; }
+    color: #F5F5DC; /* Beige for superscript text */
+    background-color: #A0522D; /* Sienna background */ }
   .has-superscript--discount20:before {
     content: '-20% OFF'; }
   .has-superscript--new:before {
@@ -2023,16 +2067,16 @@ input::-ms-clear {
   .has-superscript--purple:before {
     background-color: #8d54ec; }
   .has-superscript--orange:before {
-    background-color: #ff4500; }
+    background-color: #A0522D; /* Sienna for orange superscript */ }
   .has-superscript--mud:before {
-    background-color: #878a85; }
+    background-color: #8B7E66; /* Warm grey for mud superscript */ }
   .has-superscript--ruby:before {
     background-color: #ee1a3d; }
 
 @media (max-width: 991px) {
   .header--style-3 {
     position: relative;
-    background-color: #242424; } }
+    background-color: #3C2F2F; /* Dark brown for mobile */ } }
 
 /*--------------------------------------------------------------
 7.0 Footer
@@ -2040,10 +2084,11 @@ input::-ms-clear {
 /* 7.1 Outer-Footer */
 .outer-footer {
   padding: 80px 0;
-  background-color: #000000; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
   .outer-footer__content-title {
     display: block;
-    color: #ffffff;
+    color: #F5F5DC; /* Beige for title */
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 10px; }
@@ -2054,10 +2099,10 @@ input::-ms-clear {
     .outer-footer__text-wrap > i {
       margin-right: 6px;
       font-size: 14px;
-      color: #ffffff; }
+      color: #F5F5DC; /* Beige for icons */ }
     .outer-footer__text-wrap span {
       font-size: 14px;
-      color: #ffffff; }
+      color: #D2B48C; /* Tan for text */ }
   .outer-footer__social ul {
     margin: 0;
     padding: 0;
@@ -2070,8 +2115,10 @@ input::-ms-clear {
       margin-right: 16px; }
       .outer-footer__social ul > li > a {
         font-size: 14px;
-        color: #ffffff;
+        color: #F5F5DC; /* Beige for social links */
         transition: color 0.6s; }
+        .outer-footer__social ul > li > a:hover {
+          color: #A0522D; /* Sienna for hover */ }
       .outer-footer__social ul > li:last-child {
         margin-right: 0; }
   .outer-footer__list-wrap ul {
@@ -2082,10 +2129,10 @@ input::-ms-clear {
       margin-bottom: 8px; }
       .outer-footer__list-wrap ul > li > a {
         transition: color 0.6s;
-        color: #ffffff;
+        color: #F5F5DC; /* Beige for links */
         font-size: 14px; }
         .outer-footer__list-wrap ul > li > a:hover {
-          color: #ff4500; }
+          color: #A0522D; /* Sienna for hover */ }
       .outer-footer__list-wrap ul > li:last-child {
         margin-bottom: 0; }
 
@@ -2100,29 +2147,44 @@ input::-ms-clear {
   font-size: 12px;
   top: 50%;
   border: none;
+  background-color: #A0522D; /* Sienna for button */
+  color: #F5F5DC; /* Beige text */
   -webkit-transform: translateY(-50%);
-          transform: translateY(-50%); }
+          transform: translateY(-50%);
+  transition: all 0.3s ease; }
+  .newsletter__btn:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 .newsletter__text {
   margin-top: 10px;
   display: block;
-  color: #ffffff;
+  color: #F5F5DC; /* Beige for text */
   font-size: 14px; }
 
 .newsletter__radio {
   margin-right: 20px; }
   .newsletter__radio .radio-box__label {
-    color: #ffffff; }
+    color: #F5F5DC; /* Beige for radio label */ }
   .newsletter__radio:last-child {
     margin-right: 0; }
 
 #newsletter {
   width: 100%;
-  padding: 0 100px 0 18px; }
+  padding: 0 100px 0 18px;
+  background-color: #DEB887; /* Burlywood for input background */
+  color: #A0522D; /* Sienna text */
+  border: 2px solid transparent;
+  transition: all 0.6s linear; }
+  #newsletter:focus {
+    background-color: transparent;
+    border-color: #A0522D; /* Sienna border */
+    outline: 0; }
 
 /* 7.3 Lower-Footer */
 .lower-footer {
-  background-color: #000000;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   padding: 20px 0; }
   .lower-footer__content {
     display: -ms-flexbox;
@@ -2137,14 +2199,14 @@ input::-ms-clear {
     -ms-flex: 0 1 auto; }
   .lower-footer__copyright span {
     font-size: 13px;
-    color: #ffffff; }
+    color: #F5F5DC; /* Beige for copyright text */ }
   .lower-footer__copyright a {
     margin: 0 1px;
     font-size: 13px;
-    color: #ff4500;
+    color: #A0522D; /* Sienna for links */
     transition: color 0.6s; }
     .lower-footer__copyright a:hover {
-      color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */ }
   .lower-footer__img img {
     display: block; }
   .lower-footer__payment ul {
@@ -2159,7 +2221,7 @@ input::-ms-clear {
       margin-right: 16px; }
       .lower-footer__payment ul > li > i {
         font-size: 25px;
-        color: #ffffff; }
+        color: #F5F5DC; /* Beige for payment icons */ }
       .lower-footer__payment ul > li:last-child {
         margin-right: 0; }
 
@@ -2184,16 +2246,21 @@ input::-ms-clear {
     display: block;
     margin: 0;
     padding: 0;
-    background-color: #ffffff;
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
     border-radius: 1.5625rem; }
     .fixed-list > ul > li > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for links */
       text-align: center;
       font-size: 14px;
-      padding: 14px; }
+      padding: 14px;
+      transition: all 0.3s ease; }
       .fixed-list > ul > li > a.active {
-        background-color: #ff4500;
-        color: #ffffff; }
+        background-color: #A0522D; /* Sienna for active state */
+        color: #F5F5DC; /* Beige text */ }
+      .fixed-list > ul > li > a:hover {
+        background-color: #DEB887; /* Burlywood for hover */
+        color: #A0522D; /* Sienna text */ }
     .fixed-list > ul > li:first-child > a {
       border-top-left-radius: 1.5625rem;
       border-top-right-radius: 1.5625rem; }
@@ -2202,11 +2269,13 @@ input::-ms-clear {
       border-bottom-right-radius: 1.5625rem; }
 
 .bg-anti-flash-white {
-  background-color: #f3f3f3; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .white-container {
   width: 1220px;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   max-width: 100%;
   margin: 0 auto; }
 
@@ -2221,9 +2290,9 @@ input::-ms-clear {
   padding: 4px 0;
   -ms-flex-align: center;
       align-items: center;
-  border-bottom: 1px solid #e7e7e7; }
+  border-bottom: 1px solid #C2B280; /* Light tan for border */ }
   .block__title {
-    color: #333333;
+    color: #F5F5DC; /* Beige for title */
     display: block;
     font-size: 14px;
     font-weight: 600;
@@ -2231,7 +2300,7 @@ input::-ms-clear {
 
 .category-o {
   position: relative;
-  border: 2px dashed #f5f5f5;
+  border: 2px dashed #C2B280; /* Light tan for dashed border */
   border-radius: 50%;
   overflow: hidden; }
   .category-o__img-wrap {
@@ -2249,12 +2318,18 @@ input::-ms-clear {
     text-align: center;
     bottom: 40px; }
   .category-o__shop-now {
-    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.07);
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
     font-size: 13px;
     padding: 10px 25px;
     border-radius: 20px;
     font-weight: 600;
-    display: inline-block; }
+    display: inline-block;
+    background-color: #A0522D; /* Sienna for shop now button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .category-o__shop-now:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
   .category-o:before {
     content: '';
     position: absolute;
@@ -2264,7 +2339,7 @@ input::-ms-clear {
     right: 0;
     bottom: 0;
     transition: all 0.3s linear;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(139, 69, 19, 0.8); /* SaddleBrown overlay */
     opacity: 0; }
 
 .category-o:hover:before {
@@ -2285,11 +2360,16 @@ input::-ms-clear {
       font-weight: 600;
       font-size: 13px;
       padding: 10px 16px;
-      color: #333333; }
+      color: #A0522D; /* Sienna for tab links */
+      border: 2px solid transparent;
+      transition: all 0.3s ease; }
       .tab-list > li > a.active {
-        border-color: #ff4500;
-        background-color: #ff4500;
-        color: #ffffff; }
+        border-color: #A0522D; /* Sienna border */
+        background-color: #A0522D; /* Sienna background */
+        color: #F5F5DC; /* Beige text */ }
+      .tab-list > li > a:hover {
+        background-color: #DEB887; /* Burlywood for hover */
+        color: #A0522D; /* Sienna text */ }
     .tab-list > li:last-child {
       margin-right: 0; }
 
@@ -2308,12 +2388,17 @@ input::-ms-clear {
     top: 50%;
     text-align: center; }
   .promotion-o__link {
-    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.07);
+    box-shadow: 0 3px 7px 0 rgba(0, 0, 0, 0.2);
     font-size: 13px;
     padding: 10px 25px;
     font-weight: 600;
     transition: all .3s linear;
-    display: inline-block; }
+    display: inline-block;
+    background-color: #A0522D; /* Sienna for link */
+    color: #F5F5DC; /* Beige text */ }
+    .promotion-o__link:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .promotion-o:hover {
   -webkit-transform: translateY(-6px);
@@ -2334,7 +2419,7 @@ input::-ms-clear {
     bottom: 0;
     top: 0;
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.4); }
+    background-color: rgba(139, 69, 19, 0.4); /* SaddleBrown overlay */ }
   .i3-banner__img {
     -webkit-transform: scale(1);
             transform: scale(1);
@@ -2360,11 +2445,13 @@ input::-ms-clear {
   font-weight: 600;
   letter-spacing: -.02rem;
   font-size: 28px;
-  position: relative; }
+  position: relative;
+  color: #F5F5DC; /* Beige for heading */ }
 
 .section__span {
   font-size: 13px;
-  display: block; }
+  display: block;
+  color: #8B4513; /* SaddleBrown for span */ }
 
 .collection {
   position: relative;
@@ -2381,7 +2468,7 @@ input::-ms-clear {
     bottom: 0;
     top: 0;
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.4); }
+    background-color: rgba(139, 69, 19, 0.4); /* SaddleBrown overlay */ }
   .collection__img {
     -webkit-transform: scale(1);
             transform: scale(1);
@@ -2413,14 +2500,14 @@ input::-ms-clear {
   border: none;
   padding: 18px;
   font-size: 14px;
-  color: #333333;
+  color: #F5F5DC; /* Beige for button text */
   font-weight: 600;
   background-color: transparent; }
   .filter__btn--style-1:before {
     content: '';
     width: 0;
     height: 2px;
-    background-color: #ff4500;
+    background-color: #A0522D; /* Sienna for underline */
     position: absolute;
     top: 0;
     left: 50%;
@@ -2428,11 +2515,11 @@ input::-ms-clear {
             transform: translateX(-50%);
     transition: all 0.2s ease 0s; }
   .filter__btn--style-1:hover {
-    color: #ff4500; }
+    color: #D2B48C; /* Tan for hover */ }
     .filter__btn--style-1:hover:before {
       width: 100%; }
   .filter__btn--style-1.js-checked {
-    color: #ff4500; }
+    color: #F5F5DC; /* Beige for checked state */ }
     .filter__btn--style-1.js-checked:before {
       width: 100%; }
 
@@ -2441,16 +2528,16 @@ input::-ms-clear {
   display: block;
   padding: 15px 27px;
   margin: 0 8px 10px;
-  border: 2px solid #f7f7f9;
+  border: 2px solid #C2B280; /* Light tan for border */
   font-size: 12px;
-  color: #7f7f7f;
+  color: #8B4513; /* SaddleBrown for text */
   background-color: transparent; }
   .filter__btn--style-2:hover {
-    border-color: #ff4500;
-    color: #333333; }
+    border-color: #A0522D; /* Sienna border */
+    color: #A0522D; /* Sienna text */ }
   .filter__btn--style-2.js-checked {
-    border-color: #ff4500;
-    color: #333333; }
+    border-color: #A0522D; /* Sienna border */
+    color: #A0522D; /* Sienna text */ }
 
 .load-more {
   text-align: center;
@@ -2459,12 +2546,19 @@ input::-ms-clear {
     padding: 22px 56px;
     border: none;
     border-radius: 5px;
-    font-size: 13px; }
+    font-size: 13px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .load-more > button:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .banner-bg {
   padding: 7em 0;
   position: relative;
-  background: #f5f5f5 repeat fixed center center;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat fixed center center; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   background-size: cover; }
   .banner-bg__wrap {
     text-align: center; }
@@ -2473,20 +2567,29 @@ input::-ms-clear {
   .banner-bg__text-1 {
     font-weight: 600;
     margin-bottom: 6px;
-    font-size: 58px; }
+    font-size: 58px;
+    color: #F5F5DC; /* Beige for text */ }
   .banner-bg__text-2 {
     font-weight: 600;
     margin-bottom: 12px;
-    font-size: 31px; }
+    font-size: 31px;
+    color: #D2B48C; /* Tan for text */ }
   .banner-bg__text-3 {
     margin-bottom: 18px;
-    font-size: 14px; }
+    font-size: 14px;
+    color: #8B4513; /* SaddleBrown for text */ }
   .banner-bg__shop-now {
     display: inline-block;
     padding: 14px 30px;
     font-weight: 600;
-    border-radius: 40px;
-    font-size: 13px; }
+    border-radius: 4px;
+    font-size: 13px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .banner-bg__shop-now:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .promotion {
   display: block;
@@ -2500,7 +2603,7 @@ input::-ms-clear {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(139, 69, 19, 0.8); /* SaddleBrown overlay */
     opacity: 0; }
   .promotion__content {
     position: absolute;
@@ -2512,25 +2615,28 @@ input::-ms-clear {
     text-align: center; }
   .promotion__text-wrap {
     display: inline-block;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: rgba(222, 184, 135, 0.9); /* Burlywood with opacity */
     padding: 30px 15px;
     transition: all 0.5s ease-in-out; }
   .promotion__text-1 {
-    font-size: 14px; }
+    font-size: 14px;
+    color: #A0522D; /* Sienna for text */ }
   .promotion__text-2 {
     font-size: 20px;
-    font-weight: 600; }
+    font-weight: 600;
+    color: #F5F5DC; /* Beige for text */ }
 
 .promotion:hover:before {
   opacity: 1; }
 
 .promotion:hover .promotion__text-wrap {
-  background-color: white; }
+  background-color: #DEB887; /* Burlywood for hover */ }
 
 .column-product__title {
   display: block;
   font-size: 18px;
-  font-weight: 600; }
+  font-weight: 600;
+  color: #F5F5DC; /* Beige for title */ }
 
 .column-product__list {
   margin: 0;
@@ -2546,27 +2652,28 @@ input::-ms-clear {
 .service {
   display: -ms-flexbox;
   display: flex;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   padding: 23px;
-  box-shadow: 0 6px 15px 0 rgba(36, 37, 38, 0.08);
-  border: 2px solid #f5f5f5; }
+  box-shadow: 0 6px 15px 0 rgba(0, 0, 0, 0.2);
+  border: 2px solid #C2B280; /* Light tan for border */ }
   .service__icon, .service__info-wrap {
     -ms-flex: 0 1 auto; }
   .service__icon {
     margin-right: 20px; }
     .service__icon > i {
-      color: #ff4500;
+      color: #A0522D; /* Sienna for icon */
       font-size: 30px; }
   .service__info-text-1 {
     display: block;
     font-size: 14px;
     margin-bottom: 4px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for text */
     font-weight: 600; }
   .service__info-text-2 {
     font-size: 13px;
     display: block;
-    color: #7f7f7f; }
+    color: #F5F5DC; /* SaddleBrown for text */ }
 
 .new-brand-slider {
   position: relative; }
@@ -2584,14 +2691,15 @@ input::-ms-clear {
 9.0 About-Page
 --------------------------------------------------------------*/
 .about {
-  background-color: #ffffff;
-  box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.07); }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.2); }
   .about__container {
     padding: 60px; }
   .about__info {
     text-align: center; }
   .about__h2 {
-    color: #333333;
+    color: #F5F5DC; /* Beige for heading */
     font-weight: 600;
     margin-bottom: 10px;
     font-size: 24px; }
@@ -2603,7 +2711,7 @@ input::-ms-clear {
       display: block;
       width: 70px;
       position: absolute;
-      border: solid #ff4500; }
+      border: solid #A0522D; /* Sienna for border */ }
     .about .about__p-wrap:before {
       top: -10px;
       left: -8px;
@@ -2613,16 +2721,23 @@ input::-ms-clear {
       right: -8px;
       border-bottom-width: 1px; }
   .about__p {
-    color: #333333; }
+    color: #D2B48C; /* Tan for paragraph */ }
   .about__link {
     display: inline-block;
     padding: 12px 42px;
-    border-radius: 40px;
+    border-radius: 4px;
     font-weight: 600;
-    font-size: 12px; }
+    font-size: 12px;
+    background-color: #A0522D; /* Sienna for link */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .about__link:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .team-member {
-  background-color: #fbfbfb;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   transition: -webkit-transform 0.7s ease-in-out;
   transition: transform 0.7s ease-in-out;
   transition: transform 0.7s ease-in-out, -webkit-transform 0.7s ease-in-out; }
@@ -2661,23 +2776,24 @@ input::-ms-clear {
         border-radius: 50%;
         height: 35px;
         line-height: 35px;
-        background-color: #ffffff;
-        color: #ff4500;
+        background-color: #DEB887; /* Burlywood for social buttons */
+        color: #A0522D; /* Sienna text */
         font-size: 12px;
         transition: all 0.3s ease 0s; }
         .team-member__social-list > li > a:hover {
-          color: #ffffff; }
+          background-color: #A0522D; /* Sienna for hover */
+          color: #F5F5DC; /* Beige text */ }
   .team-member__info {
     padding: 16px; }
   .team-member__name {
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for name */ }
   .team-member__job-title {
     display: block;
     font-size: 11px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for job title */ }
 
 .team-member:hover {
   -webkit-transform: translateY(-8px);
@@ -2699,7 +2815,7 @@ input::-ms-clear {
     display: block; }
     .testimonial__double-quote i {
       font-size: 28px;
-      color: #333333; }
+      color: #F5F5DC; /* Beige for quote icon */ }
   .testimonial__block-quote {
     margin: 0 auto;
     width: 70%;
@@ -2707,11 +2823,11 @@ input::-ms-clear {
     .testimonial__block-quote p {
       font-size: 14px;
       font-weight: 600;
-      color: #333333; }
+      color: #F5F5DC; /* Beige for quote text */ }
   .testimonial__author {
     display: block;
     font-size: 13px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for author */ }
 
 .testimonial .testimonial__img-wrap .testimonial__img {
   display: inline-block;
@@ -2723,20 +2839,21 @@ input::-ms-clear {
 10.0 Contact-Page
 --------------------------------------------------------------*/
 .g-map {
-  background-color: #eee; }
+  background-color: #C2B280; /* Light tan for map background */ }
 
 #map {
   height: 450px;
   width: 100%; }
 
 .contact-o {
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   padding: 23px;
   transition: -webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55), -webkit-transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  border: 2px solid #f5f5f5;
-  box-shadow: 0 6px 15px 0 rgba(36, 37, 38, 0.08); }
+  border: 2px solid #C2B280; /* Light tan for border */
+  box-shadow: 0 6px 15px 0 rgba(0, 0, 0, 0.2); }
   .contact-o:hover {
     -webkit-transform: translateY(-6px);
             transform: translateY(-6px); }
@@ -2745,20 +2862,20 @@ input::-ms-clear {
   .contact-o__icon {
     margin-bottom: 10px; }
     .contact-o__icon > i {
-      color: #ff4500;
+      color: #A0522D; /* Sienna for icon */
       font-size: 48px; }
   .contact-o__info-text-1 {
     display: block;
     font-size: 17px;
     margin-bottom: 4px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for text */
     font-weight: 600;
     text-transform: uppercase; }
   .contact-o__info-text-2 {
     font-size: 12px;
     margin-bottom: 2px;
     display: block;
-    color: #7f7f7f; }
+    color: #F5F5DC; /* SaddleBrown for text */ }
 
 .contact-area__heading {
   margin-bottom: 30px; }
@@ -2766,19 +2883,35 @@ input::-ms-clear {
     display: inline-block;
     font-size: 26px;
     font-weight: 700;
-    color: #333333;
-    background-color: #ffffff; }
+    color: #F5F5DC; /* Beige for heading */
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
+    padding: 5px 10px; }
 
 .contact-f {
   width: 100%; }
   .contact-f .input-text, .contact-f .text-area {
     border-radius: 6px;
-    width: 100%; }
+    width: 100%;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .contact-f .input-text:focus, .contact-f .text-area:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .contact-f .text-area {
     height: 185px; }
   .contact-f .btn {
     padding: 19px 21px;
-    border-radius: 25px; }
+    border-radius: 4px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .contact-f .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 /*--------------------------------------------------------------
 11.0 Cart-Wishlist-Pages
@@ -2788,11 +2921,11 @@ input::-ms-clear {
 
 .table-p {
   width: 100%;
-  border: 1px solid #eee;
+  border: 1px solid #C2B280; /* Light tan for border */
   border-collapse: collapse; }
   .table-p tr {
     position: relative;
-    border-top: 1px solid #eee; }
+    border-top: 1px solid #C2B280; /* Light tan for border */ }
   .table-p td {
     padding: 20px; }
   .table-p__box {
@@ -2805,48 +2938,46 @@ input::-ms-clear {
   .table-p__img-wrap {
     display: inline-block;
     vertical-align: middle;
-    background-color: #f5f5f5;
+    background-color: #DEB887; /* Burlywood for image wrap */
     width: 120px;
     height: 120px;
-    overflow: hidden;
-   }
+    overflow: hidden; }
     .table-p__img-wrap img {
       display: block;
       height: 100%;
       width: 100%;
-      object-fit: cover; /* This is the key property */
-      object-position: center; /* This centers the image nicely */
-       }
+      object-fit: cover;
+      object-position: center; }
   .table-p__info {
     margin-left: 18px; }
   .table-p__name {
     display: block; }
     .table-p__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       font-size: 14px;
       font-weight: 600;
       transition: color 0.5s; }
       .table-p__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .table-p__category {
     display: block; }
     .table-p__category > a {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for category links */
       transition: color 0.5s;
       font-size: 12px; }
       .table-p__category > a:hover {
-        color: #ff4500; }
+        color: #F5F5DC; /* Beige for hover */ }
   .table-p__variant-list {
     margin: 0;
     padding: 0;
     list-style: none; }
     .table-p__variant-list > li > span {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for variant text */
       font-size: 12px; }
   .table-p__price {
     text-align: center;
     display: block;
-    color: #333333;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 14px;
     font-weight: 600; }
   .table-p__input-counter-wrap {
@@ -2857,15 +2988,16 @@ input::-ms-clear {
     padding: 10px;
     font-size: 16px;
     display: inline-block;
-    color: #333333;
+    color: #A0522D; /* Sienna for delete link */
     transition: color 0.5s; }
     .table-p__delete-link:hover {
-      color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */ }
 
 .w-r {
-  background-color: #ffffff;
-  border: 1px solid #eee;
-  box-shadow: 1px 1px 6px 0 rgba(0, 0, 0, 0.07); }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  border: 1px solid #C2B280; /* Light tan for border */
+  box-shadow: 1px 1px 6px 0 rgba(0, 0, 0, 0.2); }
   .w-r__container {
     display: -ms-flexbox;
     display: flex;
@@ -2890,7 +3022,7 @@ input::-ms-clear {
   .w-r__img-wrap {
     display: inline-block;
     vertical-align: middle;
-    background-color: #f5f5f5;
+    background-color: #DEB887; /* Burlywood for image wrap */
     width: 120px;
     height: 120px; }
     .w-r__img-wrap img {
@@ -2898,38 +3030,36 @@ input::-ms-clear {
       height: 100%;
       width: 100%;
       object-fit: cover;
-      object-position: center;
-
-       }
+      object-position: center; }
   .w-r__info {
     margin-left: 18px; }
   .w-r__name {
     display: block; }
     .w-r__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       font-size: 14px;
       font-weight: 600;
       transition: color 0.5s; }
       .w-r__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .w-r__category {
     display: block;
     margin-bottom: 2px; }
     .w-r__category > a {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for category links */
       transition: color 0.5s;
       font-size: 12px; }
       .w-r__category > a:hover {
-        color: #ff4500; }
+        color: #F5F5DC; /* Beige for hover */ }
   .w-r__price {
     display: block;
-    color: #ff4500;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 14px;
     font-weight: 600; }
   .w-r__discount {
     font-weight: 600;
     margin-left: 12px;
-    color: #333333;
+    color: #D2B48C; /* Tan for discount */
     font-size: 14px;
     text-decoration: line-through; }
   .w-r__link {
@@ -2938,7 +3068,13 @@ input::-ms-clear {
     display: inline-block;
     border-radius: 5px;
     margin: 0 0 10px 10px;
-    padding: 12px 30px; }
+    padding: 12px 30px;
+    background-color: #A0522D; /* Sienna for link */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .w-r__link:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .route-box {
   display: -ms-flexbox;
@@ -2947,13 +3083,13 @@ input::-ms-clear {
       align-items: center;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
-  background-color: #f1f1f1;
+  background-color: #DEB887; /* Burlywood for background */
   -ms-flex-pack: justify;
       justify-content: space-between; }
   .route-box__g {
     -ms-flex: 0 1 auto; }
   .route-box__link {
-    color: #333333;
+    color: #A0522D; /* Sienna for link */
     font-size: 13px;
     text-align: center;
     padding: 17px;
@@ -2961,19 +3097,20 @@ input::-ms-clear {
     display: inline-block;
     transition: color 0.5s; }
     .route-box__link:hover {
-      color: #ff4500; }
+      color: #F5F5DC; /* Beige for hover */ }
   .route-box i {
-    margin-right: 2px; }
+    margin-right: 2px;
+    color: #A0522D; /* Sienna for icon */ }
 
 .f-cart__pad-box {
-  border: 1px solid #eee;
+  border: 1px solid #C2B280; /* Light tan for border */
   padding: 32px 22px 35px; }
 
 .f-cart__table {
   width: 100%;
   border-collapse: collapse; }
   .f-cart__table td {
-    color: #333333;
+    color: #A0522D; /* Sienna for text */
     vertical-align: middle;
     font-size: 14px;
     font-weight: 600;
@@ -2985,7 +3122,7 @@ input::-ms-clear {
   .f-cart__table tr:last-child td {
     font-size: 16px;
     font-weight: 700;
-    color: #ff4500; }
+    color: #F5F5DC; /* Beige for total */ }
 
 .f-cart__ship-link {
   font-size: 13px;
@@ -2993,11 +3130,25 @@ input::-ms-clear {
   padding: 17px;
   font-weight: 600;
   border-radius: 6px;
-  display: block; }
+  display: block;
+  background-color: #A0522D; /* Sienna for link */
+  color: #F5F5DC; /* Beige text */
+  transition: all 0.3s ease; }
+  .f-cart__ship-link:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 .f-cart .input-text, .f-cart .select-box, .f-cart .text-area, .f-cart .btn {
   border-radius: 6px;
-  width: 100%; }
+  width: 100%;
+  background-color: #DEB887; /* Burlywood for input background */
+  color: #A0522D; /* Sienna text */
+  border: 2px solid transparent;
+  transition: all 0.6s linear; }
+  .f-cart .input-text:focus, .f-cart .select-box:focus, .f-cart .text-area:focus, .f-cart .btn:focus {
+    background-color: transparent;
+    border-color: #A0522D; /* Sienna border */
+    outline: 0; }
 
 .f-cart .text-area {
   height: 350px; }
@@ -3005,7 +3156,12 @@ input::-ms-clear {
 .f-cart .btn {
   padding: 16px;
   font-weight: 600;
-  font-size: 13px; }
+  font-size: 13px;
+  background-color: #A0522D; /* Sienna for button */
+  color: #F5F5DC; /* Beige text */ }
+  .f-cart .btn:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 @media (max-width: 991px) {
   .w-r__wrap-2 {
@@ -3042,7 +3198,7 @@ input::-ms-clear {
   .empty__big-text {
     display: block;
     margin-bottom: 12px;
-    color: #ff4500;
+    color: #F5F5DC; /* Beige for big text */
     line-height: 1;
     font-size: 85px;
     font-weight: 600; }
@@ -3051,20 +3207,20 @@ input::-ms-clear {
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 12px;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for text */ }
   .empty__text-2 {
     display: block;
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 24px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for text */ }
     .empty__text-2 > a {
-      color: #ff4500;
+      color: #A0522D; /* Sienna for links */
       padding: 2px; }
       .empty__text-2 > a:after {
         content: ',';
         margin: 0 2px;
-        color: #333333; }
+        color: #A0522D; /* Sienna for comma */ }
     .empty__text-2 > a:last-child:after {
       content: none; }
   .empty__search-form {
@@ -3076,78 +3232,141 @@ input::-ms-clear {
       top: 50%;
       -webkit-transform: translateY(-50%);
               transform: translateY(-50%);
-      right: 8px; }
+      right: 8px;
+      background-color: #A0522D; /* Sienna for button */
+      color: #F5F5DC; /* Beige text */
+      transition: all 0.3s ease; }
+      .empty__search-form .btn:hover {
+        background-color: #DEB887; /* Burlywood for hover */
+        color: #A0522D; /* Sienna text */ }
   .empty__redirect-link {
-    border-radius: 40px;
+    border-radius: 4px;
     padding: 16px;
     display: inline-block;
     font-weight: 600;
-    font-size: 13px; }
+    font-size: 13px;
+    background-color: #A0522D; /* Sienna for link */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .empty__redirect-link:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 #search-label {
   padding: 0 36px 0 18px;
-  width: 100%; }
-
+  width: 100%;
+  background-color: #DEB887; /* Burlywood for input background */
+  color: #A0522D; /* Sienna text */
+  border: 2px solid transparent;
+  transition: all 0.6s linear; }
+  #search-label:focus {
+    background-color: transparent;
+    border-color: #A0522D; /* Sienna border */
+    outline: 0; }
 /*--------------------------------------------------------------
 13.0 Checkout-Page
 --------------------------------------------------------------*/
 .msg {
-  background-color: #ffffff;
-  box-shadow: 0 6px 15px 0 rgba(36, 37, 38, 0.08);
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 6px 15px 0 rgba(0, 0, 0, 0.2);
   padding: 20px; }
   .msg__text {
     padding: 8px 0;
     display: block;
     font-size: 14px;
     font-weight: 600;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for text */ }
 
 .l-f__form {
   width: 100%; }
 
 .l-f .input-text {
-  width: 100%; }
+  width: 100%;
+  background-color: #DEB887; /* Burlywood for input background */
+  color: #A0522D; /* Sienna text */
+  border: 2px solid transparent;
+  transition: all 0.6s linear; }
+  .l-f .input-text:focus {
+    background-color: transparent;
+    border-color: #A0522D; /* Sienna border */
+    outline: 0; }
 
 .l-f .input-text, .l-f .btn {
   border-radius: 6px; }
 
 .l-f .btn {
   font-weight: 600;
-  padding: 12px 18px; }
+  padding: 12px 18px;
+  background-color: #A0522D; /* Sienna for button */
+  color: #F5F5DC; /* Beige text */
+  transition: all 0.3s ease; }
+  .l-f .btn:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 .c-f__form {
   position: relative;
   width: 50%; }
 
 .c-f .input-text {
-  width: 100%; }
+  width: 100%;
+  background-color: #DEB887; /* Burlywood for input background */
+  color: #A0522D; /* Sienna text */
+  border: 2px solid transparent;
+  transition: all 0.6s linear; }
+  .c-f .input-text:focus {
+    background-color: transparent;
+    border-color: #A0522D; /* Sienna border */
+    outline: 0; }
 
 .c-f .input-text, .c-f .btn {
   border-radius: 6px; }
 
 .c-f .btn {
   font-weight: 600;
-  padding: 12px 18px; }
+  padding: 12px 18px;
+  background-color: #A0522D; /* Sienna for button */
+  color: #F5F5DC; /* Beige text */
+  transition: all 0.3s ease; }
+  .c-f .btn:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 .checkout-f {
   width: 100%; }
   .checkout-f .input-text, .checkout-f .select-box, .checkout-f .text-area, .checkout-f .btn {
     width: 100%;
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .checkout-f .input-text:focus, .checkout-f .select-box:focus, .checkout-f .text-area:focus, .checkout-f .btn:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .checkout-f .text-area {
     height: 185px; }
   .checkout-f .btn {
     font-weight: 600;
-    padding: 18px; }
+    padding: 18px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .checkout-f .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .checkout-f__h1 {
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   font-size: 18px;
   margin-bottom: 8px; }
 
 .o-summary__section {
-  background-color: #ffffff;
-  border: 1px solid #eee; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  border: 1px solid #C2B280; /* Light tan for border */ }
 
 .o-summary__box {
   padding: 20px; }
@@ -3161,7 +3380,7 @@ input::-ms-clear {
   width: 100%;
   border-collapse: collapse; }
   .o-summary__table td {
-    color: #333333;
+    color: #F5F5DC; /* Beige for text */
     vertical-align: middle;
     font-size: 14px;
     font-weight: 600;
@@ -3173,10 +3392,10 @@ input::-ms-clear {
   .o-summary__table tr:last-child td {
     font-size: 16px;
     font-weight: 700;
-    color: #ff4500; }
+    color: #A0522D; /* Sienna for total */ }
 
 .o-card {
-  border: 1px solid #f5f5f5;
+  border: 1px solid #C2B280; /* Light tan for border */
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: nowrap;
@@ -3185,7 +3404,8 @@ input::-ms-clear {
       align-items: center;
   -ms-flex-pack: justify;
       justify-content: space-between;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   padding: 10px;
   margin-bottom: 22px; }
   .o-card:last-child {
@@ -3196,55 +3416,54 @@ input::-ms-clear {
     -ms-flex-align: center;
         align-items: center; }
   .o-card__img-wrap {
-      display: inline-block;
-      vertical-align: middle;
-      width: 60px;
-      height: 60px;
-      background-color: #f5f5f5;
-      flex-shrink: 0; /* Prevents the image from getting squished */
-      overflow: hidden; /* Safely hides any cropped parts of the image */ 
-}
+    display: inline-block;
+    vertical-align: middle;
+    width: 60px;
+    height: 60px;
+    background-color: #DEB887; /* Burlywood for image wrap */
+    flex-shrink: 0;
+    overflow: hidden; }
     .o-card__img-wrap img {
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center; 
-}
+      object-position: center; }
   .o-card__info-wrap {
     margin-left: 18px; }
   .o-card__name {
     display: block; }
     .o-card__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name links */
       font-size: 13px;
       font-weight: 600;
       transition: color 0.5s; }
       .o-card__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .o-card__quantity {
     font-size: 13px;
     margin-bottom: 2px;
-    display: block; }
+    display: block;
+    color: #8B4513; /* SaddleBrown for quantity */ }
   .o-card__price {
     display: block;
-    color: #ff4500;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 13px;
     font-weight: 600; }
   .o-card__del {
     padding: 10px;
     font-size: 16px;
     display: inline-block;
-    color: #333333;
+    color: #A0522D; /* Sienna for delete link */
     transition: color 0.5s; }
     .o-card__del:hover {
-      color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */ }
 
 .ship-b__text {
   display: block;
   font-weight: 600;
   font-size: 13px;
-  color: #333333;
+  color: #F5F5DC; /* Beige for text */
   margin-bottom: 4px; }
 
 .ship-b__box {
@@ -3257,7 +3476,7 @@ input::-ms-clear {
 
 .ship-b__p {
   margin-bottom: 4px;
-  color: #7f7f7f;
+  color: #8B4513; /* SaddleBrown for paragraph */
   font-weight: 600;
   font-size: 13px;
   -ms-flex: 0 0 50%;
@@ -3269,7 +3488,13 @@ input::-ms-clear {
   font-size: 13px;
   font-weight: 600;
   padding: 6px 12px;
-  border-radius: 6px; }
+  border-radius: 6px;
+  background-color: #A0522D; /* Sienna for edit button */
+  color: #F5F5DC; /* Beige text */
+  transition: all 0.3s ease; }
+  .ship-b__edit:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 @media (max-width: 575px) {
   .o-summary__item-wrap {
@@ -3289,25 +3514,45 @@ input::-ms-clear {
 14.0 Signin Signup Lost Password-Page
 --------------------------------------------------------------*/
 .l-f-o {
-  border: 1px solid #eee; }
+  border: 1px solid #C2B280; /* Light tan for border */ }
   .l-f-o__pad-box {
     padding: 20px; }
   .l-f-o__form {
     width: 100%; }
   .l-f-o .input-text, .l-f-o .btn, .l-f-o .select-box {
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .l-f-o .input-text:focus, .l-f-o .btn:focus, .l-f-o .select-box:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .l-f-o .input-text {
     width: 100%; }
   .l-f-o .btn {
     font-weight: 600;
-    padding: 12px 18px; }
+    padding: 12px 18px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .l-f-o .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
   .l-f-o__create-link {
     font-size: 13px;
     text-align: center;
     padding: 12px;
     display: block;
     font-weight: 600;
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #A0522D; /* Sienna for link */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .l-f-o__create-link:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 /*--------------------------------------------------------------
 15.0 FAQ-Page
@@ -3315,18 +3560,18 @@ input::-ms-clear {
 .faq__heading {
   font-weight: 700;
   font-size: 13px;
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   margin-bottom: 6px; }
 
 .faq__text {
   font-size: 13px;
-  color: #7f7f7f; }
+  color: #8B4513; /* SaddleBrown for text */ }
 
 .faq__list {
-  border-top: 1px solid #eee;
+  border-top: 1px solid #C2B280; /* Light tan for border */
   padding: 14px 0; }
   .faq__list:last-child {
-    border-bottom: 1px solid #eee; }
+    border-bottom: 1px solid #C2B280; /* Light tan for border */ }
 
 .faq__question {
   display: block;
@@ -3334,7 +3579,7 @@ input::-ms-clear {
   padding: 8px 0;
   font-size: 16px;
   font-weight: 600;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for question */ }
 
 .faq__question:before {
   content: "\F107";
@@ -3347,7 +3592,8 @@ input::-ms-clear {
   right: 12px;
   transition: -webkit-transform 0.5s ease-in-out;
   transition: transform 0.5s ease-in-out;
-  transition: transform 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out; }
+  transition: transform 0.5s ease-in-out, -webkit-transform 0.5s ease-in-out;
+  color: #A0522D; /* Sienna for icon */ }
 
 .faq__question.collapsed:before {
   -webkit-transform: rotate(0deg);
@@ -3357,19 +3603,21 @@ input::-ms-clear {
 16.0 Dashboard-Pages
 --------------------------------------------------------------*/
 .dash__box--bg-white {
-  background-color: #ffffff; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .dash__box--border {
-  border: 1px solid #eee; }
+  border: 1px solid #C2B280; /* Light tan for border */ }
 
 .dash__box--bg-grey {
-  background-color: #fbfbfb; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .dash__box--shadow {
-  box-shadow: -2px 0px 14px 0 rgba(36, 37, 38, 0.08); }
+  box-shadow: -2px 0px 14px 0 rgba(0, 0, 0, 0.2); }
 
 .dash__box--shadow-2 {
-  box-shadow: -6px 2px 8px 0 rgba(36, 37, 38, 0.08); }
+  box-shadow: -6px 2px 8px 0 rgba(0, 0, 0, 0.2); }
 
 .dash__box--radius {
   border-radius: 15px; }
@@ -3392,7 +3640,10 @@ input::-ms-clear {
     .dash__f-list > li > a {
       font-size: 13px;
       display: block;
-      color: #000000; }
+      color: #F5F5DC; /* Beige for links */
+      transition: color 0.3s ease; }
+      .dash__f-list > li > a:hover {
+        color: #D2B48C; /* Tan for hover */ }
 
 .dash-l-r {
   display: -ms-flexbox;
@@ -3404,7 +3655,7 @@ input::-ms-clear {
 
 .dash-active {
   font-weight: 600;
-  color: #000000; }
+  color: #A0522D; /* Sienna for active state */ }
 
 .dash__w-list {
   margin: 0;
@@ -3412,7 +3663,7 @@ input::-ms-clear {
   list-style: none;
   text-align: center; }
   .dash__w-list > li {
-    border-bottom: 1px solid #eee; }
+    border-bottom: 1px solid #C2B280; /* Light tan for border */ }
 
 .dash__w-wrap {
   padding: 18px 0; }
@@ -3427,53 +3678,53 @@ input::-ms-clear {
   margin-bottom: 8px; }
 
 .dash__w-icon-style-1 {
-  background-color: rgba(255, 69, 0, 0.14); }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */ }
   .dash__w-icon-style-1 > i {
-    color: #ff4500; }
+    color: #A0522D; /* Sienna for icon */ }
 
 .dash__w-icon-style-2 {
-  background-color: rgba(0, 148, 68, 0.14); }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */ }
   .dash__w-icon-style-2 > i {
-    color: #009444; }
+    color: #A0522D; /* Sienna for icon */ }
 
 .dash__w-icon-style-3 {
-  background-color: rgba(49, 133, 252, 0.14); }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */ }
   .dash__w-icon-style-3 > i {
-    color: #3185FC; }
+    color: #A0522D; /* Sienna for icon */ }
 
 .dash__w-text {
   display: block;
   font-weight: 700;
   font-size: 40px;
   line-height: 1;
-  color: #000000; }
+  color: #F5F5DC; /* Beige for text */ }
 
 .dash__w-name {
   display: block;
-  color: #a0a0a0;
+  color: #8B4513; /* SaddleBrown for name */
   font-weight: 600;
   font-size: 13px; }
 
 .dash__h1 {
   line-height: 1;
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   font-size: 18px; }
 
 .dash__h2 {
   line-height: 1;
   font-size: 14px;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for heading */ }
 
 .dash__text {
   display: block;
   font-size: 12px;
-  color: #7f7f7f; }
+  color: #8B4513; /* SaddleBrown for text */ }
 
 .dash__text-2 {
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: #7f7f7f; }
+  color: #8B4513; /* SaddleBrown for text */ }
 
 .dash__link > a {
   font-size: 13px;
@@ -3481,17 +3732,17 @@ input::-ms-clear {
   transition: color 0.5s linear; }
 
 .dash__link--brand > a {
-  color: #ff4500; }
+  color: #A0522D; /* Sienna for link */ }
   .dash__link--brand > a:hover {
-    color: #fa4400; }
+    color: #D2B48C; /* Tan for hover */ }
 
 .dash__link--secondary > a {
-  color: #333333; }
+  color: #A0522D; /* Sienna for link */ }
   .dash__link--secondary > a:hover {
-    color: #ff4500; }
+    color: #D2B48C; /* Tan for hover */ }
 
 .dash__link--black > a {
-  color: #000000; }
+  color: #F5F5DC; /* Beige for link */ }
 
 .dash__table-wrap {
   height: 300px;
@@ -3501,23 +3752,24 @@ input::-ms-clear {
   width: 100%;
   border-collapse: collapse; }
   .dash__table thead {
-    background-color: #fbfbfb; }
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */ }
   .dash__table th, .dash__table td {
     padding: 20px;
     text-align: center;
     font-weight: 600;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for text */ }
   .dash__table th {
     font-size: 14px; }
   .dash__table td {
     font-size: 13px; }
   .dash__table tbody tr {
-    border-bottom: 1px solid #eee; }
+    border-bottom: 1px solid #C2B280; /* Light tan for border */ }
     .dash__table tbody tr:last-child {
       border-bottom: 0; }
 
 .dash__table-img-wrap {
-  background-color: #f5f5f5;
+  background-color: #DEB887; /* Burlywood for image wrap */
   display: inline-block;
   vertical-align: middle;
   width: 40px;
@@ -3529,12 +3781,26 @@ input::-ms-clear {
 .dash-edit-p {
   width: 100%; }
   .dash-edit-p .btn, .dash-edit-p .input-text, .dash-edit-p .select-box {
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .dash-edit-p .btn:focus, .dash-edit-p .input-text:focus, .dash-edit-p .select-box:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .dash-edit-p .input-text {
     width: 100%; }
   .dash-edit-p .btn {
     font-weight: 600;
-    padding: 16px 46px; }
+    padding: 16px 46px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .dash-edit-p .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .dash__custom-link {
   font-weight: 600;
@@ -3543,24 +3809,32 @@ input::-ms-clear {
   padding: 14px 18px;
   font-size: 13px;
   border-radius: 6px;
-  width: 12rem; }
+  width: 12rem;
+  background-color: #A0522D; /* Sienna for link */
+  color: #F5F5DC; /* Beige text */
+  transition: all 0.3s ease; }
+  .dash__custom-link:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 .manage-o__text {
   font-size: 13px;
-  font-weight: 600; }
+  font-weight: 600;
+  color: #F5F5DC; /* Beige for text */ }
 
 .manage-o__text-2 {
   font-size: 14px;
-  font-weight: 600; }
+  font-weight: 600;
+  color: #F5F5DC; /* Beige for text */ }
 
 .manage-o__header {
   padding-bottom: 14px;
-  border-bottom: 1px solid #eee; }
+  border-bottom: 1px solid #C2B280; /* Light tan for border */ }
 
 .manage-o__icon {
   font-weight: 600;
   font-size: 13px;
-  color: #333333; }
+  color: #A0522D; /* Sienna for icon */ }
 
 .manage-o__timeline {
   padding-top: 40px; }
@@ -3577,13 +3851,14 @@ input::-ms-clear {
 .timeline-l-i {
   position: relative;
   border-radius: 3px;
-  border-top: 3px solid #eee; }
+  border-top: 3px solid #C2B280; /* Light tan for border */ }
   .timeline-l-i .timeline-circle {
     position: absolute;
     width: 18px;
     height: 18px;
-    background: #ffffff;
-    border: 2px solid #eee;
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
+    border: 2px solid #C2B280; /* Light tan for border */
     margin: auto;
     top: 0;
     left: 0;
@@ -3594,7 +3869,7 @@ input::-ms-clear {
       display: block;
       width: 8px;
       height: 8px;
-      background-color: #eee;
+      background-color: #C2B280; /* Light tan for inner circle */
       margin: auto;
       position: absolute;
       top: 0;
@@ -3603,11 +3878,11 @@ input::-ms-clear {
       right: 0; }
 
 .timeline-l-i.timeline-l-i--finish {
-  border-color: #6B5AED; }
+  border-color: #A0522D; /* Sienna for finish state */ }
   .timeline-l-i.timeline-l-i--finish .timeline-circle {
-    border-color: #6B5AED; }
+    border-color: #A0522D; /* Sienna for border */ }
     .timeline-l-i.timeline-l-i--finish .timeline-circle:before {
-      background-color: #6B5AED; }
+      background-color: #A0522D; /* Sienna for inner circle */ }
 
 .timeline-text {
   margin-top: 20px;
@@ -3615,7 +3890,7 @@ input::-ms-clear {
   text-transform: uppercase;
   display: block;
   font-weight: 600;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for text */ }
 
 .manage-o__description {
   display: -ms-flexbox;
@@ -3637,7 +3912,7 @@ input::-ms-clear {
   border-radius: 50%;
   display: inline-block;
   vertical-align: middle;
-  background: #f5f5f5; }
+  background: #DEB887; /* Burlywood for image wrap */ }
   .description__img-wrap img {
     border-radius: 50%;
     display: block;
@@ -3647,7 +3922,7 @@ input::-ms-clear {
   margin-left: 12px;
   font-size: 14px;
   font-weight: 600;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for title */ }
 
 .dash__address-header {
   display: -ms-flexbox;
@@ -3664,19 +3939,20 @@ input::-ms-clear {
   width: 100%;
   border-collapse: collapse; }
   .dash__table-2 thead {
-    background-color: #fbfbfb; }
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */ }
   .dash__table-2 th, .dash__table-2 td {
     padding: 20px;
     min-width: 200px;
     text-align: left;
     font-weight: 600;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for text */ }
   .dash__table-2 th {
     font-size: 14px; }
   .dash__table-2 td {
     font-size: 13px; }
   .dash__table-2 tbody tr {
-    border-bottom: 1px solid #eee; }
+    border-bottom: 1px solid #C2B280; /* Light tan for border */ }
     .dash__table-2 tbody tr:last-child {
       border-bottom: 0; }
 
@@ -3685,34 +3961,74 @@ input::-ms-clear {
   font-size: 13px;
   font-weight: 600;
   padding: 6px 12px;
-  border-radius: 6px; }
+  border-radius: 6px;
+  background-color: #A0522D; /* Sienna for edit button */
+  color: #F5F5DC; /* Beige text */
+  transition: all 0.3s ease; }
+  .address-book-edit:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna text */ }
 
 .dash__address-make {
   width: 100%; }
   .dash__address-make .btn {
     font-weight: 600;
     padding: 16px 46px;
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .dash__address-make .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .dash-address-manipulation {
   width: 100%; }
   .dash-address-manipulation .btn, .dash-address-manipulation .input-text, .dash-address-manipulation .select-box {
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .dash-address-manipulation .btn:focus, .dash-address-manipulation .input-text:focus, .dash-address-manipulation .select-box:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .dash-address-manipulation .input-text, .dash-address-manipulation .select-box {
     width: 100%; }
   .dash-address-manipulation .btn {
     font-weight: 600;
-    padding: 16px 46px; }
+    padding: 16px 46px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .dash-address-manipulation .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .dash-track-order {
   width: 100%; }
   .dash-track-order .btn, .dash-track-order .input-text {
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .dash-track-order .btn:focus, .dash-track-order .input-text:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .dash-track-order .input-text {
     width: 100%; }
   .dash-track-order .btn {
     font-weight: 600;
-    padding: 16px 46px; }
+    padding: 16px 46px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .dash-track-order .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .m-order {
   width: 100%; }
@@ -3722,19 +4038,29 @@ input::-ms-clear {
     -ms-flex-align: center;
         align-items: center; }
   .m-order label {
-    color: #333333;
+    color: #F5F5DC; /* Beige for label */
     font-size: 13px;
     font-weight: 600; }
   .m-order .select-box {
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for select background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .m-order .select-box:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
 
 .m-order__list {
-  background-color: #ffffff; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .m-order__get {
-  border: 1px solid #eee;
+  border: 1px solid #C2B280; /* Light tan for border */
   margin-bottom: 30px;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   padding: 24px; }
   .m-order__get:last-child {
     margin-bottom: 0; }
@@ -3750,16 +4076,16 @@ input::-ms-clear {
   border-radius: 32px; }
 
 .badge--processing {
-  background-color: rgba(49, 133, 252, 0.14);
-  color: #3185FC; }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */
+  color: #A0522D; /* Sienna for text */ }
 
 .badge--shipped {
-  background-color: rgba(0, 148, 68, 0.14);
-  color: #009444; }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */
+  color: #A0522D; /* Sienna for text */ }
 
 .badge--delivered {
-  background-color: rgba(255, 69, 0, 0.14);
-  color: #ff4500; }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */
+  color: #A0522D; /* Sienna for text */ }
 
 @media (max-width: 991px) {
   .dash__box--w {
@@ -3783,7 +4109,6 @@ input::-ms-clear {
     display: block; }
   .description-title {
     margin: 12px 0; } }
-
 /*--------------------------------------------------------------
 17.0 Blog-Pages
 --------------------------------------------------------------*/
@@ -3805,9 +4130,10 @@ input::-ms-clear {
   height: 35px;
   line-height: 35px;
   border-radius: 50%;
-  color: #333333;
-  background-color: #ffffff;
-  box-shadow: 0 6px 15px 0 rgba(36, 37, 38, 0.08);
+  color: #F5F5DC; /* Beige for icon */
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 6px 15px 0 rgba(0, 0, 0, 0.2);
   margin: auto 0;
   opacity: 0;
   transition: opacity .6s ease-in; }
@@ -3820,7 +4146,7 @@ input::-ms-clear {
 
 .post-prev:before, .post-next:before {
   content: '';
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(139, 69, 19, 0.3); /* SaddleBrown with opacity */
   width: 35px;
   height: 35px;
   position: absolute;
@@ -3828,7 +4154,7 @@ input::-ms-clear {
   top: 0;
   transition: all .3s;
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+  box-shadow: 0 0 0 0 rgba(139, 69, 19, 0.4); /* SaddleBrown shadow */ }
 
 .post-prev:hover:before, .post-next:hover:before {
   -webkit-transform: scale(1.6);
@@ -3840,7 +4166,7 @@ input::-ms-clear {
 
 .post-video-block {
   position: relative;
-  background-color: #f5f5f5;
+  background-color: #DEB887; /* Burlywood for video block */
   width: 100%; }
 
 .post-video-link {
@@ -3869,11 +4195,11 @@ input::-ms-clear {
   transition: transform .3s;
   transition: transform .3s, -webkit-transform .3s;
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 0 rgba(139, 69, 19, 0.4); /* SaddleBrown shadow */
   z-index: 3; }
 
 .post-video-link:hover:before {
-  box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 0 12px rgba(139, 69, 19, 0.3); /* SaddleBrown hover shadow */
   -webkit-transform: scale(0.9);
           transform: scale(0.9); }
 
@@ -3900,8 +4226,9 @@ input::-ms-clear {
 
 .bp {
   border-radius: 6px;
-  background-color: #ffffff;
-  box-shadow: 1px 1px 8px 0 rgba(36, 37, 38, 0.08); }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, 0.2); }
   .bp__wrap {
     padding: 25px; }
   .bp__thumbnail {
@@ -3915,18 +4242,18 @@ input::-ms-clear {
   .bp__publish-date > a {
     font-size: 12px;
     font-weight: 600;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for date */ }
   .bp__author > a {
     font-size: 12px;
     text-decoration: overline;
     font-weight: 600;
-    color: #ff4500; }
+    color: #F5F5DC; /* Beige for author */ }
   .bp__comment > a {
-    color: #7f7f7f;
+    color: #8B4513; /* SaddleBrown for comment */
     font-weight: 600;
     font-size: 12px; }
   .bp__category > a {
-    color: #a0a0a0;
+    color: #8B4513; /* SaddleBrown for category */
     font-weight: 600;
     transition: color 110ms ease-in-out;
     font-size: 12px;
@@ -3934,31 +4261,31 @@ input::-ms-clear {
     .bp__category > a:last-child {
       margin-right: 0; }
     .bp__category > a:hover {
-      color: #ff4500; }
+      color: #A0522D; /* Sienna for hover */ }
   .bp__h1 {
     display: block;
     margin-bottom: 6px; }
     .bp__h1 > a {
       font-size: 20px;
       font-weight: 600;
-      color: #333333; }
+      color: #F5F5DC; /* Beige for heading */ }
   .bp__h2 {
     display: block;
     margin-bottom: 16px;
     font-size: 14px;
     font-weight: 400;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for subheading */ }
   .bp__p {
     margin-bottom: 12px;
     font-size: 13px;
-    color: #7f7f7f; }
+    color: #F5F5DC; /* SaddleBrown for paragraph */ }
   .bp__read-more {
     display: block;
     margin-bottom: 6px; }
     .bp__read-more > a {
       font-size: 14px;
       font-weight: 700;
-      color: #ff4500; }
+      color: #A0522D; /* Sienna for read more */ }
   .bp__social-list {
     margin: 0;
     padding: 0;
@@ -3972,7 +4299,11 @@ input::-ms-clear {
       .bp__social-list > li:last-child {
         margin-right: 0; }
       .bp__social-list > li > a {
-        font-size: 14px; }
+        font-size: 14px;
+        color: #A0522D; /* Sienna for social icons */
+        transition: color 0.3s ease; }
+        .bp__social-list > li > a:hover {
+          color: #D2B48C; /* Tan for hover */ }
 
 .bp--img .bp__thumbnail {
   overflow: hidden; }
@@ -3998,8 +4329,9 @@ input::-ms-clear {
   padding: 20px 10px; }
 
 .bp-mini {
-  background-color: #ffffff;
-  box-shadow: 2px 2px 8px 0 rgba(36, 37, 38, 0.08);
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 2px 2px 8px 0 rgba(0, 0, 0, 0.2);
   overflow: hidden;
   border-radius: 15px; }
   .bp-mini__content {
@@ -4013,20 +4345,20 @@ input::-ms-clear {
   .bp-mini__publish-date > a {
     font-size: 11px;
     font-weight: 600;
-    color: #7f7f7f; }
+    color: #8B4513; /* SaddleBrown for date */ }
   .bp-mini__preposition {
-    color: #7f7f7f;
+    color: #8B4513; /* SaddleBrown for preposition */
     font-size: 12px; }
   .bp-mini__author > a {
-    color: #ff4500;
+    color: #F5F5DC; /* Beige for author */
     font-size: 12px; }
   .bp-mini__comment > a {
-    color: #7f7f7f;
+    color: #8B4513; /* SaddleBrown for comment */
     font-size: 12px; }
   .bp-mini__category {
     margin-bottom: 4px; }
     .bp-mini__category > a {
-      color: #7f7f7f;
+      color: #8B4513; /* SaddleBrown for category */
       font-weight: 600;
       transition: color 110ms ease-in-out;
       font-size: 11px;
@@ -4034,7 +4366,7 @@ input::-ms-clear {
       .bp-mini__category > a:last-child {
         margin-right: 0; }
       .bp-mini__category > a:hover {
-        color: #ff4500; }
+        color: #A0522D; /* Sienna for hover */ }
     .bp-mini__category > a:last-child:after {
       content: none; }
   .bp-mini__h1 {
@@ -4044,13 +4376,13 @@ input::-ms-clear {
       transition: color 110ms ease-in-out;
       font-size: 14px;
       font-weight: 600;
-      color: #333333; }
+      color: #F5F5DC; /* Beige for heading */ }
       .bp-mini__h1 > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .bp-mini__p {
     margin-bottom: 8px;
     font-size: 12px;
-    color: #7f7f7f; }
+    color: #F5F5DC; /* SaddleBrown for paragraph */ }
 
 .bp-mini--img .bp-mini__thumbnail {
   overflow: hidden; }
@@ -4086,14 +4418,14 @@ input::-ms-clear {
   .bp-detail__publish-date > a {
     font-size: 12px;
     font-weight: 600;
-    color: #a0a0a0; }
+    color: #F5F5DC; /* SaddleBrown for date */ }
   .bp-detail__author > a {
     font-size: 12px;
     text-decoration: overline;
     font-weight: 600;
-    color: #ff4500; }
+    color: #F5F5DC; /* Beige for author */ }
   .bp-detail__category > a {
-    color: #a0a0a0;
+    color: #8B4513; /* SaddleBrown for category */
     font-weight: 600;
     transition: color 110ms ease-in-out;
     font-size: 12px;
@@ -4101,25 +4433,25 @@ input::-ms-clear {
     .bp-detail__category > a:last-child {
       margin-right: 0; }
     .bp-detail__category > a:hover {
-      color: #ff4500; }
+      color: #A0522D; /* Sienna for hover */ }
   .bp-detail__h1 {
     display: block;
     margin-bottom: 6px; }
     .bp-detail__h1 > a {
       font-size: 20px;
       font-weight: 600;
-      color: #333333; }
+      color: #F5F5DC; /* Beige for heading */ }
   .bp-detail__p {
     margin-bottom: 16px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for paragraph */
     font-size: 18px;
     line-height: 2; }
     .bp-detail__p a {
       font-weight: 700;
-      color: #ff4500;
+      color: #A0522D; /* Sienna for links */
       transition: all .3s; }
       .bp-detail__p a:hover {
-        color: #7f7f7f;
+        color: #8B4513; /* SaddleBrown for hover */
         text-decoration: underline; }
 
 .bp-detail__q {
@@ -4127,26 +4459,24 @@ input::-ms-clear {
   text-align: center;
   padding: 3rem;
   margin: 0 0 1rem;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   border-radius: 6px;
-  border: 2px solid #ff4500; }
+  border: 2px solid #A0522D; /* Sienna for border */ }
   .bp-detail__q i {
     font-size: 2.125rem;
-    color: #333333;
-    margin-bottom: 8px; }
-
-.bp-detail__q-title {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: #333333; }
-
-.bp-detail__q-citation {
-  display: block;
-  font-size: 12px;
-  font-weight: 600;
-  color: #7f7f7f; }
+    color: #A0522D; /* Sienna for icon */ }
+  .bp-detail__q-title {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #F5F5DC; /* Beige for title */ }
+  .bp-detail__q-citation {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #8B4513; /* SaddleBrown for citation */ }
 
 .bp-detail__social-list {
   margin: 0;
@@ -4161,30 +4491,34 @@ input::-ms-clear {
     .bp-detail__social-list > li:last-child {
       margin-right: 0; }
     .bp-detail__social-list > li > a {
-      font-size: 1.125rem; }
+      font-size: 1.125rem;
+      color: #A0522D; /* Sienna for social icons */
+      transition: color 0.3s ease; }
+      .bp-detail__social-list > li > a:hover {
+        color: #D2B48C; /* Tan for hover */ }
 
 .bp-detail__postnp {
   margin: 1.375rem 0; }
   .bp-detail__postnp a {
     font-size: 13px;
-    border-bottom: 1px solid #333333;
+    border-bottom: 1px solid #A0522D; /* Sienna for border */
     font-weight: 600;
-    color: #333333;
+    color: #A0522D; /* Sienna for link */
     transition: color 110ms ease-in-out,border-color 110ms ease-in-out; }
     .bp-detail__postnp a:hover {
-      color: #ff4500;
-      border-color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */
+      border-color: #D2B48C; /* Tan for border */ }
 
 .blog-w__h {
   display: block;
   vertical-align: middle;
   font-size: 16px;
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   letter-spacing: 0.03em;
   font-weight: 600;
   margin-bottom: 24px;
   padding-bottom: 12px;
-  border-bottom: 1px solid #f7f7f7; }
+  border-bottom: 1px solid #C2B280; /* Light tan for border */ }
 
 .blog-w__list {
   margin: 0;
@@ -4197,23 +4531,38 @@ input::-ms-clear {
     .blog-w__list > li > a {
       font-size: 12px;
       font-weight: 600;
-      color: #7f7f7f; }
+      color: #8B4513; /* SaddleBrown for links */
+      transition: color 0.3s ease; }
       .blog-w__list > li > a:hover {
-        color: #333333; }
+        color: #A0522D; /* Sienna for hover */ }
 
 .blog-search-form {
   position: relative;
   width: 100%; }
   .blog-search-form .input-text {
     width: 100%;
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .blog-search-form .input-text:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .blog-search-form .btn {
     position: absolute;
     top: 50%;
     right: 15px;
     -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
-    font-size: 18px; }
+    font-size: 18px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .blog-search-form .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .blog-w__b-l {
   margin: 0;
@@ -4235,13 +4584,13 @@ input::-ms-clear {
 
 .b-l__date {
   font-size: 10px;
-  color: #a0a0a0;
+  color: #8B4513; /* SaddleBrown for date */
   display: block;
   margin-bottom: 6px; }
 
 .b-l__text {
   font-size: 12px;
-  color: #7f7f7f; }
+  color: #8B4513; /* SaddleBrown for text */ }
 
 .b-l__h {
   display: block;
@@ -4249,23 +4598,23 @@ input::-ms-clear {
   .b-l__h > a {
     font-size: 12px;
     transition: color 110ms ease-in-out;
-    color: #333333;
+    color: #F5F5DC; /* Beige for heading */
     font-weight: 600; }
     .b-l__h > a:hover {
-      color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */ }
 
 .b-l__h-2 > a {
   font-size: 12px;
   transition: color 110ms ease-in-out;
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   font-weight: 600; }
   .b-l__h-2 > a:hover {
-    color: #ff4500; }
+    color: #D2B48C; /* Tan for hover */ }
 
 .b-l__p {
   display: block;
   font-size: 12px;
-  color: #7f7f7f; }
+  color: #8B4513; /* SaddleBrown for paragraph */ }
 
 .blog-pg {
   margin: 0;
@@ -4289,32 +4638,31 @@ input::-ms-clear {
       font-weight: 600;
       border-radius: 50%;
       background-color: transparent;
-      color: #333333; }
-
-.blog-pg > li > a:hover {
-  background-color: #ff4500;
-  color: #ffffff; }
+      color: #A0522D; /* Sienna for pagination */ }
+      .blog-pg > li > a:hover {
+        background-color: #A0522D; /* Sienna for hover */
+        color: #F5F5DC; /* Beige text */ }
 
 .blog-pg > li.blog-pg--active > a {
-  background-color: #ff4500;
-  color: #ffffff;
-  border-color: #ff4500; }
+  background-color: #A0522D; /* Sienna for active */
+  color: #F5F5DC; /* Beige text */
+  border-color: #A0522D; /* Sienna border */ }
 
 .d-meta__text {
   display: block;
-  color: #333333;
+  color: #F5F5DC; /* Beige for text */
   font-size: 32px;
   font-weight: 700; }
 
 .d-meta__text-2 {
   display: block;
-  color: #333333;
+  color: #F5F5DC; /* Beige for text */
   font-size: 18px;
   font-weight: 600; }
 
 .d-meta__text-3 {
   display: block;
-  color: #7f7f7f;
+  color: #8B4513; /* SaddleBrown for text */
   font-size: 12px; }
 
 .d-meta__comments ol {
@@ -4336,14 +4684,14 @@ input::-ms-clear {
 .p-comment__img-wrap {
   width: 80px;
   height: 80px;
-  background-color: #f5f5f5; }
+  background-color: #DEB887; /* Burlywood for image wrap */ }
 
 .p-comment__author {
   display: block;
   margin-bottom: 2px;
   font-size: 14px;
   font-weight: 600;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for author */ }
 
 .p-comment__timestamp {
   display: block;
@@ -4351,13 +4699,13 @@ input::-ms-clear {
   .p-comment__timestamp a {
     font-size: 12px;
     font-weight: 600;
-    color: #7f7f7f;
+    color: #8B4513; /* SaddleBrown for timestamp */
     transition: color 110ms ease-in-out; }
     .p-comment__timestamp a:hover {
-      color: #ff4500; }
+      color: #A0522D; /* Sienna for hover */ }
 
 .p-comment__paragraph {
-  color: #7f7f7f;
+  color: #8B4513; /* SaddleBrown for paragraph */
   font-size: 13px;
   margin-bottom: 8px;
   width: 100%;
@@ -4366,22 +4714,36 @@ input::-ms-clear {
 .p-comment__reply {
   font-size: 13px;
   font-weight: 600;
-  color: #ff4500;
+  color: #A0522D; /* Sienna for reply */
   border-bottom: 0; }
   .p-comment__reply:hover {
-    border-bottom: 1px solid #ff4500; }
+    border-bottom: 1px solid #A0522D; /* Sienna for hover */ }
 
 .respond__form {
   width: 100%; }
   .respond__form .btn, .respond__form .input-text, .respond__form .text-area {
-    border-radius: 6px; }
+    border-radius: 6px;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .respond__form .btn:focus, .respond__form .input-text:focus, .respond__form .text-area:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .respond__form .input-text, .respond__form .text-area {
     width: 100%; }
   .respond__form .text-area {
     height: 15.625rem; }
   .respond__form .btn {
     font-weight: 600;
-    padding: 16px 46px; }
+    padding: 16px 46px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .respond__form .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .respond__group {
   display: -ms-flexbox;
@@ -4419,17 +4781,18 @@ input::-ms-clear {
   .pd-breadcrumb__list > li {
     display: inline-block; }
     .pd-breadcrumb__list > li > a {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for breadcrumb links */
       font-size: 12px;
       transition: color 0.5s; }
       .pd-breadcrumb__list > li > a:hover {
-        color: #333333; }
+        color: #A0522D; /* Sienna for hover */ }
     .pd-breadcrumb__list > li.is-marked > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for marked */
       font-weight: 700; }
     .pd-breadcrumb__list > li.has-separator:after {
       content: '-';
-      margin: 0 6px; }
+      margin: 0 6px;
+      color: #8B4513; /* SaddleBrown for separator */ }
 
 .pd {
   cursor: pointer; }
@@ -4443,7 +4806,7 @@ input::-ms-clear {
   padding: 8px;
   right: 15px;
   font-size: 12px;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for text */ }
 
 .pd-social-list {
   margin: 0;
@@ -4460,13 +4823,15 @@ input::-ms-clear {
     .pd-social-list > li > a {
       font-size: 1.125rem;
       transition: color 110ms ease-in-out;
-      color: #333333; }
+      color: #A0522D; /* Sienna for social icons */ }
+      .pd-social-list > li > a:hover {
+        color: #D2B48C; /* Tan for hover */ }
 
 .pd-detail__label {
   display: block;
   font-size: 14px;
   font-weight: 700;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for label */ }
 
 .pd-detail__inline span {
   margin-right: 0.375rem; }
@@ -4487,36 +4852,39 @@ input::-ms-clear {
 
 .pd-detail__name {
   display: block;
-  color: #333333;
+  color: #F5F5DC; /* Beige for name */
   font-size: 16px;
   font-weight: 600; }
 
 .pd-detail__price {
-  color: #ff4500;
+  color: #F5F5DC; /* Sienna for price */
   font-size: 2rem;
   font-weight: 700; }
 
 .pd-detail__discount {
-  color: #ff4500;
+  color: #A0522D; /* Sienna for discount */
   font-size: 14px;
   font-weight: 600;
   transition: color 0.5s; }
+  .pd-detail__discount:hover {
+    color: #D2B48C; /* Tan for hover */ }
 
 .pd-detail__del {
-  color: #a0a0a0;
+  color: #8B4513; /* SaddleBrown for deleted price */
   font-size: 12px; }
 
 .pd-detail__rating {
   display: block; }
   .pd-detail__rating i {
-    font-size: 12px; }
+    font-size: 12px;
+    color: #DAA520; /* Goldenrod for rating stars */ }
 
 .pd-detail__review > a {
   font-size: 12px;
   transition: color 110ms ease-in-out;
-  color: #333333; }
+  color: #A0522D; /* Sienna for review link */ }
   .pd-detail__review > a:hover {
-    color: #ff4500;
+    color: #D2B48C; /* Tan for hover */
     text-decoration: underline; }
 
 .pd-detail__stock, .pd-detail__left {
@@ -4527,34 +4895,40 @@ input::-ms-clear {
   border-radius: 30px; }
 
 .pd-detail__stock {
-  background-color: rgba(0, 148, 68, 0.14);
-  color: #009444; }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */
+  color: #A0522D; /* Sienna for text */ }
 
 .pd-detail__left {
-  background-color: rgba(255, 69, 0, 0.14);
-  color: #ff4500; }
+  background-color: rgba(139, 69, 19, 0.14); /* SaddleBrown with opacity */
+  color: #A0522D; /* Sienna for text */ }
 
 .pd-detail__preview-desc {
   font-size: 13px;
-  color: #7f7f7f; }
+  color: #F5F5DC; /* SaddleBrown for description */ }
 
 .pd-detail__click-wrap > a {
   font-size: 13px;
-  color: #a0a0a0;
+  color: #8B4513; /* SaddleBrown for click link */
   transition: color 110ms ease-in-out; }
   .pd-detail__click-wrap > a:hover {
-    color: #b6b6b6;
+    color: #D2B48C; /* Tan for hover */
     text-decoration: underline; }
 
 .pd-detail__click-count {
   font-size: 10px;
-  color: #a0a0a0; }
+  color: #8B4513; /* SaddleBrown for count */ }
 
 .pd-detail__form {
   width: 100%; }
   .pd-detail__form .btn {
     padding: 1rem 3rem;
-    border-radius: 0.375rem; }
+    border-radius: 0.375rem;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .pd-detail__form .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 /**
   * Variations
@@ -4603,7 +4977,7 @@ input::-ms-clear {
   background-color: inherit; }
 
 .color__radio input:checked + label:before {
-  border-color: #d2d2d2; }
+  border-color: #C2B280; /* Light tan for checked border */ }
 
 .size__radio {
   position: relative;
@@ -4620,16 +4994,17 @@ input::-ms-clear {
   cursor: pointer; }
 
 .size__radio-label {
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid #C2B280; /* Light tan for border */
   padding: 7px 15px;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   font-size: 13px;
-  color: #333333;
+  color: #F5F5DC; /* Beige for text */
   cursor: pointer;
   display: inline-block; }
 
 .size__radio input:checked + label {
-  border-color: #333333; }
+  border-color: #A0522D; /* Sienna for checked border */ }
 
 .pd-detail__policy-list {
   margin: 0;
@@ -4637,18 +5012,18 @@ input::-ms-clear {
   font-size: 14px;
   list-style: none; }
   .pd-detail__policy-list > li i {
-    color: #009444; }
+    color: #A0522D; /* Sienna for icon */ }
   .pd-detail__policy-list > li span {
-    color: #7f7f7f; }
+    color: #8B4513; /* SaddleBrown for text */ }
 
 .pd-tab__list {
   margin: 0;
-  border-bottom: 2px solid #e7e7e7; }
+  border-bottom: 2px solid #C2B280; /* Light tan for border */ }
   .pd-tab__list > li {
     margin-bottom: -2px; }
     .pd-tab__list > li > a {
       padding: 10px 0;
-      color: #333333;
+      color: #8B4513; /* SaddleBrown for tab links */
       font-size: 14px;
       font-weight: 700;
       border-bottom: 2px solid transparent;
@@ -4658,18 +5033,24 @@ input::-ms-clear {
       transition: all .3s; }
       .pd-tab__list > li > a span {
         margin-left: 2px;
-        font-size: 12px; }
+        font-size: 12px;
+        color: #8B4513; /* SaddleBrown for span */ }
       .pd-tab__list > li > a.active {
-        color: #000000;
-        border-color: #000000; }
+        color: #F5F5DC; /* Beige for active tab */
+        border-color: #A0522D; /* Sienna for active border */ }
     .pd-tab__list > li + li {
       margin-left: 28px; }
 
+.pd-tab__desc {
+    white-space: pre-line;
+}
+
+      
 .pd-tab__desc, .pd-tab__tag {
   max-width: 691px; }
 
 .pd-tab__desc p {
-  color: #333333;
+  color: #F5F5DC; /* Beige for paragraph */
   font-size: 16px;
   line-height: 2; }
 
@@ -4679,11 +5060,11 @@ input::-ms-clear {
   list-style: none; }
   .pd-tab__desc ul > li {
     margin-bottom: 7px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for list items */
     font-size: 14px; }
 
 .pd-tab__desc h4 {
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   font-size: 16px;
   font-weight: 700;
   line-height: 1.4; }
@@ -4693,22 +5074,22 @@ input::-ms-clear {
   .pd-tab__desc .pd-table table {
     width: 100%;
     border-radius: 2px;
-    border: 1px solid #eee;
+    border: 1px solid #C2B280; /* Light tan for border */
     border-collapse: collapse; }
   .pd-tab__desc .pd-table tbody tr {
-    border-bottom: 1px solid #eee; }
+    border-bottom: 1px solid #C2B280; /* Light tan for border */ }
   .pd-tab__desc .pd-table tbody td {
     font-size: 14px;
-    color: #7f7f7f;
+    color: #F5F5DC; /* SaddleBrown for text */
     padding: 12px; }
   .pd-tab__desc .pd-table tbody td:first-child {
-    color: #333333;
+    color: #F5F5DC; /* Beige for first column */
     font-weight: 600; }
 
 .pd-tab__tag h2 {
   font-size: 16px;
   font-weight: 700;
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   line-height: 1.18; }
 
 .pd-tab__tag form {
@@ -4718,11 +5099,25 @@ input::-ms-clear {
     font-weight: 600;
     border: 0;
     height: 48px;
-    padding: 17px 18px; }
+    padding: 17px 18px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .pd-tab__tag form .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
   .pd-tab__tag form .input-text {
     height: 48px;
     margin-right: 8px;
-    width: 50%; }
+    width: 50%;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .pd-tab__tag form .input-text:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
 
 .pd-tab__rev-f1 {
   width: 100%; }
@@ -4730,17 +5125,18 @@ input::-ms-clear {
 .pd-tab__rev-score {
   padding: 40px 0;
   text-align: center;
-  background-color: #f6f6f6; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
   .pd-tab__rev-score h2 {
     font-size: 16px;
     font-weight: 600;
     line-height: 0.875;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for heading */ }
   .pd-tab__rev-score h4 {
     font-size: 14px;
     font-weight: 700;
     line-height: 0.875;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for subheading */ }
 
 .rev-f1__group {
   display: -ms-flexbox;
@@ -4752,52 +5148,74 @@ input::-ms-clear {
   .rev-f1__group h2 {
     font-size: 16px;
     font-weight: 700;
-    color: #333333;
+    color: #F5F5DC; /* Beige for heading */
     line-height: 1.18; }
   .rev-f1__group .select-box {
-    border-radius: 0.375rem; }
+    border-radius: 0.375rem;
+    background-color: #DEB887; /* Burlywood for select background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .rev-f1__group .select-box:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
 
 .rev-f1__review {
   max-width: 691px; }
 
 .review-o {
   padding: 1rem 0;
-  border-bottom: 1px solid #f0f0f0; }
+  border-bottom: 1px solid #C2B280; /* Light tan for border */ }
 
 .review-o__name {
   font-size: 14px;
   font-weight: 600;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for name */ }
 
 .review-o__date {
   margin-left: 6px;
   font-size: 11px;
   font-weight: 600;
-  color: #7f7f7f; }
+  color: #8B4513; /* SaddleBrown for date */ }
 
 .review-o__rating span {
   margin-left: 2px;
   font-size: 11px;
   font-weight: 600;
-  color: #7f7f7f; }
+  color: #8B4513; /* SaddleBrown for rating text */ }
 
 .review-o__text {
   font-size: 13px;
-  color: #7f7f7f; }
+  color: #F5F5DC; /* SaddleBrown for text */ }
 
 .pd-tab__rev-f2 {
   width: 100%; }
   .pd-tab__rev-f2 h2 {
     font-size: 32px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for heading */
     line-height: 0.90; }
   .pd-tab__rev-f2 .input-text, .pd-tab__rev-f2 .text-area {
-    width: 100%; }
+    width: 100%;
+    background-color: #DEB887; /* Burlywood for input background */
+    color: #A0522D; /* Sienna text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .pd-tab__rev-f2 .input-text:focus, .pd-tab__rev-f2 .text-area:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna border */
+      outline: 0; }
   .pd-tab__rev-f2 .text-area {
     height: 15.625rem; }
   .pd-tab__rev-f2 .btn {
     font-weight: 600;
-    padding: 16px 46px; }
+    padding: 16px 46px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige text */
+    transition: all 0.3s ease; }
+    .pd-tab__rev-f2 .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna text */ }
 
 .rev-f2__table-wrap {
   overflow: auto; }
@@ -4807,20 +5225,21 @@ input::-ms-clear {
   table-layout: fixed;
   text-align: center;
   border-collapse: collapse;
-  border: 1px solid #dee2e6; }
+  border: 1px solid #C2B280; /* Light tan for border */ }
   .rev-f2__table th, .rev-f2__table td {
     padding: 16px 4px;
-    border: 1px solid #d6d6d6; }
+    border: 1px solid #C2B280; /* Light tan for border */ }
   .rev-f2__table th {
     width: 120px;
-    color: #333333;
-    background-color: #f0f0f0;
+    color: #F5F5DC; /* Beige for header text */
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
     font-size: 13px; }
     .rev-f2__table th span {
       margin-top: 2px;
       display: block;
       font-size: 11px;
-      color: #333333; }
+      color: #F5F5DC; /* Beige for span */ }
 
 .rev-f2__group {
   display: -ms-flexbox;
@@ -4859,17 +5278,19 @@ input::-ms-clear {
 --------------------------------------------------------------*/
 .shop-w-master__heading {
   font-size: 18px;
-  color: #333333;
+  color: #F5F5DC; /* Beige for heading */
   font-weight: 700;
   line-height: 20px; }
 
 .sidebar--bg-snow {
-  background-color: #f9f9f9; }
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .shop-w--style {
-  border: 1px solid #f1f1f1;
-  background-color: #ffffff;
-  box-shadow: 0 6px 15px 0 rgba(36, 37, 38, 0.08); }
+  border: 1px solid #C2B280; /* Light tan for border */
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 6px 15px 0 rgba(0, 0, 0, 0.2); }
 
 .shop-w__intro-wrap {
   position: relative; }
@@ -4877,8 +5298,8 @@ input::-ms-clear {
 .shop-w__h {
   font-size: 14px;
   padding: 14px 18px;
-  border-bottom: 1px solid #efefef;
-  color: #333333;
+  border-bottom: 1px solid #C2B280; /* Light tan for border */
+  color: #F5F5DC; /* Beige for heading */
   font-weight: 700;
   line-height: 20px; }
 
@@ -4898,7 +5319,7 @@ input::-ms-clear {
   right: 10px;
   font-size: 12px;
   cursor: pointer;
-  color: #444; }
+  color: #A0522D; /* Sienna for toggle */ }
 
 .shop-w ul {
   margin: 0;
@@ -4935,17 +5356,17 @@ input::-ms-clear {
     padding: 8px 16px;
     display: block;
     font-size: 14px;
-    transition: background-color 110ms ease-in-out,color 110ms ease-in-out;
-    color: #7f7f7f; }
+    transition: background-color 110ms ease-in-out, color 110ms ease-in-out;
+    color: #8B4513; /* SaddleBrown for text */ }
 
 .list__content:hover span {
-  color: #333333;
-  background-color: #ececec;
+  color: #F5F5DC; /* Beige for hover */
+  background-color: #DEB887; /* Burlywood for hover */
   border-radius: .5rem; }
 
 .list__content input:checked + span {
-  background-color: #ececec;
-  color: #333333;
+  background-color: #DEB887; /* Burlywood for checked */
+  color: #F5F5DC; /* Beige for checked */
   border-radius: .5rem; }
 
 .shop-w__total-text {
@@ -4955,7 +5376,7 @@ input::-ms-clear {
   top: 50%;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
-  color: #333333;
+  color: #F5F5DC; /* Beige for text */
   right: 13px; }
 
 .shop-w__category-list {
@@ -4965,38 +5386,38 @@ input::-ms-clear {
     padding: 4px 14px; }
     .shop-w__category-list > li > a {
       font-size: 14px;
-      color: #333333;
+      color: #F5F5DC; /* Beige for links */
       transition: color 110ms ease-in-out; }
       .shop-w__category-list > li > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
     .shop-w__category-list > li ul .has-list > a {
       font-size: 13px;
       font-weight: 700;
-      color: #333333; }
+      color: #F5F5DC; /* Beige for sublist links */ }
     .shop-w__category-list > li ul {
       display: none;
       padding-left: 8px; }
       .shop-w__category-list > li ul li a {
         font-size: 13px;
-        color: #7f7f7f;
+        color: #8B4513; /* SaddleBrown for sublist links */
         transition: color 110ms ease-in-out; }
         .shop-w__category-list > li ul li a:hover {
-          color: #ff4500; }
+          color: #A0522D; /* Sienna for hover */ }
 
 .has-list {
   position: relative; }
 
 .category-list__text {
   font-size: 10px;
-  color: #a0a0a0; }
+  color: #8B4513; /* SaddleBrown for text */ }
 
 .js-shop-category-span {
   cursor: pointer;
   font-size: 13px;
-  color: #444;
+  color: #A0522D; /* Sienna for text */
   transition: color 110ms ease-in-out; }
   .js-shop-category-span:hover {
-    color: #000000; }
+    color: #D2B48C; /* Tan for hover */ }
 
 .js-shop-category-span.is-expanded:before {
   content: '\f068'; }
@@ -5015,11 +5436,25 @@ input::-ms-clear {
   .shop-w__form-p-wrap .input-text, .shop-w__form-p-wrap .btn {
     height: 40px;
     padding: 8px;
-    border-radius: 2px; }
+    border-radius: 2px;
+    background-color: #DEB887; /* Burlywood for input/button background */
+    color: #A0522D; /* Sienna for text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .shop-w__form-p-wrap .input-text:focus, .shop-w__form-p-wrap .btn:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna for border */
+      outline: 0; }
   .shop-w__form-p-wrap .input-text {
     width: 80px; }
   .shop-w__form-p-wrap .btn {
-    width: 40px; }
+    width: 40px;
+    background-color: #A0522D; /* Sienna for button */
+    color: #F5F5DC; /* Beige for text */
+    transition: all 0.3s ease; }
+    .shop-w__form-p-wrap .btn:hover {
+      background-color: #DEB887; /* Burlywood for hover */
+      color: #A0522D; /* Sienna for text */ }
 
 .color__check {
   position: relative;
@@ -5059,7 +5494,7 @@ input::-ms-clear {
   background-color: inherit; }
 
 .color__check input:checked + label:before {
-  border-color: #d2d2d2; }
+  border-color: #C2B280; /* Light tan for checked border */ }
 
 .rating__check {
   position: relative;
@@ -5077,38 +5512,40 @@ input::-ms-clear {
 
 .rating__check-star-wrap > i {
   margin-left: 2px;
-  color: #ff4500;
+  color: #DAA520; /* Goldenrod for rating stars */
   transition: color .4s ease-in-out; }
   .rating__check-star-wrap > i:first-child {
     margin-left: 0; }
 
 .rating__check-star-wrap span {
   font-size: 12px;
-  color: #333333;
+  color: #F5F5DC; /* Beige for text */
   margin-right: 2px; }
 
 .rating__check:hover .rating__check-star-wrap > i {
-  color: #ff9600; }
+  color: #D2B48C; /* Tan for hover */ }
 
 .rating__check input:checked + .rating__check-star-wrap > i {
-  color: #ff9600; }
+  color: #D2B48C; /* Tan for checked */ }
 
 .shop-p__meta-wrap {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  border-radius: 0.625rem; }
+  border-radius: 0.625rem;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .shop-p__meta-text-1 {
   display: block;
   font-size: 14px;
   margin-bottom: 6px;
   font-weight: 700;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for text */ }
 
 .shop-p__meta-text-2 {
   font-size: 14px;
   font-weight: 700;
-  color: #7f7f7f; }
+  color: #F5F5DC; /* SaddleBrown for text */ }
 
 .shop-p__tool-style {
   display: -ms-flexbox;
@@ -5128,22 +5565,21 @@ input::-ms-clear {
     display: inline-block;
     height: 40px;
     cursor: pointer;
-    border: 2px solid #e5e5e5;
+    border: 2px solid #C2B280; /* Light tan for border */
     font-size: 13px;
     padding: 8px 18px;
     font-weight: 700;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for text */ }
     .tool-style__group span:hover {
-      background-color: rgba(255, 69, 0, 0.12);
-      color: #ff4500;
-      border-color: #ff4500;
-      z-index: 2; }
+      background-color: rgba(139, 69, 19, 0.12); /* SaddleBrown with opacity for hover */
+      color: #D2B48C; /* Tan for hover */
+      border-color: #A0522D; /* Sienna for border */ }
   .tool-style__group span:not(:last-child) {
     margin-right: -2px; }
   .tool-style__group span.is-active {
-    background-color: rgba(255, 69, 0, 0.12);
-    color: #ff4500;
-    border-color: #ff4500;
+    background-color: rgba(139, 69, 19, 0.12); /* SaddleBrown with opacity for active */
+    color: #D2B48C; /* Tan for active */
+    border-color: #A0522D; /* Sienna for border */
     z-index: 2; }
 
 .tool-style__form-wrap {
@@ -5154,7 +5590,15 @@ input::-ms-clear {
   .tool-style__form-wrap div + div {
     margin-left: 15px; }
   .tool-style__form-wrap select {
-    border-radius: .25rem; }
+    border-radius: .25rem;
+    background-color: #DEB887; /* Burlywood for select background */
+    color: #A0522D; /* Sienna for text */
+    border: 2px solid transparent;
+    transition: all 0.6s linear; }
+    .tool-style__form-wrap select:focus {
+      background-color: transparent;
+      border-color: #A0522D; /* Sienna for border */
+      outline: 0; }
 
 .is-grid-active .product-m {
   position: relative;
@@ -5176,7 +5620,13 @@ input::-ms-clear {
       font-size: 13px;
       width: 100%;
       text-align: center;
-      display: block; }
+      display: block;
+      background-color: #A0522D; /* Sienna for button */
+      color: #F5F5DC; /* Beige for text */
+      transition: all 0.3s ease; }
+      .is-grid-active .product-m__add-cart > a:hover {
+        background-color: #DEB887; /* Burlywood for hover */
+        color: #A0522D; /* Sienna for text */ }
   .is-grid-active .product-m__quick-look {
     position: absolute;
     top: 8px;
@@ -5186,47 +5636,48 @@ input::-ms-clear {
     transition: 0.3s; }
     .is-grid-active .product-m__quick-look > a {
       font-size: 16px;
-      color: #ff4500;
+      color: #A0522D; /* Sienna for quick look */
       transition: color 110ms ease-in-out; }
       .is-grid-active .product-m__quick-look > a:hover {
-        color: #a0a0a0; }
+        color: #D2B48C; /* Tan for hover */ }
   .is-grid-active .product-m__content {
     padding: 4px 16px 6px; }
   .is-grid-active .product-m__category {
     margin-bottom: 2px;
     line-height: 1.2; }
     .is-grid-active .product-m__category > a {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for category */
       transition: color 0.5s;
       font-size: 12px; }
       .is-grid-active .product-m__category > a:hover {
-        color: #ff4500; }
+        color: #A0522D; /* Sienna for hover */ }
   .is-grid-active .product-m__name > a {
-    color: #333333;
+    color: #F5F5DC; /* Beige for name */
     font-size: 14px;
     font-weight: 600;
     transition: color 0.5s; }
     .is-grid-active .product-m__name > a:hover {
-      color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */ }
   .is-grid-active .product-m__price {
     line-height: 1.2;
-    color: #333333;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 14px;
     font-weight: 600; }
   .is-grid-active .product-m__discount {
     font-weight: 600;
     margin-left: 30px;
-    color: #ff4500;
+    color: #F5F5DC; /* SaddleBrown for discount */
     font-size: 14px;
     text-decoration: line-through; }
   .is-grid-active .product-m__rating {
     margin-bottom: 6px; }
     .is-grid-active .product-m__rating i {
-      font-size: 12px; }
+      font-size: 12px;
+      color: #DAA520; /* Goldenrod for rating stars */ }
   .is-grid-active .product-m__review {
     margin-left: 4px;
     font-size: 11px;
-    color: #a0a0a0; }
+    color: #8B4513; /* SaddleBrown for review */ }
   .is-grid-active .product-m__hover {
     position: absolute;
     top: 96%;
@@ -5234,7 +5685,8 @@ input::-ms-clear {
     z-index: 9;
     padding: 4px 16px 14px;
     left: 0;
-    background: #ffffff;
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
     box-shadow: 0 6px 7px 0 rgba(0, 0, 0, 0.2);
     transition: all 300ms ease-in-out;
     opacity: 0;
@@ -5243,14 +5695,14 @@ input::-ms-clear {
     text-align: right; }
     .is-grid-active .product-m__wishlist a {
       font-size: 16px;
-      color: #a0a0a0;
+      color: #F5F5DC;; /* SaddleBrown for wishlist */
       transition: color 110ms ease-in-out; }
       .is-grid-active .product-m__wishlist a:hover {
-        color: #ff4500; }
+        color: #A0522D; /* Sienna for hover */ }
   .is-grid-active .product-m__preview-description {
     margin-bottom: 8px;
     font-size: 12px;
-    color: #7f7f7f; }
+    color: #F5F5DC; /* SaddleBrown for description */ }
 
 .is-grid-active .product-m:hover {
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2); }
@@ -5300,7 +5752,13 @@ input::-ms-clear {
       font-size: 13px;
       width: 100%;
       text-align: center;
-      display: block; }
+      display: block;
+      background-color: #A0522D; /* Sienna for button */
+      color: #F5F5DC; /* Beige for text */
+      transition: all 0.3s ease; }
+      .is-list-active .product-m__add-cart > a:hover {
+        background-color: #DEB887; /* Burlywood for hover */
+        color: #A0522D; /* Sienna for text */ }
   .is-list-active .product-m__quick-look {
     position: absolute;
     top: 8px;
@@ -5310,10 +5768,10 @@ input::-ms-clear {
     transition: 0.3s; }
     .is-list-active .product-m__quick-look > a {
       font-size: 16px;
-      color: #ff4500;
+      color: #A0522D; /* Sienna for quick look */
       transition: color 110ms ease-in-out; }
       .is-list-active .product-m__quick-look > a:hover {
-        color: #fa4400; }
+        color: #D2B48C; /* Tan for hover */ }
   .is-list-active .product-m__content {
     position: relative;
     -ms-flex: 0 0 66.66667%;
@@ -5325,54 +5783,56 @@ input::-ms-clear {
     margin-bottom: 2px;
     line-height: 1.2; }
     .is-list-active .product-m__category > a {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for category */
       transition: color 0.5s;
       font-size: 12px; }
       .is-list-active .product-m__category > a:hover {
-        color: #ff4500; }
+        color: #A0522D; /* Sienna for hover */ }
   .is-list-active .product-m__name > a {
-    color: #333333;
+    color: #F5F5DC; /* Beige for name */
     font-size: 14px;
     font-weight: 600;
     transition: color 0.5s; }
     .is-list-active .product-m__name > a:hover {
-      color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */ }
   .is-list-active .product-m__price {
     margin-bottom: 8px;
     line-height: 1.2;
-    color: #333333;
+    color: #F5F5DC; /* Sienna for price */
     font-size: 14px;
     font-weight: 600; }
   .is-list-active .product-m__discount {
     font-weight: 600;
     margin-left: 30px;
-    color: #ff4500;
+    color: #F5F5DC; /* SaddleBrown for discount */
     font-size: 14px;
     text-decoration: line-through; }
   .is-list-active .product-m__rating {
     margin-bottom: 6px; }
     .is-list-active .product-m__rating i {
-      font-size: 12px; }
+      font-size: 12px;
+      color: #DAA520; /* Goldenrod for rating stars */ }
   .is-list-active .product-m__review {
     margin-left: 4px;
     font-size: 11px;
-    color: #a0a0a0; }
+    color: #F5F5DC; /* SaddleBrown for review */ }
   .is-list-active .product-m__preview-description {
     font-size: 12px;
-    color: #7f7f7f; }
+    color: #F5F5DC; /* SaddleBrown for description */ }
   .is-list-active .product-m__wishlist {
     position: absolute;
     right: 12px;
     bottom: 13px; }
     .is-list-active .product-m__wishlist a {
       font-size: 16px;
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for wishlist */
       transition: color 110ms ease-in-out; }
       .is-list-active .product-m__wishlist a:hover {
-        color: #ff4500; }
+        color: #A0522D; /* Sienna for hover */ }
 
 .is-list-active .product-m:hover {
-  background: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   border-radius: 0.1875rem;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2); }
   .is-list-active .product-m:hover .product-m__add-cart {
@@ -5406,11 +5866,12 @@ input::-ms-clear {
       font-weight: 600;
       border-radius: 50%;
       background-color: transparent;
-      color: #333333; }
+      color: #A0522D; /* Sienna for pagination */ }
   .shop-p__pagination > li.is-active > a {
-    background-color: #f7f7f7; }
+    background-color: #A0522D; /* Sienna for active */
+    color: #F5F5DC; /* Beige for text */ }
   .shop-p__pagination > li:not(.is-active) > a:hover {
-    color: #ff4500;
+    color: #D2B48C; /* Tan for hover */
     text-decoration: underline; }
 
 .shop-a__wrap {
@@ -5424,8 +5885,9 @@ input::-ms-clear {
   transition: all 400ms ease-out;
   -webkit-transform: translate(200px, 0);
           transform: translate(200px, 0);
-  box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.09);
-  background-color: #ffffff;
+  box-shadow: 0 0 7px 2px rgba(0, 0, 0, 0.2);
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   visibility: hidden;
   opacity: 0; }
 
@@ -5473,7 +5935,9 @@ input::-ms-clear {
 .modal-content {
   display: block !important;
   border: none;
-  border-radius: 0; }
+  border-radius: 0;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */ }
 
 .modal--radius {
   border-radius: 8px; }
@@ -5481,7 +5945,7 @@ input::-ms-clear {
 .modal--shadow {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45); }
 
-/* Tootip styles */
+/* Tooltip styles */
 .tooltip {
   font-family: "Open Sans", -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   font-size: 12px;
@@ -5491,20 +5955,21 @@ input::-ms-clear {
   opacity: 1; }
 
 .bs-tooltip-top .arrow::before, .bs-tooltip-auto[x-placement^="top"] .arrow::before {
-  border-top-color: #f5f5f5; }
+  border-top-color: #DEB887; /* Burlywood for arrow */ }
 
 .bs-tooltip-right .arrow::before, .bs-tooltip-auto[x-placement^="right"] .arrow::before {
-  border-right-color: #f5f5f5; }
+  border-right-color: #DEB887; /* Burlywood for arrow */ }
 
 .bs-tooltip-bottom .arrow::before, .bs-tooltip-auto[x-placement^="bottom"] .arrow::before {
-  border-bottom-color: #f5f5f5; }
+  border-bottom-color: #DEB887; /* Burlywood for arrow */ }
 
 .bs-tooltip-left .arrow::before, .bs-tooltip-auto[x-placement^="left"] .arrow::before {
-  border-left-color: #f5f5f5; }
+  border-left-color: #DEB887; /* Burlywood for arrow */ }
 
 .tooltip-inner {
-  color: #333333;
-  background-color: #f5f5f5;
+  color: #F5F5DC; /* Beige for text */
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   border-radius: 2px; }
 
 @media (max-width: 991px) {
@@ -5528,13 +5993,14 @@ input::-ms-clear {
   .ah-list--design1 > li > a {
     display: inline-block;
     font-size: 16px;
-    padding: 28px 18px; }
+    padding: 28px 18px;
+    color: #F5F5DC; /* Beige for links */ }
 
 .ah-list--link-color-secondary > li > a {
-  color: #333333; }
+  color: #F5F5DC; /* Beige for links */ }
 
 .ah-list--link-color-white > li > a {
-  color: #ffffff; }
+  color: #F5F5DC; /* Beige for links */ }
 
 .ah-list--design2 > li {
   display: inline-block; }
@@ -5542,14 +6008,16 @@ input::-ms-clear {
     font-weight: 700;
     font-size: 12px;
     display: inline-block;
-    padding: 31px 14px; }
+    padding: 31px 14px;
+    color: #F5F5DC; /* Beige for links */ }
 
 .has-dropdown > ul .has-dropdown {
   position: relative; }
 
 .has-dropdown > ul {
-  background-color: #ffffff;
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.13);
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   position: absolute;
   text-align: left;
   padding: 20px 0 20px;
@@ -5562,9 +6030,11 @@ input::-ms-clear {
   .has-dropdown > ul > li > a {
     display: block;
     padding: 8px 20px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for links */
     font-size: 12px;
     font-weight: 600; }
+    .has-dropdown > ul > li > a:hover {
+      color: #D2B48C; /* Tan for hover */ }
 
 .has-dropdown--ul-left-100 > ul {
   left: 100%; }
@@ -5594,11 +6064,12 @@ input::-ms-clear {
     width: 315px;
     height: 100%;
     top: 0;
-    background-color: #ffffff;
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
     z-index: 20000;
     overflow-y: auto; }
   .ah-close {
-    color: #333333;
+    color: #F5F5DC; /* Beige for close button */
     padding: 20px;
     font-size: 13px;
     font-weight: 600;
@@ -5607,24 +6078,26 @@ input::-ms-clear {
   .ah-list > li {
     position: relative;
     display: block;
-    border-top: 1px solid #f8f8f8; }
+    border-top: 1px solid #C2B280; /* Light tan for border */ }
     .ah-list > li > a {
       display: block;
       padding: 8px 18px; }
   .ah-list > li:last-child {
-    border-bottom: 1px solid #f8f8f8; }
+    border-bottom: 1px solid #C2B280; /* Light tan for border */ }
   .ah-list--design1 > li > a, .ah-list--design2 > li > a {
     font-weight: normal;
-    font-size: 14px; }
+    font-size: 14px;
+    color: #F5F5DC; /* Beige for links */ }
   .ah-list--link-color-white > li > a {
-    color: #333333; }
+    color: #F5F5DC; /* Beige for links */ }
   .js-menu-toggle {
     width: 21px;
     display: block;
     height: 21px;
     border-radius: 50%;
-    background-color: #ffffff;
-    box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.13);
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
+    box-shadow: 1px 1px 0 0 rgba(0, 0, 0, 0.2);
     position: absolute;
     right: 15px;
     top: 6px;
@@ -5637,7 +6110,7 @@ input::-ms-clear {
       top: 50%;
       width: 100%;
       font-weight: 900;
-      color: #333333;
+      color: #A0522D; /* Sienna for icon */
       display: block;
       -webkit-transform: translateY(-50%);
               transform: translateY(-50%);
@@ -5657,7 +6130,11 @@ input::-ms-clear {
     .has-dropdown > ul > li {
       padding: 0; }
       .has-dropdown > ul > li > a {
-        display: block; }
+        display: block;
+        color: #F5F5DC; /* Beige for links */
+        transition: color 0.3s ease; }
+        .has-dropdown > ul > li > a:hover {
+          color: #D2B48C; /* Tan for hover */ }
   .ah-list > li > ul > li > a {
     padding: 8px 36px; }
   .ah-list > li > ul > li > ul > li > a {
@@ -5671,9 +6148,10 @@ input::-ms-clear {
   .ah-close {
     display: none; }
   .ah-list > li > a:hover {
-    color: #ff4500; }
+    color: #D2B48C; /* Tan for hover */
+    text-decoration: underline; }
   .has-dropdown > ul > li:hover {
-    background-color: #fbfbfb; }
+    background-color: transparent; }
   .has-dropdown:hover > ul {
     opacity: 1;
     visibility: visible; }
@@ -5682,11 +6160,12 @@ input::-ms-clear {
   .has-dropdown .has-dropdown:hover > ul {
     top: 0; }
   .ah-list > .has-dropdown:hover > a {
-    color: #ff4500; }
+    color: #D2B48C; /* Tan for hover */ }
   .has-dropdown > a .fa-angle-down {
     font-size: 10px;
     line-height: 18px;
-    float: right; }
+    float: right;
+    color: #A0522D; /* Sienna for icon */ }
   .has-dropdown:hover > a .i-state-right:before {
     content: "\F105"; } }
 
@@ -5699,26 +6178,28 @@ input::-ms-clear {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  background-color: #ff4500;
+  background-color: #A0522D; /* Sienna for background */
   font-size: 12px;
   font-weight: 600;
   line-height: 34px;
   text-align: center;
   cursor: pointer;
-  color: #ffffff; }
+  color: #F5F5DC; /* Beige for text */ }
 
 .mega-menu-list > ul > li > a {
   display: block;
   padding: 10px 22px;
-  color: #000000;
+  color: #F5F5DC; /* Beige for links */
   text-transform: uppercase;
   font-weight: 600;
   font-size: 12px; }
+  .mega-menu-list > ul > li > a:hover {
+    color: #D2B48C; /* Tan for hover */ }
 
 .mega-menu-list > ul > li.js-active {
-  background: linear-gradient(225deg, #ff4500, #ff4500); }
+  background: linear-gradient(225deg, #A0522D, #A0522D); /* Sienna for active */ }
   .mega-menu-list > ul > li.js-active > a {
-    color: #ffffff; }
+    color: #F5F5DC; /* Beige for text */ }
 
 .mega-menu-content {
   display: none; }
@@ -5729,11 +6210,11 @@ input::-ms-clear {
 .mega-menu-content [class*="col-"] > ul > li > a {
   padding: 4px 0;
   display: block;
-  color: #333333;
+  color: #F5F5DC; /* Beige for links */
   font-size: 13px;
   transition: color 0.5s; }
   .mega-menu-content [class*="col-"] > ul > li > a:hover {
-    color: #fa4400; }
+    color: #D2B48C; /* Tan for hover */ }
 
 .mega-menu-content [class*="col-"] > ul > .mega-list-title > a {
   font-weight: 700; }
@@ -5742,7 +6223,7 @@ input::-ms-clear {
   font-weight: 600;
   margin: 6px 0 0;
   font-size: 12px;
-  color: #000000; }
+  color: #F5F5DC; /* Beige for heading */ }
 
 @media (max-width: 1024px) {
   .toggle-mega-text {
@@ -5753,18 +6234,18 @@ input::-ms-clear {
        -moz-user-select: none;
         -ms-user-select: none;
             user-select: none;
-    background-color: #ff4500;
+    background-color: #A0522D; /* Sienna for background */
     font-size: 12px;
     font-weight: 600;
     line-height: 34px;
     text-align: center;
     cursor: pointer;
-    color: #ffffff; }
+    color: #F5F5DC; /* Beige for text */ }
   .mega-menu {
     display: none; }
   .mega-menu-list {
     padding: 20px;
-    border: 1px solid #f6f6f6; }
+    border: 1px solid #C2B280; /* Light tan for border */ }
     .mega-menu-list > ul > li {
       position: relative; }
   .mega-menu-content {
@@ -5787,8 +6268,9 @@ input::-ms-clear {
     display: none;
     padding: 30px;
     width: 100%;
-    background-color: #ffffff;
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.13);
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
     position: absolute;
     z-index: 998;
     top: 100%; }
@@ -5813,11 +6295,11 @@ input::-ms-clear {
     .mega-menu-content::-webkit-scrollbar {
       width: 8px; }
     .mega-menu-content::-webkit-scrollbar-track {
-      background: #eee; }
+      background: #C2B280; /* Light tan for scrollbar track */ }
     .mega-menu-content::-webkit-scrollbar-thumb {
-      background: #888; }
+      background: #A0522D; /* Sienna for scrollbar thumb */ }
     .mega-menu-content::-webkit-scrollbar-thumb:hover {
-      background: #555; }
+      background: #D2B48C; /* Tan for scrollbar thumb hover */ }
   .mega-banner {
     position: relative;
     overflow: hidden; }
@@ -5846,12 +6328,13 @@ input::-ms-clear {
   border-radius: 50%;
   text-align: center;
   font-size: 11px;
-  background-color: #ff4500;
-  color: #ffffff; }
+  background-color: #A0522D; /* Sienna for background */
+  color: #F5F5DC; /* Beige for text */ }
 
 .mini-cart {
-  background-color: #ffffff;
-  box-shadow: -2px 0px 5px 1px rgba(0, 0, 0, 0.06);
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  box-shadow: -2px 0px 5px 1px rgba(0, 0, 0, 0.2); /* Adjusted shadow opacity */
   width: 478px;
   padding: 14px;
   position: absolute;
@@ -5876,8 +6359,9 @@ input::-ms-clear {
       align-items: center;
   -ms-flex-pack: justify;
       justify-content: space-between;
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  border: 1px solid #C2B280; /* Light tan for border */
   padding: 15px;
   margin-bottom: 22px; }
   .card-mini-product:last-child {
@@ -5891,7 +6375,7 @@ input::-ms-clear {
   .mini-product__image-wrapper {
     margin-right: 20px; }
   .mini-product__link {
-    background-color: #f5f5f5;
+    background-color: #DEB887; /* Burlywood for image background */
     display: inline-block;
     vertical-align: middle;
     width: 80px;
@@ -5901,41 +6385,40 @@ input::-ms-clear {
       height: 100%;
       width: 100%;
       object-fit: cover;
-      object-position: center;
-       }
+      object-position: center; }
   .mini-product__category {
     display: block; }
     .mini-product__category > a {
-      color: #a0a0a0;
+      color: #8B4513; /* SaddleBrown for category */
       transition: color 0.5s;
       font-size: 12px; }
       .mini-product__category > a:hover {
-        color: #ff4500; }
+        color: #A0522D; /* Sienna for hover */ }
   .mini-product__name {
     display: block; }
     .mini-product__name > a {
-      color: #333333;
+      color: #F5F5DC; /* Beige for name */
       font-size: 14px;
       font-weight: 600;
       transition: color 0.5s; }
       .mini-product__name > a:hover {
-        color: #ff4500; }
+        color: #D2B48C; /* Tan for hover */ }
   .mini-product__quantity {
     font-size: 12px;
     margin-right: 4px;
-    color: #333333; }
+    color: #A0522D; /* Sienna for quantity */ }
   .mini-product__price {
     font-size: 14px;
     font-weight: 600;
-    color: #333333; }
+    color: #F5F5DC; /* Sienna for price */ }
   .mini-product__delete-link {
     padding: 10px;
     font-size: 16px;
     display: inline-block;
-    color: #333333;
+    color: #A0522D; /* Sienna for delete link */
     transition: color 0.5s; }
     .mini-product__delete-link:hover {
-      color: #ff4500; }
+      color: #D2B48C; /* Tan for hover */ }
 
 .mini-total {
   margin-bottom: 16px;
@@ -5952,13 +6435,13 @@ input::-ms-clear {
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: #333333; }
+  color: #F5F5DC; /* Beige for text */ }
 
 .subtotal-value {
   display: block;
   font-size: 14px;
   font-weight: 700;
-  color: #333333; }
+  color: #F5F5DC; /* Sienna for value */ }
 
 .mini-link {
   display: block;
@@ -5967,7 +6450,13 @@ input::-ms-clear {
   border-radius: 6px;
   margin-bottom: 20px;
   font-weight: 700;
-  font-size: 10px; }
+  font-size: 10px;
+  background-color: #A0522D; /* Sienna for background */
+  color: #F5F5DC; /* Beige for text */
+  transition: all 0.3s ease; }
+  .mini-link:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna for text */ }
 
 .mini-action {
   width: 65%;
@@ -6027,9 +6516,11 @@ input::-ms-clear {
   .s-skeleton--h-640 {
     min-height: 640px; }
   .s-skeleton--bg-grey {
-    background-color: #f5f5f5; }
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */ }
   .s-skeleton--bg-black {
-    background-color: #000000; }
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */ }
   .s-skeleton .owl-carousel {
     position: static; }
 
@@ -6057,11 +6548,7 @@ input::-ms-clear {
   width: 100%; }
 
 .hero-slide {
-  background: center center/cover no-repeat; 
-
-
-
-}
+  background: center center/cover no-repeat; }
   .hero-slide--1 {
     background-image: ""; }
   .hero-slide--2 {
@@ -6099,12 +6586,12 @@ input::-ms-clear {
   border-radius: 50%;
   display: block;
   margin-bottom: 6px;
-  background: #e1e1e1;
+  background: #C2B280; /* Light tan for dot */
   transition: background 0.8s ease-out; }
   .owl-carousel.primary-style-1 button.owl-dot:last-child {
     margin-bottom: 0; }
   .owl-carousel.primary-style-1 button.owl-dot.active, .owl-carousel.primary-style-1 button.owl-dot:hover {
-    background: transparent linear-gradient(-180deg, #ff4500 0%, #ff6a33 100%); }
+    background: transparent linear-gradient(-180deg, #A0522D 0%, #DAA520 100%); /* Sienna to Goldenrod gradient */ }
 
 .owl-carousel.primary-style-2 .owl-dots {
   width: 100%;
@@ -6117,12 +6604,12 @@ input::-ms-clear {
   display: inline-block;
   margin-right: 4px;
   border-radius: 50%;
-  background-color: #7f7f7f;
+  background-color: #8B4513; /* SaddleBrown for dot */
   transition: background 0.8s ease-out; }
   .owl-carousel.primary-style-2 button.owl-dot:last-child {
     margin-right: 0; }
   .owl-carousel.primary-style-2 button.owl-dot.active, .owl-carousel.primary-style-2 button.owl-dot:hover {
-    background-color: #ffffff; }
+    background-color: #F5F5DC; /* Beige for active/hover */ }
 
 .primary-style-2-container {
   width: 100%;
@@ -6154,12 +6641,12 @@ input::-ms-clear {
   height: 32px;
   display: block;
   margin-bottom: 6px;
-  background-color: #f3f3f3;
+  background-color: #C2B280; /* Light tan for dot */
   transition: background 0.8s ease-out; }
   .owl-carousel.primary-style-3 button.owl-dot:last-child {
     margin-bottom: 0; }
   .owl-carousel.primary-style-3 button.owl-dot.active, .owl-carousel.primary-style-3 button.owl-dot:hover {
-    background-color: #ff4500; }
+    background-color: #A0522D; /* Sienna for active/hover */ }
 
 .owl-carousel#testimonial-slider .owl-dots {
   width: 100%;
@@ -6170,7 +6657,7 @@ input::-ms-clear {
   width: 11px;
   height: 11px;
   display: inline-block;
-  border: 1px solid #333333;
+  border: 1px solid #A0522D; /* Sienna for border */
   margin-right: 4px;
   border-radius: 50%;
   background-color: transparent;
@@ -6178,28 +6665,32 @@ input::-ms-clear {
   .owl-carousel#testimonial-slider button.owl-dot:last-child {
     margin-right: 0; }
   .owl-carousel#testimonial-slider button.owl-dot.active, .owl-carousel#testimonial-slider button.owl-dot:hover {
-    background-color: #333333; }
+    background-color: #A0522D; /* Sienna for active/hover */ }
 
 .content-span-1 {
   font-size: 1.25rem;
   font-weight: 700;
-  display: block; }
+  display: block;
+  color: #F5F5DC; /* Beige for text */ }
 
 .content-span-2 {
   font-weight: 700;
   font-size: 3.25rem;
-  display: block; }
+  display: block;
+  color: #F5F5DC; /* Beige for text */ }
 
 .content-span-3 {
   display: block;
   font-size: 0.875rem;
-  margin-bottom: 8px; }
+  margin-bottom: 8px;
+  color: #8B4513; /* SaddleBrown for text */ }
 
 .content-span-4 {
   display: block;
   font-weight: 600;
   font-size: 0.875rem;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  color: #A0522D; /* Sienna for text */ }
   .content-span-4 span {
     font-weight: 700;
     margin-left: 4px;
@@ -6212,7 +6703,12 @@ input::-ms-clear {
   transition: background 0.3s;
   text-align: center;
   border-radius: 6px;
-  display: inline-block; }
+  display: inline-block;
+  background-color: #A0522D; /* Sienna for background */
+  color: #F5F5DC; /* Beige for text */ }
+  .shop-now-link:hover {
+    background-color: #DEB887; /* Burlywood for hover */
+    color: #A0522D; /* Sienna for text */ }
 
 .owl-item .slider-content--animation * {
   -webkit-animation-duration: 1s;
@@ -6261,7 +6757,7 @@ input::-ms-clear {
 
 .p-prev, .p-next {
   text-align: center;
-  box-shadow: 0 6px 15px 5px rgba(36, 37, 38, 0.08);
+  box-shadow: 0 6px 15px 5px rgba(0, 0, 0, 0.2); /* Adjusted shadow opacity */
   z-index: 1;
   cursor: pointer;
   display: inline-block;
@@ -6271,13 +6767,14 @@ input::-ms-clear {
   height: 72px;
   line-height: 72px;
   width: 36px;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   margin: auto 0;
-  transition: opacity .6s ease-in,background-color .6s ease-in;
+  transition: opacity .6s ease-in, background-color .6s ease-in;
   opacity: 0; }
   .p-prev > i, .p-next > i {
     font-size: 14px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for icon */
     display: block;
     position: absolute;
     top: 50%;
@@ -6302,8 +6799,9 @@ input::-ms-clear {
   text-align: center;
   z-index: 1;
   display: inline-block;
-  box-shadow: 0 6px 15px 5px rgba(36, 37, 38, 0.08);
-  background-color: #ffffff;
+  box-shadow: 0 6px 15px 5px rgba(0, 0, 0, 0.2); /* Adjusted shadow opacity */
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   position: absolute;
   top: 0;
   bottom: 0;
@@ -6316,7 +6814,7 @@ input::-ms-clear {
   opacity: 0; }
   .t-prev > i, .t-next > i {
     font-size: 14px;
-    color: #333333;
+    color: #F5F5DC; /* Beige for icon */
     display: block;
     position: absolute;
     top: 50%;
@@ -6346,7 +6844,8 @@ input::-ms-clear {
   margin: 0 auto; }
   .brand-slide a {
     display: block;
-    background-color: #ffffff;
+    background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+    background-color: #8B5A2B; /* Fallback brown wood color */
     transition: all .3s; }
     .brand-slide a:hover {
       box-shadow: 2px 3px 8px 0 rgba(0, 0, 0, 0.2); }
@@ -6362,14 +6861,15 @@ input::-ms-clear {
   height: 36px;
   line-height: 36px;
   width: 36px;
-  box-shadow: 0 6px 15px 5px rgba(36, 37, 38, 0.08);
-  background-color: #ffffff;
+  box-shadow: 0 6px 15px 5px rgba(0, 0, 0, 0.2); /* Adjusted shadow opacity */
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   margin: auto 0;
   transition: opacity .6s ease-in;
   opacity: 0; }
   .b-prev > i, .b-next > i {
     font-size: 14px;
-    color: #333333; }
+    color: #F5F5DC; /* Beige for icon */ }
 
 .b-prev {
   left: 0; }
@@ -6391,9 +6891,10 @@ input::-ms-clear {
   width: 50px;
   height: 50px;
   line-height: 50px;
-  box-shadow: 2px 2px 4px 4px rgba(36, 37, 38, 0.08);
-  background-color: #ffffff;
-  color: #333333;
+  box-shadow: 2px 2px 4px 4px rgba(0, 0, 0, 0.2); /* Adjusted shadow opacity */
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
+  color: #F5F5DC; /* Beige for icon */
   font-size: 18px;
   text-align: center; }
 
@@ -6423,11 +6924,12 @@ input::-ms-clear {
   width: 36px;
   margin: auto 0;
   transition: opacity ease-in-out .5s, background-color ease-in 0.3s;
-  background-color: #ffffff;
+  background: url('https://www.transparenttextures.com/patterns/wood-pattern.png') repeat; /* Wooden texture background */
+  background-color: #8B5A2B; /* Fallback brown wood color */
   opacity: 0; }
   .pt-prev i, .pt-next i {
     font-size: 12px;
-    color: #000000; }
+    color: #F5F5DC; /* Beige for icon */ }
 
 .pt-prev {
   left: 20px; }
@@ -6441,3 +6943,83 @@ input::-ms-clear {
 #js-product-detail-modal-thumbnail:hover .pt-prev, #js-product-detail-modal-thumbnail:hover .pt-next {
   opacity: .8; }
 
+/* For modern browsers */
+.input-text--style-1::placeholder {
+  color: #8B4513; /* SaddleBrown for placeholder */
+  opacity: 1; /* Firefox needs this */ }
+
+/* For older browsers */
+.input-text--style-1:-ms-input-placeholder {
+  color: #8B4513; /* SaddleBrown for placeholder */ }
+.input-text--style-1::-ms-input-placeholder {
+
+  color: #8B4513; /* SaddleBrown for placeholder */ }
+
+
+
+/* Custom loading indicator */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* Error message styling */
+.error-message {
+    background-color: #ffebee;
+    color: #b71c1c;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+    margin: 20px 0;
+    font-weight: bold;
+}
+/* Product card enhancements */
+.product-m__content {
+    min-height: 180px;
+}
+.product-m__name {
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+.no-products {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #666;
+}
+/* Filter-tree links and icons in old black */
+#filter-tree a.f-link {
+    color: #000000;
+}
+#filter-tree a.f-link:hover {
+    color: #000000;
+}
+#filter-tree li.is-expanded > a.f-link {
+    color: #000000;
+}
+#filter-tree .js-shop-category-span {
+    color: #000000;
+}  
