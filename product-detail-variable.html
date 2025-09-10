@@ -428,44 +428,77 @@
 
         function getUserSafe(){ try { return (typeof getCurrentUser === 'function') ? getCurrentUser() : null; } catch(e){ return null; } }
 
-        async function addToCart(productId, qty){
-        const user = getUserSafe();
-        if (!user) {
-            window.location.href = 'signin.html';
-            return false;
-        }
-        const product_amount = Math.max(1, parseInt(qty || '1', 10) || 1);
-        const payload = { product_id: productId, product_amount, user_id: user.user_id, user_email: user.user_email };
 
-        const res = await fetch(`${USER_API}/add-to-cart`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-        if (!res.ok) throw new Error(`Add to cart failed (${res.status})`);
-        const updated = await res.json().catch(()=>({}));
+        async function addToCart(productId, qty) {
+            const user = getUserSafe();
+            if (!user) {
+                window.location.href = 'signin.html';
+                return false;
+            }
+            const product_amount = Math.max(1, parseInt(qty || '1', 10) || 1);
 
-        // Local optimistic sync for ARRAY OF OBJECTS: [{product_id, product_amount}]
-        try {
-            const u = getUserSafe() || {};
-            let arr = [];
-            try { arr = JSON.parse(u.user_cart || '[]'); } catch(_) { arr = []; }
-            if (!Array.isArray(arr)) arr = [];
-            const sid = String(productId);
-            const idx = arr.findIndex(it => String(it?.product_id) === sid);
-            if (idx >= 0) {
-            const curAmt = parseInt(arr[idx].product_amount || '1', 10) || 1;
-            arr[idx].product_amount = curAmt + product_amount;
-            } else {
-            arr.push({ product_id: productId, product_amount });
-            }
-            u.user_cart = JSON.stringify(arr);
-            if (updated && updated.user_cart !== undefined) {
-            u.user_cart = updated.user_cart; // prefer server truth
-            }
-            if (typeof setCurrentUser === 'function') setCurrentUser(u);
-        } catch(_){}
-        return true;
+            // --- START: This is the missing logic ---
+            // Gather selected options from the dropdowns
+            const options = {};
+            const optionSelects = document.querySelectorAll('.pd-detail-form-group select');
+            optionSelects.forEach(select => {
+                // Find the corresponding label for this dropdown
+                const label = select.closest('.u-s-m-b-15').querySelector('.pd-detail__label');
+                if (label) {
+                    const optionName = label.textContent.replace(':', '').trim();
+                    options[optionName] = select.value;
+                }
+            });
+            // --- END: Missing logic ---
+
+            // Add the now-populated 'options' object to the payload
+            const payload = {
+                product_id: productId,
+                product_amount,
+                options, // This will no longer be empty
+                user_id: user.user_id,
+                user_email: user.user_email
+            };
+
+            const res = await fetch(`${USER_API}/add-to-cart`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw new Error(`Add to cart failed (${res.status})`);
+            const updated = await res.json().catch(() => ({}));
+
+            // Local optimistic sync... (rest of the function is the same)
+            try {
+                const u = getUserSafe() || {};
+                let arr = [];
+                try {
+                    arr = JSON.parse(u.user_cart || '[]');
+                } catch (_) {
+                    arr = [];
+                }
+                if (!Array.isArray(arr)) arr = [];
+                const sid = String(productId);
+                const idx = arr.findIndex(it => String(it?.product_id) === sid);
+                if (idx >= 0) {
+                    const curAmt = parseInt(arr[idx].product_amount || '1', 10) || 1;
+                    arr[idx].product_amount = curAmt + product_amount;
+                } else {
+                    arr.push({
+                        product_id: productId,
+                        product_amount,
+                        options
+                    });
+                }
+                u.user_cart = JSON.stringify(arr);
+                if (updated && updated.user_cart !== undefined) {
+                    u.user_cart = updated.user_cart; // prefer server truth
+                }
+                if (typeof setCurrentUser === 'function') setCurrentUser(u);
+            } catch (_) {}
+            return true;
         }
 
 // ===== Wishlist helpers (product page) =====

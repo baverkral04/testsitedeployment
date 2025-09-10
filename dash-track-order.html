@@ -207,7 +207,23 @@
   function formatProducts(jsonStr) {
     try {
       const prods = JSON.parse(jsonStr);
-      return prods.map(p => `${p.product_name} x ${p.product_amount}`).join('<br>');
+      return prods.map(p => {
+        // Create a string for the options, if they exist
+        let optionsStr = '';
+        if (p.options && typeof p.options === 'object' && Object.keys(p.options).length > 0) {
+          const optionsArray = Object.entries(p.options).map(([key, value]) => `${key}: ${value}`);
+          optionsStr = `<br><small style="color: #666;">(${optionsArray.join(', ')})</small>`;
+        }
+
+        // The original product info string
+        let productInfo = `${p.product_name} x ${p.product_amount}`;
+        // Add pricing for the admin view
+        if (p.product_unit_price) {
+            productInfo += ` @ $${p.product_unit_price} = $${p.product_total}`;
+        }
+        
+        return productInfo + optionsStr;
+      }).join('<br>');
     } catch {
       return jsonStr;
     }
