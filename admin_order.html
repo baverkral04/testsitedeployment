@@ -120,6 +120,8 @@
                                 <div class="u-s-m-b-30">
                                     <button class="btn btn--e-transparent-brand-b-2" onclick="showFilter('paid')">Waiting</button>
                                     <button class="btn btn--e-transparent-brand-b-2" onclick="showFilter('shipped')">Shipped</button>
+                                    <button class="btn btn--e-transparent-brand-b-2" onclick="showFilter('returnreq')">Return Requested</button>
+
                                 </div>
                                 <div id="orders-container"></div>
                             </div>
@@ -229,36 +231,113 @@
   }
 
   function renderOrders(orders) {
-    const filtered = orders.filter(o => o.order_status === currentFilter);
+    // Update this filter to catch all return-related statuses
+    const filtered = orders.filter(o => 
+      (currentFilter === 'returnreq' && ['returnreq', 'returnapproved', 'returnrejec'].includes(o.order_status)) ||
+      o.order_status === currentFilter
+    );
+
     const container = document.getElementById('orders-container');
     if (!container) return;
+
     container.innerHTML = '';
     for (let i = 0; i < filtered.length; i += 3) {
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'row u-s-m-b-30';
-      for (let j = 0; j < 3; j++) {
-        const ord = filtered[i + j];
-        if (!ord) break;
-        const colDiv = document.createElement('div');
-        colDiv.className = 'col-lg-4';
-        colDiv.innerHTML = `
-          <table class="o-summary__table">
-            <tbody>
-              <tr><td>Order ID</td><td>${ord.order_id}</td></tr>
-              <tr><td>User</td><td>${formatUser(ord.order_user)}</td></tr>
-              <tr><td>Products</td><td>${formatProducts(ord.order_product)}</td></tr>
-              <tr><td>Address</td><td>${ord.order_address}</td></tr>
-              <tr><td>Status</td><td>${ord.order_status}</td></tr>
-              <tr><td>Tracking</td><td><input type="text" id="track-${ord.order_id}" value="${ord.order_trackingNumber || ''}" class="input-text input-text--primary-style"></td></tr>
-              <tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="saveTrack('${ord.order_id}')">Save</button></td></tr>
-            </tbody>
-          </table>
-        `;
-        rowDiv.appendChild(colDiv);
-      }
-      container.appendChild(rowDiv);
+        
+        // THIS IS THE FIX: These two lines were missing.
+        // A new row is created for every 3 items.
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'row u-s-m-b-30';
+
+        for (let j = 0; j < 3; j++) {
+          const ord = filtered[i + j];
+          if (!ord) break;
+
+          // --- NEW LOGIC FOR ADMIN VIEW ---
+          let detailsHtml = '';
+          // If it's a standard order, show tracking input
+          if (['paid', 'shipped'].includes(ord.order_status)) {
+              detailsHtml = `
+                  <tr><td>Status</td><td>${ord.order_status}</td></tr>
+                  <tr><td>Tracking</td><td><input type="text" id="track-${ord.order_id}" value="${ord.order_trackingNumber || ''}" class="input-text input-text--primary-style"></td></tr>
+                  <tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="saveTrack('${ord.order_id}')">Save</button></td></tr>
+              `;
+          } 
+          // If it's a return request, show details and action buttons
+          else if (ord.order_status === 'returnreq') {
+              const imageUrl = ord.order_return_image ? `<a href="${ord.order_return_image}" target="_blank"><img src="${ord.order_return_image}" style="max-width:100px; max-height:100px;"></a>` : 'N/A';
+              detailsHtml = `
+                  <tr><td>Status</td><td>Awaiting Your Response</td></tr>
+                  <tr><td>Reason</td><td>${ord.order_return_reason || 'N/A'}</td></tr>
+                  <tr><td>Image</td><td>${imageUrl}</td></tr>
+                  <tr><td colspan="2" class="u-s-m-t-15">
+                      <button class="btn btn--e-brand-b-2" onclick="approveReturn('${ord.order_id}')">Approve</button>
+                      <button class="btn btn--e-transparent-brand-b-2" onclick="declineReturn('${ord.order_id}')">Decline</button>
+                  </td></tr>
+              `;
+          }
+          // For completed returns, just show the final status
+          else {
+              let finalStatus = ord.order_status === 'returnapproved' ? 'Return Approved' : 'Return Rejected';
+              detailsHtml = `<tr><td>Status</td><td>${finalStatus}</td></tr>`;
+              if(ord.order_rejection_reason) {
+                  detailsHtml += `<tr><td>Rejection Reason</td><td>${ord.order_rejection_reason}</td></tr>`;
+              }
+          }
+
+          const colDiv = document.createElement('div');
+          colDiv.className = 'col-lg-4';
+          
+          // UPDATE the innerHTML to use the new detailsHtml variable
+          colDiv.innerHTML = `
+            <table class="o-summary__table">
+              <tbody>
+                <tr><td>Order ID</td><td>${ord.order_id}</td></tr>
+                <tr><td>User</td><td>${formatUser(ord.order_user)}</td></tr>
+                <tr><td>Products</td><td>${formatProducts(ord.order_product)}</td></tr>
+                <tr><td>Address</td><td>${ord.order_address}</td></tr>
+                ${detailsHtml}
+              </tbody>
+            </table>
+          `;
+          // This line was causing the error because rowDiv didn't exist
+          rowDiv.appendChild(colDiv);
+        }
+        container.appendChild(rowDiv);
     }
   }
+  // --- ADD THESE NEW FUNCTIONS AT THE GLOBAL SCOPE (near saveTrack) ---
+  window.approveReturn = async function(order_id) {
+      if (!confirm('Are you sure you want to approve this return?')) return;
+      try {
+          const r = await fetch(`${ORDERS_API}/${order_id}/manage-return`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'approve' })
+          });
+          if (r.ok) {
+              init(); // Refresh list
+          } else { alert('Failed to approve.'); }
+      } catch { alert('Error approving.'); }
+  };
+
+  window.declineReturn = async function(order_id) {
+      const reason = prompt('Please provide a reason for declining this return request:');
+      if (reason === null) return; // User clicked cancel
+      if (!reason.trim()) {
+          alert('A reason is required to decline a return.');
+          return;
+      }
+      try {
+          const r = await fetch(`${ORDERS_API}/${order_id}/manage-return`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ action: 'decline', reason: reason.trim() })
+          });
+          if (r.ok) {
+              init(); // Refresh list
+          } else { alert('Failed to decline.'); }
+      } catch { alert('Error declining.'); }
+  };
 
   window.showFilter = async function(filter) {
     currentFilter = filter;

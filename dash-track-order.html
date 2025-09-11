@@ -101,6 +101,7 @@
                                 <div class="u-s-m-b-30">
                                     <button class="btn btn--e-transparent-brand-b-2" onclick="showFilter('paid')">Waiting</button>
                                     <button class="btn btn--e-transparent-brand-b-2" onclick="showFilter('shipped')">Shipped</button>
+                                    <button class="btn btn--e-transparent-brand-b-2" onclick="showFilter('returnreq')">Return Requested</button>
                                 </div>
                                 <div id="orders-container"></div>
                             </div>
@@ -112,6 +113,26 @@
         </div>
         <!--====== End - App Content ======-->
 
+        <div id="return-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center;">
+            <div style="background:white; padding:20px; border-radius:8px; width:90%; max-width:500px;">
+                <h3>Request Return for Shipped Order</h3>
+                <p>Please provide an explanation and a photo of the item.</p>
+                <form id="return-form">
+                    <input type="hidden" id="return-order-id">
+                    <div class="u-s-m-b-30">
+                        <label for="return-reason">Reason for Return<span class="astk">*</span></label>
+                        <textarea class="text-area text-area--primary-style" id="return-reason" required></textarea>
+                    </div>
+                    <div class="u-s-m-b-30">
+                        <label for="return-image">Upload Image<span class="astk">*</span></label>
+                        <input type="file" class="input-text" id="return-image" accept="image/*" required>
+                    </div>
+                    <button type="submit" class="btn btn--e-brand-b-2">Submit Request</button>
+                    <button type="button" class="btn btn--e-transparent-brand-b-2" onclick="closeReturnModal()">Cancel</button>
+                </form>
+            </div>
+        </div>
+        
         <!--====== Main Footer ======-->
         <div id="footer-placeholder"></div>
         <script>
@@ -173,18 +194,12 @@
   async function fetchAndFilterOrders() {
     const currentUser = getUserSafe();
     if (!currentUser) {
-        // If no user is logged in, return an empty array.
-        // You might want to redirect to login page here instead.
         return [];
     }
-
     try {
       const response = await fetch(ORDERS_API);
       if (!response.ok) return [];
-      
       const allOrders = await response.json();
-      
-      // CHANGED: Filter orders to only include those matching the current user's email or ID.
       const userOrders = allOrders.filter(order => {
         try {
           const orderUser = JSON.parse(order.order_user);
@@ -195,9 +210,7 @@
           return false;
         }
       });
-      
       return userOrders;
-
     } catch (error) {
       console.error("Error fetching orders:", error);
       return [];
@@ -208,20 +221,15 @@
     try {
       const prods = JSON.parse(jsonStr);
       return prods.map(p => {
-        // Create a string for the options, if they exist
         let optionsStr = '';
         if (p.options && typeof p.options === 'object' && Object.keys(p.options).length > 0) {
           const optionsArray = Object.entries(p.options).map(([key, value]) => `${key}: ${value}`);
           optionsStr = `<br><small style="color: #666;">(${optionsArray.join(', ')})</small>`;
         }
-
-        // The original product info string
         let productInfo = `${p.product_name} x ${p.product_amount}`;
-        // Add pricing for the admin view
         if (p.product_unit_price) {
             productInfo += ` @ $${p.product_unit_price} = $${p.product_total}`;
         }
-        
         return productInfo + optionsStr;
       }).join('<br>');
     } catch {
@@ -230,68 +238,160 @@
   }
 
   function renderOrders(orders) {
-    const filtered = orders.filter(o => o.order_status === currentFilter);
+    const filtered = orders.filter(o => 
+      (currentFilter === 'returnreq' && ['returnreq', 'returnapproved', 'returnrejec'].includes(o.order_status)) ||
+      o.order_status === currentFilter
+    );
     const container = document.getElementById('orders-container');
     if (!container) return;
-
     if (filtered.length === 0) {
-        container.innerHTML = `<div class="text-center u-s-m-b-30">You have no orders with the status "${currentFilter}".</div>`;
-        return;
+      container.innerHTML = `<div class="text-center u-s-m-b-30">You have no orders with this status.</div>`;
+      return;
     }
-
     container.innerHTML = '';
     for (let i = 0; i < filtered.length; i += 3) {
-      const rowDiv = document.createElement('div');
-      rowDiv.className = 'row u-s-m-b-30';
-      for (let j = 0; j < 3; j++) {
-        const ord = filtered[i + j];
-        if (!ord) break;
-
-        // CHANGED: Logic to display tracking number as text or a link.
-        let trackingInfoHtml = '';
-        if (ord.order_trackingNumber) {
-            // Make it a clickable link to a generic tracking search for better UX
-            trackingInfoHtml = `<a href="https://www.google.com/search?q=${encodeURIComponent(ord.order_trackingNumber)}" target="_blank" rel="noopener noreferrer">${ord.order_trackingNumber}</a>`;
-        } else {
-            trackingInfoHtml = 'Not yet available';
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'row u-s-m-b-30';
+        for (let j = 0; j < 3; j++) {
+          const ord = filtered[i + j];
+          if (!ord) break;
+          let trackingInfoHtml = '';
+          if (ord.order_trackingNumber) {
+              trackingInfoHtml = `<a href="https://www.google.com/search?q=${encodeURIComponent(ord.order_trackingNumber)}" target="_blank" rel="noopener noreferrer">${ord.order_trackingNumber}</a>`;
+          } else {
+              trackingInfoHtml = 'Not yet available';
+          }
+          let statusDisplay = ord.order_status;
+          let returnButtonHtml = '';
+          if (ord.order_status === 'paid' || ord.order_status === 'shipped') {
+              returnButtonHtml = `<tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="window.handleReturnRequest('${ord.order_id}', '${ord.order_status}')">Request Return</button></td></tr>`;
+          }
+          if (ord.order_status === 'returnreq') statusDisplay = 'Return Requested: Waiting for Response';
+          if (ord.order_status === 'returnapproved') statusDisplay = 'Return Approved';
+          if (ord.order_status === 'returnrejec') {
+              statusDisplay = `Return Rejected: <small style="display:block; color:#888;">${ord.order_rejection_reason || 'No reason provided.'}</small>`;
+          }
+          const colDiv = document.createElement('div');
+          colDiv.className = 'col-lg-4';
+          colDiv.innerHTML = `
+            <table class="o-summary__table">
+              <tbody>
+                <tr><td>Order ID</td><td>${ord.order_id}</td></tr>
+                <tr><td>Products</td><td>${formatProducts(ord.order_product)}</td></tr>
+                <tr><td>Address</td><td>${ord.order_address}</td></tr>
+                <tr><td>Status</td><td>${statusDisplay}</td></tr>
+                <tr><td>Tracking</td><td>${trackingInfoHtml}</td></tr>
+                ${returnButtonHtml}
+              </tbody>
+            </table>
+          `;
+          rowDiv.appendChild(colDiv);
         }
-        
-        const colDiv = document.createElement('div');
-        colDiv.className = 'col-lg-4';
-        
-        // CHANGED: The HTML no longer includes an input box or a save button.
-        colDiv.innerHTML = `
-          <table class="o-summary__table">
-            <tbody>
-              <tr><td>Order ID</td><td>${ord.order_id}</td></tr>
-              <tr><td>Products</td><td>${formatProducts(ord.order_product)}</td></tr>
-              <tr><td>Address</td><td>${ord.order_address}</td></tr>
-              <tr><td>Status</td><td>${ord.order_status}</td></tr>
-              <tr><td>Tracking</td><td>${trackingInfoHtml}</td></tr>
-            </tbody>
-          </table>
-        `;
-        rowDiv.appendChild(colDiv);
-      }
-      container.appendChild(rowDiv);
+        container.appendChild(rowDiv);
     }
   }
 
-  // This function is now globally available to be called by the filter buttons' onclick attributes.
+  // --- HELPER FUNCTIONS ATTACHED TO WINDOW ---
+  window.openReturnModal = function(order_id) {
+      document.getElementById('return-order-id').value = order_id;
+      document.getElementById('return-modal').style.display = 'flex';
+  };
+
+  window.closeReturnModal = function() {
+      document.getElementById('return-form').reset();
+      document.getElementById('return-modal').style.display = 'none';
+  };
+
+  window.handleReturnRequest = async function(order_id, status) {
+      if (status === 'paid') {
+          if (!confirm('Are you sure you want to cancel and return this order?')) return;
+              try {
+                  const r = await fetch(`${ORDERS_API}/${order_id}/request-return`, {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({})
+                  });
+                  if (r.ok){
+                      alert('Return requested. Your request is being processed.');
+                      init();
+                  } else {
+                      const err = await r.json();
+                      alert('Failed to request return: ' + (err.error || 'Unknown error'));
+                  }
+              } catch (e) {
+                  alert('An error occurred.');
+              }
+      } else if (status === 'shipped') {
+          window.openReturnModal(order_id);
+      }
+  };
+
   window.showFilter = async function(filter) {
     currentFilter = filter;
     const orders = await fetchAndFilterOrders();
     renderOrders(orders);
   };
 
-  // REMOVED: The saveTrack function is no longer needed for customers.
-  // window.saveTrack = async function(order_id) { ... };
-
   async function init() {
     const orders = await fetchAndFilterOrders();
     renderOrders(orders);
     const preloader = document.querySelector('.preloader');
     if (preloader) preloader.classList.remove('is-active');
+
+    // THIS IS THE CRUCIAL PART THAT WAS MISSING
+    const returnForm = document.getElementById('return-form');
+    if(returnForm) {
+        returnForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const order_id = document.getElementById('return-order-id').value;
+            const reason = document.getElementById('return-reason').value;
+            const imageFile = document.getElementById('return-image').files[0];
+
+            let image_path = ''; // Default to an empty string in case upload fails
+    
+            // First, ATTEMPT to upload the image
+            try {
+                const formData = new FormData();
+                formData.append('file', imageFile);
+
+                const uploadRes = await fetch(`${API_ROOT}/upload-return-image`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (uploadRes.ok) {
+                    const uploadData = await uploadRes.json();
+                    image_path = uploadData.path; // On success, we get the real path
+                } else {
+                    console.error('Image upload failed, but proceeding with the request.');
+                    alert('Warning: Your image could not be uploaded, but the return request will continue without it.');
+                }
+            } catch (uploadError) {
+                console.error('An error occurred during image upload:', uploadError);
+                alert('Warning: Your image could not be uploaded, but the return request will continue without it.');
+            }
+
+            // Second, ALWAYS submit the return request
+            try {
+                const returnRes = await fetch(`${ORDERS_API}/${order_id}/request-return`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ reason, image_path })
+                });
+
+                if (returnRes.ok) {
+                    alert('Return request submitted successfully!');
+                    window.closeReturnModal();
+                    init(); // Refresh the list
+                } else {
+                    const err = await returnRes.json();
+                    throw new Error(err.error || 'Failed to submit return request');
+                }
+            } catch (err) {
+                alert('Error submitting your return request: ' + err.message);
+            }
+        });
+    }
   }
 
   document.addEventListener('DOMContentLoaded', init);
