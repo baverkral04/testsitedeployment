@@ -263,18 +263,28 @@
               `;
           } 
           // If it's a return request, show details and action buttons
-          else if (ord.order_status === 'returnreq') {
-              const imageUrl = ord.order_return_image ? `<a href="${ord.order_return_image}" target="_blank"><img src="${ord.order_return_image}" style="max-width:100px; max-height:100px;"></a>` : 'N/A';
+          if (ord.order_status === 'paid') {
               detailsHtml = `
-                  <tr><td>Status</td><td>Awaiting Your Response</td></tr>
-                  <tr><td>Reason</td><td>${ord.order_return_reason || 'N/A'}</td></tr>
-                  <tr><td>Image</td><td>${imageUrl}</td></tr>
-                  <tr><td colspan="2" class="u-s-m-t-15">
-                      <button class="btn btn--e-brand-b-2" onclick="approveReturn('${ord.order_id}')">Approve</button>
-                      <button class="btn btn--e-transparent-brand-b-2" onclick="declineReturn('${ord.order_id}')">Decline</button>
+                  <tr><td>Status</td><td>Ready to Ship</td></tr>
+                  <tr><td colspan="2">
+                      <button class="btn btn--e-brand-b-2" onclick="generateTicket('${ord.order_id}')">Generate Shipping Ticket 🎟️</button>
+                  </td></tr>
+              `;
+          // In admin_order.html -> renderOrders
+          } else if (ord.order_status === 'shipped') {
+              // Use the direct tracking URL if it exists, otherwise fall back to Google search
+              const trackingUrl = ord.order_trackingURL || `https://www.google.com/search?q=${encodeURIComponent(ord.order_trackingNumber)}`;
+              detailsHtml = `
+                  <tr><td>Status</td><td>Shipped</td></tr>
+                  <tr><td>Tracking</td><td>
+                      <a href="${trackingUrl}" target="_blank">${ord.order_trackingNumber || 'N/A'}</a>
+                  </td></tr>
+                  <tr><td>Shipping Label</td><td>
+                      <a href="${ord.order_labelURL}" target="_blank" class="btn btn--e-brand-b-2 btn--s">View/Print Label</a>
                   </td></tr>
               `;
           }
+
           // For completed returns, just show the final status
           else {
               let finalStatus = ord.order_status === 'returnapproved' ? 'Return Approved' : 'Return Rejected';
@@ -365,6 +375,37 @@
     }
   };
 
+
+  // In admin_order.html, near your other window functions
+
+  window.generateTicket = async function(order_id) {
+      const button = event.target;
+      button.textContent = 'Generating...';
+      button.disabled = true;
+
+      try {
+          const r = await fetch(`${ORDERS_API}/${order_id}/generate-ticket`, {
+              method: 'POST'
+          });
+          const result = await r.json();
+
+          if (r.ok) {
+              // Redirect the admin to Stripe to pay for the ticket
+              window.location.href = result.payment_url;
+          } else {
+              alert('Error generating ticket: ' + result.error);
+              button.textContent = 'Generate Shipping Ticket 🎟️';
+              button.disabled = false;
+          }
+      } catch (e) {
+          alert('An unknown error occurred.');
+          button.textContent = 'Generate Shipping Ticket 🎟️';
+          button.disabled = false;
+      }
+  };  
+  
+  
+  
   async function init() {
     const orders = await fetchOrders();
     renderOrders(orders);

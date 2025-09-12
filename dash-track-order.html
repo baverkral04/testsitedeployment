@@ -255,12 +255,16 @@
         for (let j = 0; j < 3; j++) {
           const ord = filtered[i + j];
           if (!ord) break;
+          // In dash-track-order.html -> renderOrders
           let trackingInfoHtml = '';
           if (ord.order_trackingNumber) {
-              trackingInfoHtml = `<a href="https://www.google.com/search?q=${encodeURIComponent(ord.order_trackingNumber)}" target="_blank" rel="noopener noreferrer">${ord.order_trackingNumber}</a>`;
+              // Use the direct tracking URL if it exists, otherwise fall back to Google search
+              const url = ord.order_trackingURL || `https://www.google.com/search?q=${encodeURIComponent(ord.order_trackingNumber)}`;
+              trackingInfoHtml = `<a href="${url}" target="_blank" rel="noopener noreferrer">${ord.order_trackingNumber}</a>`;
           } else {
               trackingInfoHtml = 'Not yet available';
           }
+          
           let statusDisplay = ord.order_status;
           let returnButtonHtml = '';
           if (ord.order_status === 'paid' || ord.order_status === 'shipped') {

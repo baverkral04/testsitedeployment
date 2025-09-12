@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Processing Shipment...</title>
+    <meta http-equiv="refresh" content="5;url=admin_order.html" />
+    <script src="user.js"></script>
+</head>
+<body>
+    <h1>Processing your shipping label purchase...</h1>
+    <p id="status-message">Please wait. Do not close this window. You will be redirected shortly.</p>
+
+    <script>
+    (async () => {
+        const messageEl = document.getElementById('status-message');
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+
+            if (!sessionId) {
+                throw new Error("Stripe session ID not found.");
+            }
+
+            // Get the current logged-in user (the admin)
+            const user = window.getCurrentUser();
+            if (!user) {
+                throw new Error("You must be logged in to complete this action.");
+            }
+            
+            // Send the session ID to the backend to finalize the purchase
+            const res = await fetch(`${API_ROOT}/order/shipping-success`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ session_id: sessionId })
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || 'An unknown error occurred.');
+            }
+
+            messageEl.textContent = `Success! Shipment created with tracking number: ${data.tracking_number}. Redirecting you now...`;
+            // Redirect immediately on success
+            window.location.href = 'admin_order.html';
+
+        } catch (error) {
+            messageEl.textContent = `Error: ${error.message}. You will be redirected back to the orders page in 5 seconds.`;
+            console.error("Shipping success processing failed:", error);
+        }
+    })();
+    </script>
+</body>
+</html>
