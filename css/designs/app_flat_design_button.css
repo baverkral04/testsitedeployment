@@ -8552,3 +8552,13 @@ input::-ms-clear {
 #filter-tree .js-shop-category-span {
     color: #000000;
 }
+
+
+
+
+
+.product-o__action-list,
+.is-grid-active .product-m__add-cart {
+    display: none;
+}
+
