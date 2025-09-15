@@ -16,11 +16,15 @@
   const showProductsBtn = document.getElementById('showProductsBtn');
   const showBrandBtn = document.getElementById('showBrandBtn');
   const showImagesBtn = document.getElementById('showImagesBtn'); // NEW
+  const showTextsBtn = document.getElementById('showTextsBtn'); // NEW
+
 
   // --- Views ---
   const productsView = document.getElementById('productsView');
   const brandView = document.getElementById('brandView');
   const imagesView = document.getElementById('imagesView'); // NEW
+  const textsView = document.getElementById('textsView'); // NEW
+
 
   // --- Product Elements ---
   const productSelect = document.getElementById('productSelect');
@@ -30,6 +34,14 @@
   // --- Brand Elements ---
   const brandForm = document.getElementById('brandForm');
   const brandFormMsg = document.getElementById('brandFormMsg');
+
+  // --- Text Elements ---
+  const textsForm = document.getElementById('textsForm'); // NEW
+  const textsFormMsg = document.getElementById('textsFormMsg'); // NEW
+
+
+
+
 
   if (customerDisplay) customerDisplay.textContent = window.customerId;
 
@@ -60,20 +72,29 @@
     productsView.style.display = 'block';
     brandView.style.display = 'none';
     imagesView.style.display = 'none'; // UPDATED
+    textsView.style.display = 'none'; // UPDATED
+
     
     showProductsBtn.classList.add('active');
     showBrandBtn.classList.remove('active');
     showImagesBtn.classList.remove('active'); // UPDATED
+    showTextsBtn.classList.remove('active'); // UPDATED
+
+
   });
 
   showBrandBtn.addEventListener('click', () => {
     brandView.style.display = 'block';
     productsView.style.display = 'none';
     imagesView.style.display = 'none'; // UPDATED
+    textsView.style.display = 'none'; // UPDATED
+
     
     showBrandBtn.classList.add('active');
     showProductsBtn.classList.remove('active');
     showImagesBtn.classList.remove('active'); // UPDATED
+    showTextsBtn.classList.remove('active'); // UPDATED
+
     
     loadAndDisplayBrandInfo();
   });
@@ -83,15 +104,35 @@
     imagesView.style.display = 'block';
     productsView.style.display = 'none';
     brandView.style.display = 'none';
+    textsView.style.display = 'none'; // UPDATED
+
     
     showImagesBtn.classList.add('active');
     showProductsBtn.classList.remove('active');
     showBrandBtn.classList.remove('active');
+    showTextsBtn.classList.remove('active'); // UPDATED
+
+
     
     // This function is in the <script> tag in admin.html
     if (typeof window.loadAndDisplayBrandImages === 'function') {
         window.loadAndDisplayBrandImages();
     }
+  });
+
+
+  showTextsBtn.addEventListener('click', () => {
+    textsView.style.display = 'block';
+    productsView.style.display = 'none';
+    brandView.style.display = 'none';
+    imagesView.style.display = 'none';
+    
+    showTextsBtn.classList.add('active');
+    showProductsBtn.classList.remove('active');
+    showBrandBtn.classList.remove('active');
+    showImagesBtn.classList.remove('active');
+    
+    loadAndDisplayPageTexts(); // Call our new function
   });
 
   // =================================================================
@@ -144,6 +185,81 @@
       brandFormMsg.className = 'form-message error';
     }
   });
+
+  async function loadAndDisplayPageTexts() {
+    textsFormMsg.textContent = 'Loading...';
+    textsFormMsg.className = 'form-message';
+    try {
+      const brandData = await fetchJSON(BRAND_API);
+      const texts = brandData.brand_indexPageTexts || {}; // Default to empty object
+
+      // Loop through all the text fields in our form
+      textsForm.querySelectorAll('input[type="text"], textarea').forEach(input => {
+        const key = input.name;
+        if (texts[key]) {
+          input.value = texts[key];
+        } else {
+          input.value = ''; // Clear the field if no data exists for it
+        }
+      });
+      
+      textsFormMsg.textContent = 'Page texts loaded.';
+      textsFormMsg.classList.add('success');
+    } catch (error) {
+        if (error.message.includes('404')) {
+             textsFormMsg.textContent = 'No page texts found. Fill out the form to create them.';
+             textsForm.reset();
+        } else {
+            console.error('Error loading page texts:', error);
+            textsFormMsg.textContent = `Error: ${error.message}`;
+            textsFormMsg.className = 'form-message error';
+        }
+    }
+  }
+
+  textsForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    textsFormMsg.textContent = 'Saving...';
+    textsFormMsg.className = 'form-message';
+
+    try {
+      // 1. Fetch the most recent, complete brand data object
+      const currentBrandData = await fetchJSON(BRAND_API).catch(() => ({}));
+      
+      // 2. Create an object to hold all the new text values from the form
+      const newTexts = {};
+      const formData = new FormData(textsForm);
+      for (const [key, value] of formData.entries()) {
+        newTexts[key] = value;
+      }
+      
+      // 3. Create the final payload by merging the old data with the new texts
+      const payload = {
+          ...currentBrandData, // Keep all existing brand data
+          brand_indexPageTexts: newTexts // Overwrite just the text part
+      };
+
+      // Remove rowid as it's not a real column
+      delete payload.rowid;
+      
+      // 4. Send the complete object to the server
+      await fetchJSON(BRAND_API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      textsFormMsg.textContent = 'Page texts saved successfully!';
+      textsFormMsg.className = 'form-message success';
+    } catch (error) {
+      console.error('Error saving page texts:', error);
+      textsFormMsg.textContent = `Error: ${error.message}`;
+      textsFormMsg.className = 'form-message error';
+    }
+  });
+
+
+  
 
   // =================================================================
   // ====== 3. PRODUCT MANAGEMENT ======

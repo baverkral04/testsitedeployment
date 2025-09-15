@@ -1,0 +1,130 @@
+[
+  {
+    "name": "01 Getting started",
+    "type": "file",
+    "paths": {
+      "en": "guidelines/01_Getting_started_en.md",
+      "tr": "guidelines/01_Getting_started_tr.md"
+    }
+  },
+  {
+    "name": "02 website setup",
+    "type": "directory",
+    "children": [
+      {
+        "name": "how to buy and register domain",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/02_website_setup/how_to_buy_and_register_domain_en.md",
+          "tr": "guidelines/02_website_setup/how_to_buy_and_register_domain_tr.md"
+        }
+      },
+      {
+        "name": "how to get paid",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/02_website_setup/how_to_get_paid_en.md",
+          "tr": "guidelines/02_website_setup/how_to_get_paid_tr.md"
+        }
+      },
+      {
+        "name": "how to make website secure",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/02_website_setup/how_to_make_website_secure_en.md",
+          "tr": "guidelines/02_website_setup/how_to_make_website_secure_tr.md"
+        }
+      }
+    ]
+  },
+  {
+    "name": "03 Admin panel",
+    "type": "directory",
+    "children": [
+      {
+        "name": "Editing Site Text and Images",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/03_Admin_panel/Editing_Site_Text_and_Images_en.md",
+          "tr": "guidelines/03_Admin_panel/Editing_Site_Text_and_Images_tr.md"
+        }
+      },
+      {
+        "name": "Managing Products",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/03_Admin_panel/Managing_Products_en.md",
+          "tr": "guidelines/03_Admin_panel/Managing_Products_tr.md"
+        }
+      }
+    ]
+  },
+  {
+    "name": "04 Manage orders",
+    "type": "directory",
+    "children": [
+      {
+        "name": "how to make money refund",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/04_Manage_orders/how_to_make_money_refund_en.md",
+          "tr": "guidelines/04_Manage_orders/how_to_make_money_refund_tr.md"
+        }
+      },
+      {
+        "name": "how to make returns",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/04_Manage_orders/how_to_make_returns_en.md",
+          "tr": "guidelines/04_Manage_orders/how_to_make_returns_tr.md"
+        }
+      },
+      {
+        "name": "how to use cargo",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/04_Manage_orders/how_to_use_cargo_en.md",
+          "tr": "guidelines/04_Manage_orders/how_to_use_cargo_tr.md"
+        }
+      }
+    ]
+  },
+  {
+    "name": "05 how to make money",
+    "type": "directory",
+    "children": [
+      {
+        "name": "AI Powered seo basics",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/05_how_to_make_money/AI_Powered_seo_basics_en.md",
+          "tr": "guidelines/05_how_to_make_money/AI_Powered_seo_basics_tr.md"
+        }
+      },
+      {
+        "name": "Optimizing Website Text with AI",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/05_how_to_make_money/Optimizing_Website_Text_with_AI_en.md",
+          "tr": "guidelines/05_how_to_make_money/Optimizing_Website_Text_with_AI_tr.md"
+        }
+      },
+      {
+        "name": "Writing High-Converting Descriptions with AI",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/05_how_to_make_money/Writing_High-Converting_Descriptions_with_AI_en.md",
+          "tr": "guidelines/05_how_to_make_money/Writing_High-Converting_Descriptions_with_AI_tr.md"
+        }
+      },
+      {
+        "name": "finding a winning product",
+        "type": "file",
+        "paths": {
+          "en": "guidelines/05_how_to_make_money/finding_a_winning_product_en.md",
+          "tr": "guidelines/05_how_to_make_money/finding_a_winning_product_tr.md"
+        }
+      }
+    ]
+  }
+]

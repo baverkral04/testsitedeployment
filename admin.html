@@ -75,6 +75,8 @@
     <button id="showProductsBtn" class="active" type="button">Manage Products</button>
     <button id="showBrandBtn" type="button">Manage Brand Info</button>
     <button id="showImagesBtn" type="button">Manage Site Images</button>
+    <button id="showTextsBtn" type="button">Manage Page Texts</button> 
+
   </div>
 
   <hr>
@@ -209,6 +211,86 @@
       <div id="imageFormMsg" class="form-message"></div>
     </div>
   </div>
+
+  <div id="textsView" class="view">
+    <h2>Index Page Text Management</h2>
+    <p>Edit the text content for your main homepage. Use multiple lines in the text boxes for line breaks on the site. Click save when you're done.</p>
+    <form id="textsForm">
+
+      <h3>Hero Slider Section</h3>
+      <label for="text-hero-main">Main Hero Text (e.g., Starting At $209.99)</label>
+      <textarea id="text-hero-main" name="heroMain" rows="2" placeholder="Starting At $209.99"></textarea>
+      
+      <label for="text-hero-button">Hero "Shop Now" Button Text</label>
+      <input type="text" id="text-hero-button" name="heroButton" placeholder="SHOP NOW">
+
+      <h3>Deals Section</h3>
+      <label for="text-deals-title">"Shop by Deals" Title</label>
+      <input type="text" id="text-deals-title" name="dealsTitle" placeholder="SHOP BY DEALS">
+
+      <label for="text-deals-subtitle">"Shop by Deals" Subtitle</label>
+      <input type="text" id="text-deals-subtitle" name="dealsSubtitle" placeholder="BROWSE FAVOURITE DEALS">
+
+      <h3>Global Offers Banner</h3>
+      <label for="text-global-offers">Global Offers Text Block</label>
+      <textarea id="text-global-offers" name="globalOffers" rows="4" placeholder="Global Offers&#10;Official Launch Don't Miss!&#10;Enjoy Free Shipping..."></textarea>
+      
+      <label for="text-global-offers-button">Global Offers "Shop Now" Button Text</label>
+      <input type="text" id="text-global-offers-button" name="globalOffersButton" placeholder="Shop Now">
+
+      <h3>Featured Products Section</h3>
+      <label for="text-featured-title">"Featured Products" Title</label>
+      <input type="text" id="text-featured-title" name="featuredTitle" placeholder="FEATURED PRODUCTS">
+      
+      <label for="text-featured-subtitle">"Featured Products" Subtitle</label>
+      <input type="text" id="text-featured-subtitle" name="featuredSubtitle" placeholder="FIND NEW FEATURED PRODUCTS">
+
+      <h3>Services Section (Icons)</h3>
+      <label for="text-service1-title">Service 1 Title (Free Shipping)</label>
+      <input type="text" id="text-service1-title" name="service1Title" placeholder="Free Shipping">
+      <label for="text-service1-desc">Service 1 Description</label>
+      <textarea id="text-service1-desc" name="service1Desc" rows="2" placeholder="Free shipping on all US order or order above $200"></textarea>
+
+      <label for="text-service2-title">Service 2 Title (Shop with Confidence)</label>
+      <input type="text" id="text-service2-title" name="service2Title" placeholder="Shop with Confidence">
+      <label for="text-service2-desc">Service 2 Description</label>
+      <textarea id="text-service2-desc" name="service2Desc" rows="2" placeholder="Our Protection covers your purchase from click to delivery"></textarea>
+
+      <label for="text-service3-title">Service 3 Title (24/7 Help Center)</label>
+      <input type="text" id="text-service3-title" name="service3Title" placeholder="24/7 Help Center">
+      <label for="text-service3-desc">Service 3 Description</label>
+      <textarea id="text-service3-desc" name="service3Desc" rows="2" placeholder="Round-the-clock assistance for a smooth shopping experience"></textarea>
+
+
+
+
+      <h3>Promotion Section</h3>
+      <label for="text-promo1-line1">Promo 1 - Line 1</label>
+      <input type="text" id="text-promo1-line1" name="promo1Line1" placeholder="WEBSITES FOR YOUR BUSINESS">
+      <label for="text-promo1-line2a">Promo 1 - Line 2 (Normal Text)</label>
+      <input type="text" id="text-promo1-line2a" name="promo1Line2a" placeholder="GET IN">
+      <label for="text-promo1-line2b">Promo 1 - Line 2 (Brand Color Text)</label>
+      <input type="text" id="text-promo1-line2b" name="promo1Line2b" placeholder="TOUCH">
+
+      <label for="text-promo2-line1a">Promo 2 - Line 1 (Normal Text)</label>
+      <input type="text" id="text-promo2-line1a" name="promo2Line1a" placeholder="E-COMMERCE">
+      <label for="text-promo2-line1b">Promo 2 - Line 1 (Brand Color Text)</label>
+      <input type="text" id="text-promo2-line1b" name="promo2Line1b" placeholder="2025">
+      <label for="text-promo2-line2">Promo 2 - Line 2</label>
+      <input type="text" id="text-promo2-line2" name="promo2Line2" placeholder="CREATE YOUR STORE">
+
+      <label for="text-promo3-line1">Promo 3 - Line 1</label>
+      <input type="text" id="text-promo3-line1" name="promo3Line1" placeholder="BUY IT NOW">
+      <label for="text-promo3-line2">Promo 3 - Line 2 (Brand Color Text)</label>
+      <input type="text" id="text-promo3-line2" name="promo3Line2" placeholder="GET UP TO 30% OFF">
+      <hr>
+      <button type="submit">Save All Page Texts</button>
+      <div id="textsFormMsg" class="form-message"></div>
+
+
+
+    </form>
+  </div>  
 
   <script src="auth.js"></script> 
   <script>

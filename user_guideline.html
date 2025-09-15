@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guideline</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin: 0; display: flex; height: 100vh; color: #333; }
+        #sidebar { width: 280px; background-color: #f7f7f7; border-right: 1px solid #ddd; padding: 20px; box-sizing: border-box; display: flex; flex-direction: column; }
+        #sidebar-content { overflow-y: auto; flex-grow: 1; }
+        #sidebar h2 { margin-top: 0; font-size: 1.2em; color: #2c3e50; }
+        #sidebar a { display: block; text-decoration: none; color: #3498db; padding: 8px 10px; border-radius: 4px; margin-bottom: 5px; font-weight: 500; }
+        #sidebar a:hover, #sidebar a.active { background-color: #e0e0e0; color: #2980b9; }
+        #sidebar .directory { margin-top: 15px; }
+        #sidebar .directory-title { font-weight: bold; color: #555; margin-bottom: 5px; font-size: 0.9em; text-transform: uppercase; padding: 8px 10px; cursor: pointer; border-radius: 4px; }
+        #sidebar .directory-title:hover { background-color: #e0e0e0; }
+        #sidebar .directory a { padding-left: 20px; }
+        #content { flex-grow: 1; padding: 20px 40px; overflow-y: auto; line-height: 1.6; }
+        .lang-switcher { border-top: 1px solid #ddd; padding-top: 20px; margin-top: 20px; }
+        .lang-switcher button { width: 100%; padding: 10px; cursor: pointer; border: 1px solid #ccc; background-color: white; border-radius: 5px; font-size: 1em; }
+        .lang-switcher button.active { background-color: #2c3e50; color: white; border-color: #2c3e50; }
+    </style>
+</head>
+<body>
+
+    <div id="sidebar">
+        <div id="sidebar-content">
+            <h2 id="guideline-title">Guidelines</h2>
+            <div id="sidebar-nav"></div>
+        </div>
+        <div class="lang-switcher">
+            <button id="lang-en" class="active">English</button>
+            <button id="lang-tr">Türkçe</button>
+        </div>
+    </div>
+
+    <div id="content">
+        <h1>Loading...</h1>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const contentDiv = document.getElementById('content');
+            const guidelineTitle = document.getElementById('guideline-title');
+            const btnEn = document.getElementById('lang-en');
+            const btnTr = document.getElementById('lang-tr');
+
+            let currentLang = 'en';
+            let fullStructure = []; // This will hold the data from the JSON
+            const translations = {
+                en: { title: "Guidelines" },
+                tr: { title: "Kılavuzlar" }
+            };
+
+            function buildSidebar(items, container, lang) {
+                container.innerHTML = ''; // Clear the sidebar before rebuilding
+                let firstFile = null;
+
+                items.forEach(item => {
+                    if (item.type === 'directory') {
+                        const details = document.createElement('details');
+                        details.classList.add('directory');
+                        const summary = document.createElement('summary');
+                        summary.classList.add('directory-title');
+                        summary.textContent = item.name;
+                        details.appendChild(summary);
+                        
+                        // Recursively build children, only append if there are visible children
+                        const childContainer = document.createElement('div');
+                        const childFirstFile = buildSidebar(item.children, childContainer, lang);
+                        if(childContainer.hasChildNodes()){
+                            details.appendChild(childContainer);
+                            container.appendChild(details);
+                        }
+
+                        if (!firstFile) firstFile = childFirstFile;
+
+                    } else if (item.type === 'file' && item.paths[lang]) {
+                        // Only create a link if a version for the current language exists
+                        const link = document.createElement('a');
+                        link.href = item.paths[lang];
+                        link.textContent = item.name;
+                        container.appendChild(link);
+                        if (!firstFile) firstFile = link.href;
+                    }
+                });
+                return firstFile;
+            }
+
+            async function loadContent(path) {
+                if (!path) {
+                     contentDiv.innerHTML = `<h1>Article Not Found</h1><p>This article may not exist in the selected language.</p>`;
+                     return;
+                }
+                try {
+                    const response = await fetch(path);
+                    if (!response.ok) throw new Error(`File not found: ${path}`);
+                    const markdownText = await response.text();
+                    contentDiv.innerHTML = marked.parse(markdownText);
+                    document.querySelectorAll('#sidebar a').forEach(a => {
+                        a.classList.toggle('active', a.getAttribute('href') === path);
+                    });
+                } catch (error) {
+                    contentDiv.innerHTML = `<h1>Error</h1><p>Content could not be loaded.</p>`;
+                    console.error('Error loading content:', error);
+                }
+            }
+
+            function setLanguage(lang) {
+                const oldLang = currentLang;
+                currentLang = lang;
+                guidelineTitle.textContent = translations[lang].title;
+                btnEn.classList.toggle('active', lang === 'en');
+                btnTr.classList.toggle('active', lang === 'tr');
+
+                const firstFile = buildSidebar(fullStructure, sidebarNav, lang);
+                const currentHash = window.location.hash.substring(1);
+
+                // Find the equivalent page in the new language
+                const newPath = currentHash 
+                    ? currentHash.replace(`_${oldLang}.md`, `_${lang}.md`)
+                    : firstFile;
+                
+                // Check if the new path actually exists in the sidebar
+                const linkExists = sidebarNav.querySelector(`a[href="${newPath}"]`);
+
+                if (linkExists) {
+                    window.location.hash = newPath;
+                } else if (firstFile) {
+                    window.location.hash = firstFile;
+                } else {
+                    loadContent(null);
+                }
+            }
+
+            async function initialize() {
+                try {
+                    const response = await fetch('guideline_structure.json');
+                    fullStructure = await response.json();
+                    
+                    const hash = window.location.hash.substring(1);
+                    if (hash.endsWith('_tr.md')) {
+                        currentLang = 'tr';
+                    }
+                    
+                    setLanguage(currentLang);
+
+                } catch (error) {
+                    console.error('Failed to load guideline structure:', error);
+                }
+            }
+
+            btnEn.addEventListener('click', () => setLanguage('en'));
+            btnTr.addEventListener('click', () => setLanguage('tr'));
+            
+            sidebarNav.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' && e.target.href) {
+                    e.preventDefault();
+                    window.location.hash = e.target.getAttribute('href');
+                }
+            });
+
+            window.addEventListener('hashchange', () => {
+                loadContent(window.location.hash.substring(1));
+            });
+
+            initialize();
+        });
+    </script>
+</body>
+</html>
