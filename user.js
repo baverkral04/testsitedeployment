@@ -2,7 +2,7 @@
 // All shared variables are explicitly attached to the global 'window' object.
 window.CUSTOMER_ID = window.CUSTOMER_ID || 'products_test_user';
 window.customerId = window.CUSTOMER_ID; // Alias for admin.js compatibility
-window.API_HOST = 'http://localhost:5050';
+window.API_HOST = 'https://kardiytest.xyz';
 window.API_ROOT = `${window.API_HOST}/api/${window.CUSTOMER_ID}`;
 
 // Global placeholders for brand information
