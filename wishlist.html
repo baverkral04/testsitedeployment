@@ -268,7 +268,7 @@
   const PRODUCTS_API = `${API_ROOT}/products`;
   const WISHLIST_GET_URL = `${USER_API}/wishlist`;
   const WISHLIST_REMOVE_URL = `${USER_API}/wishlist/remove`;
-  const IMAGE_FALLBACK = 'images/product/default.jpg';
+  const IMAGE_FALLBACK = '';
   const DEBUG = true;
   const log = (...a)=>DEBUG&&console.log('[Wishlist]',...a);
 
@@ -315,8 +315,11 @@
   async function fetchServerWishlist(){
     const u = getCurrentUser();
     if (!u) return [];
-    const q = u.user_id ? `user_id=${encodeURIComponent(u.user_id)}` : `user_email=${encodeURIComponent(u.user_email)}`;
-    const res = await fetch(`${WISHLIST_GET_URL}?${q}`);
+    const q = u.user_id ? `user_id=${encodeURIComponent(u.user_id)}`
+                        : `user_email=${encodeURIComponent(u.user_email)}`;
+    const res = await fetch(`${WISHLIST_GET_URL}?${q}`, {
+      credentials: 'include'
+    });
     if (!res.ok) { log('GET wishlist failed', res.status); return []; }
     const list = await res.json();
     // Only update user state if wishlist has changed
@@ -324,7 +327,7 @@
     const newWishlist = JSON.stringify(list);
     if (currentWishlist !== newWishlist) {
       const merged = { ...u, user_wishlist: newWishlist };
-      setCurrentUser(merged, true); // silent to avoid triggering user:changed
+      setCurrentUser(merged);
     }
     return list;
   }
@@ -335,7 +338,7 @@
 
 // REPLACE IT WITH THIS
   function imageURL(p) {
-      const IMAGE_FALLBACK = 'images/product/default.jpg';
+      const IMAGE_FALLBACK = '';
       try {
           let primaryPath = '';
           const v = p.product_imagePath;
@@ -416,12 +419,17 @@
     const u = getCurrentUser();
     if (!u) throw new Error('not-signed-in');
 
-    const payload = { user_id: u.user_id, user_email: u.user_email, product_id: String(pid) };
+    const payload = {
+      product_id: String(pid),
+      user_id: u.user_id,
+      user_email: u.user_email
+    };
     log('POST remove →', payload);
 
     const res = await fetch(WISHLIST_REMOVE_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(payload)
     });
     if (!res.ok) {
@@ -431,16 +439,34 @@
     const updated = await res.json().catch(() => ({}));
 
     if (updated && (updated.user_id !== undefined || updated.user_email !== undefined)) {
-      setCurrentUser(updated, true); // silent to avoid triggering user:changed
+      setCurrentUser(updated);
     } else {
       // Fallback: optimistic local removal if server returned no user object
       const u2 = getCurrentUser() || {};
       let arr = parseWishlist(u2).filter(it => String(it.product_id) !== String(pid));
       u2.user_wishlist = JSON.stringify(arr);
-      setCurrentUser(u2, true);
+      setCurrentUser(u2);
     }
     updateWishlistCountDisplay();
     return true;
+  }
+
+  async function addToCartServer(pid, qty = 1) {
+    const u = getCurrentUser(); if (!u) throw new Error('not-signed-in');
+    const payload = {
+      product_id: String(pid),
+      product_amount: Math.max(1, parseInt(qty, 10) || 1),
+      user_id: u.user_id,
+      user_email: u.user_email
+    };
+    const res = await fetch(`${USER_API}/add-to-cart`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error('add-to-cart failed ' + res.status);
+    try { return await res.json(); } catch { return {}; }
   }
 
   /* --------------------------- RENDER / LOAD ------------------------- */
@@ -478,6 +504,7 @@
     }
     if (!cachedProducts || !cachedProducts.length) {
       listEl.innerHTML = `<div class="u-s-m-b-30" style="color:#b00">Could not load products.</div>`;
+      showGlobalError("We're having trouble loading products. Please refresh the page.");
       return;
     }
 
@@ -503,21 +530,30 @@
     const action = btn.getAttribute('data-action');
     const user = getCurrentUser();
 
-    if (!user) { alert('Please sign in.'); return; }
+    if (!user) { showToast('Please sign in to continue.', { type: 'info' }); return; }
 
-    // Handle ADD TO CART locally (your backend cart routes already exist if you want to wire them later)
     if (action === 'add-to-cart') {
-      // simple local increment (you can swap to server call if desired)
+      try {
+        await addToCartServer(pid, 1);
+      } catch (err) {
+        console.error('[wishlist] add-to-cart failed', err);
+        showToast('We couldn\'t add that item to your cart. Please try again.', { type: 'error' });
+        return;
+      }
+
       const raw = user.user_cart || '[]';
       let cart = [];
       try { cart = typeof raw === 'string' ? JSON.parse(raw) : raw; } catch { cart = []; }
-      let found = cart.find(x => String(x.product_id) === String(pid));
-      if (found) found.product_amount = Math.max(1, Number(found.product_amount||1)) + 1;
-      else cart.push({ product_id: String(pid), product_amount: 1 });
+      const entry = cart.find(x => String(x.product_id) === String(pid));
+      if (entry) {
+        entry.product_amount = Math.max(1, Number(entry.product_amount || 1)) + 1;
+      } else {
+        cart.push({ product_id: String(pid), product_amount: 1 });
+      }
       user.user_cart = JSON.stringify(cart);
-      setCurrentUser(user, true); // silent to avoid triggering user:changed
+      setCurrentUser(user);
       document.dispatchEvent(new CustomEvent('cart:changed'));
-      alert('Added to cart!');
+      showToast('Item added to your cart.', { type: 'success' });
       return;
     }
 
@@ -534,7 +570,7 @@
         }
       } catch (err) {
         console.error('Remove failed:', err);
-        alert('Could not remove from wishlist. Please try again.');
+        showToast('We couldn\'t update your wishlist. Please try again.', { type: 'error' });
       }
       return;
     }

@@ -22,6 +22,214 @@
 
     <!--====== App ======-->
     <link rel="stylesheet" href="css/app.css">
+    <style>
+      [data-index-loading] {
+        font-size: 14px;
+        letter-spacing: 0.02em;
+      }
+
+      .product-l__action {
+        margin-top: 10px;
+      }
+
+      .product-l__action .btn {
+        width: 100%;
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        padding: 10px 14px;
+      }
+
+      /* ---------- Top Rated Products slider ---------- */
+      #testimonial-slider .top-rated-card {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+        gap: 32px;
+        padding: 34px 38px;
+        border-radius: 26px;
+        background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, #eef2ff 100%);
+        box-shadow: 0 25px 60px rgba(15, 23, 42, 0.12);
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+      }
+
+      #testimonial-slider .top-rated-card::before {
+        content: '';
+        position: absolute;
+        inset: 12px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.12));
+        opacity: 0;
+        transition: opacity 0.45s ease;
+        z-index: -1;
+      }
+
+      #testimonial-slider .top-rated-card:hover::before {
+        opacity: 1;
+      }
+
+      #testimonial-slider .top-rated-card__media {
+        flex: 0 0 220px;
+        max-width: 220px;
+        border-radius: 20px;
+        overflow: hidden;
+        background: #0f172a;
+        position: relative;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+        aspect-ratio: 4 / 5;
+      }
+
+      #testimonial-slider .top-rated-card__media::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0) 20%, rgba(15, 23, 42, 0.25) 100%);
+        opacity: 0;
+        transition: opacity 0.45s ease;
+      }
+
+      #testimonial-slider .top-rated-card__media:hover::after {
+        opacity: 1;
+      }
+
+      #testimonial-slider .top-rated-card__media .testimonial__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0;
+        transform: scale(1.01);
+        transition: transform 0.6s ease;
+      }
+
+      #testimonial-slider .top-rated-card__media:hover .testimonial__img {
+        transform: scale(1.08);
+      }
+
+      #testimonial-slider .top-rated-card__body {
+        flex: 1;
+        min-width: 260px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      #testimonial-slider .top-rated-card__rating {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        color: #0f172a;
+      }
+
+      #testimonial-slider .top-rated-card__stars {
+        display: inline-flex;
+        gap: 6px;
+        color: #f59e0b;
+        font-size: 1.05rem;
+      }
+
+      #testimonial-slider .top-rated-card__stars i {
+        margin-right: 0;
+      }
+
+      #testimonial-slider .top-rated-card__score {
+        font-size: 1.45rem;
+      }
+
+      #testimonial-slider .top-rated-card__count {
+        color: #64748b;
+        font-size: 0.95rem;
+      }
+
+      #testimonial-slider .top-rated-card__title {
+        margin: 0;
+        font-size: 1.45rem;
+        font-weight: 600;
+        color: #0f172a;
+        letter-spacing: 0.01em;
+      }
+
+      #testimonial-slider .top-rated-card__quote {
+        position: relative;
+        padding-left: 36px;
+        font-size: 1.02rem;
+        line-height: 1.7;
+        color: #334155;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+
+      #testimonial-slider .top-rated-card__quote::before {
+        content: '\201C';
+        position: absolute;
+        left: 0;
+        top: -6px;
+        font-size: 3rem;
+        color: rgba(59, 130, 246, 0.25);
+      }
+
+      #testimonial-slider .top-rated-card__author {
+        font-weight: 600;
+        color: #475569;
+        letter-spacing: 0.01em;
+      }
+
+      #testimonial-slider .top-rated-card__cta {
+        margin-top: auto;
+      }
+
+      #testimonial-slider .top-rated-card__cta .btn {
+        padding: 10px 20px;
+        border-radius: 999px;
+        font-size: 0.95rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+      }
+
+      #testimonial-slider .top-rated-card__cta .btn:hover {
+        box-shadow: 0 18px 38px rgba(59, 130, 246, 0.25);
+      }
+
+      #testimonial-slider .owl-dots {
+        margin-top: 30px;
+      }
+
+      #testimonial-slider .owl-dot span {
+        background: rgba(148, 163, 184, 0.45);
+        transition: background 0.3s ease;
+      }
+
+      #testimonial-slider .owl-dot.active span {
+        background: #3b82f6;
+      }
+
+      @media (max-width: 991px) {
+        #testimonial-slider .top-rated-card {
+          padding: 28px;
+          gap: 24px;
+        }
+
+        #testimonial-slider .top-rated-card__media {
+          flex-basis: 100%;
+          max-width: 100%;
+          aspect-ratio: 3 / 2;
+        }
+      }
+
+      @media (max-width: 575px) {
+        #testimonial-slider .top-rated-card {
+          padding: 24px 22px;
+        }
+
+        #testimonial-slider .top-rated-card__rating {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
 </head>
 <body class="config">
     <div class="preloader is-active">
@@ -35,14 +243,86 @@
 
         <!--====== Main Header ======-->
        <div id="header-placeholder"></div>
-        <script>
-        (async () => {
+    <script>
+    const INDEX_ADD_TO_CART_URL = `${API_ROOT}/users/add-to-cart`;
+
+    const indexGetUserSafe = () => {
+      try { return (typeof getCurrentUser === 'function') ? getCurrentUser() : null; }
+      catch (_) { return null; }
+    };
+
+    async function indexAddToCart(productId, user) {
+      if (!productId || !user) {
+        throw new Error('Missing product or user information');
+      }
+      const payload = {
+        product_id: productId,
+        product_amount: 1,
+        options: {},
+        user_id: user.user_id,
+        user_email: user.user_email
+      };
+
+      const res = await fetch(INDEX_ADD_TO_CART_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`Add to cart failed (${res.status})`);
+      const updatedUser = await res.json().catch(() => null);
+      if (updatedUser && typeof setCurrentUser === 'function') {
+        setCurrentUser(updatedUser);
+      } else if (typeof window.checkSession === 'function') {
+        await window.checkSession();
+      }
+    }
+
+    document.addEventListener('click', async (event) => {
+      const btn = event.target.closest('.js-index-add-to-cart');
+      if (!btn) return;
+      event.preventDefault();
+      const productId = btn.dataset.productId;
+      if (!productId) return;
+
+      const user = indexGetUserSafe();
+      if (!user) {
+        window.location.href = 'signin.html';
+        return;
+      }
+
+      if (btn.dataset.busy === '1') return;
+      const originalHtml = btn.innerHTML;
+      const originalTitle = btn.getAttribute('title') || '';
+      btn.dataset.busy = '1';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      btn.setAttribute('title', 'Adding...');
+
+      try {
+        await indexAddToCart(productId, user);
+        btn.innerHTML = '<i class="fas fa-check"></i>';
+        btn.setAttribute('title', 'Added to cart');
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.setAttribute('title', originalTitle);
+        }, 900);
+      } catch (err) {
+        console.error('[index-add-to-cart]', err);
+        showToast('We couldn\'t add that item to your cart. Please try again.', { type: 'error' });
+        btn.innerHTML = originalHtml;
+        btn.setAttribute('title', originalTitle);
+      } finally {
+        delete btn.dataset.busy;
+      }
+    });
+
+    (async () => {
         const el = document.getElementById('header-placeholder');
         const resp = await fetch('top_bar.html?_=' + Date.now()); // bust cache
         const html = await resp.text();
         el.innerHTML = html;
 
-        // Execute any <script> tags inside the injected HTML
+        await window.checkSession();
 
         document.dispatchEvent(new CustomEvent('user:changed'));
     
@@ -258,168 +538,9 @@
                 <div class="section__content">
                     <div class="container">
                         <div class="row" id="featured-products-row">
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                <div class="product-o product-o--hover-on u-h-100">
-                                    <div class="product-o__wrap">
-
-                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                            <img class="aspect__img" src="" alt=""></a>
-                                        <div class="product-o__action-wrap">
-                                            <ul class="product-o__action-list">
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <span class="product-o__category">
-
-                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                    <span class="product-o__name">
-
-                                        <a href="product-detail.html">Tablet 14inch Screen</a></span>
-                                    <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                        <span class="product-o__review">(23)</span></div>
-
-                                    <span class="product-o__price">$125.00
-
-                                        <span class="product-o__discount">$160.00</span></span>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                <div class="product-o product-o--hover-on u-h-100">
-                                    <div class="product-o__wrap">
-
-                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                            <img class="aspect__img" src="" alt=""></a>
-                                        <div class="product-o__action-wrap">
-                                            <ul class="product-o__action-list">
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <span class="product-o__category">
-
-                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                    <span class="product-o__name">
-
-                                        <a href="product-detail.html">Tablet 18inch Screen</a></span>
-                                    <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                        <span class="product-o__review">(23)</span></div>
-
-                                    <span class="product-o__price">$125.00
-
-                                        <span class="product-o__discount">$160.00</span></span>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                <div class="product-o product-o--hover-on u-h-100">
-                                    <div class="product-o__wrap">
-
-                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                            <img class="aspect__img" src="" alt=""></a>
-                                        <div class="product-o__action-wrap">
-                                            <ul class="product-o__action-list">
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <span class="product-o__category">
-
-                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                    <span class="product-o__name">
-
-                                        <a href="product-detail.html">Tablet 13inch Screen Ram 16GB</a></span>
-                                    <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                        <span class="product-o__review">(23)</span></div>
-
-                                    <span class="product-o__price">$125.00
-
-                                        <span class="product-o__discount">$160.00</span></span>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 u-s-m-b-30">
-                                <div class="product-o product-o--hover-on u-h-100">
-                                    <div class="product-o__wrap">
-
-                                        <a class="aspect aspect--bg-grey aspect--square u-d-block" href="product-detail.html">
-
-                                            <img class="aspect__img" src="" alt=""></a>
-                                        <div class="product-o__action-wrap">
-                                            <ul class="product-o__action-list">
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                                                <li>
-
-                                                    <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                                                <li>
-
-                                                    <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-
-                                    <span class="product-o__category">
-
-                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                    <span class="product-o__name">
-
-                                        <a href="product-detail.html">Tablet 12inch Screen Ram 16GB</a></span>
-                                    <div class="product-o__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
-
-                                        <span class="product-o__review">(23)</span></div>
-
-                                    <span class="product-o__price">$125.00
-
-                                        <span class="product-o__discount">$160.00</span></span>
+                            <div class="col-12">
+                                <div class="u-s-m-b-30" data-index-loading="featured" style="text-align:center; color:#64748b;">
+                                    Loading featured products...
                                 </div>
                             </div>
                         </div>
@@ -499,66 +620,7 @@
 
                                     <span class="column-product__title u-c-secondary u-s-m-b-25">SPECIAL PRODUCTS</span>
                                     <ul class="column-product__list" id="special-products-list">
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 15 Ram 16GB</a></span>
-
-                                                    <span class="product-l__price">$125.00</span></div>
-                                            </div>
-                                        </li>
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 13 Ram 16GB</a></span>
-
-                                                    <span class="product-l__price">$125.00</span></div>
-                                            </div>
-                                        </li>
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 15 Ram 8GB</a></span>
-
-                                                    <span class="product-l__price">$125.00</span></div>
-                                            </div>
-                                        </li>
+                                        <li class="column-product__item" data-index-loading="special"><div class="product-l" style="justify-content:center; color:#64748b;">Loading special products...</div></li>
                                     </ul>
                                 </div>
                             </div>
@@ -567,72 +629,7 @@
 
                                     <span class="column-product__title u-c-secondary u-s-m-b-25">WEEKLY PRODUCTS</span>
                                     <ul class="column-product__list" id="weekly-products-list">
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 10 Ram 16GB</a></span>
-
-                                                    <span class="product-l__price">$125.00
-
-                                                        <span class="product-l__discount">$160</span></span></div>
-                                            </div>
-                                        </li>
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 15 Ram 8GB</a></span>
-
-                                                    <span class="product-l__price">$125.00
-
-                                                        <span class="product-l__discount">$160</span></span></div>
-                                            </div>
-                                        </li>
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 15 Ultra Ram 16GB</a></span>
-
-                                                    <span class="product-l__price">$125.00
-
-                                                        <span class="product-l__discount">$160</span></span></div>
-                                            </div>
-                                        </li>
+                                        <li class="column-product__item" data-index-loading="weekly"><div class="product-l" style="justify-content:center; color:#64748b;">Loading weekly picks...</div></li>
                                     </ul>
                                 </div>
                             </div>
@@ -641,72 +638,7 @@
 
                                     <span class="column-product__title u-c-secondary u-s-m-b-25">FLASH PRODUCTS</span>
                                     <ul class="column-product__list" id="flash-products-list">
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-                                                    <div class="product-l__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 20 Ultra Ram 16GB</a></span>
-
-                                                    <span class="product-l__price">$125.00</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-                                                    <div class="product-l__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 11 Ultra Ram 16GB</a></span>
-
-                                                    <span class="product-l__price">$125.00</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="column-product__item">
-                                            <div class="product-l">
-                                                <div class="product-l__img-wrap">
-
-                                                    <a class="aspect aspect--bg-grey aspect--square u-d-block product-l__link" href="product-detail.html">
-
-                                                        <img class="aspect__img" src="" alt=""></a></div>
-                                                <div class="product-l__info-wrap">
-                                                    <div class="product-l__rating gl-rating-style"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-
-                                                    <span class="product-l__category">
-
-                                                        <a href="shop-side-version-2.html">Electronics</a></span>
-
-                                                    <span class="product-l__name">
-
-                                                        <a href="product-detail.html">Razor Gear 10 Ultra Ram 16GB</a></span>
-
-                                                    <span class="product-l__price">$125.00</span>
-                                                </div>
-                                            </div>
-                                        </li>
+                                        <li class="column-product__item" data-index-loading="flash"><div class="product-l" style="justify-content:center; color:#64748b;">Loading flash deals...</div></li>
                                     </ul>
                                 </div>
                             </div>
@@ -927,9 +859,7 @@
                                         <div class="pd-detail__inline">
 
                                             <span class="pd-detail__click-wrap"><i class="far fa-heart u-s-m-r-6"></i>
-
-                                                <a href="signin.html">Add to Wishlist</a>
-
+                                                <span>Add to Wishlist</span>
                                                 <span class="pd-detail__click-count">(222)</span></span></div>
                                     </div>
                                     <div class="u-s-m-b-15">
@@ -937,7 +867,7 @@
 
                                             <span class="pd-detail__click-wrap"><i class="far fa-envelope u-s-m-r-6"></i>
 
-                                                <a href="signin.html">Email me When the price drops</a>
+                                                <span>Email me When the price drops</span>
 
                                                 <span class="pd-detail__click-count">(20)</span></span></div>
                                     </div>
@@ -1158,9 +1088,9 @@
             catch { path = v; }
           } else if (Array.isArray(v) && v.length) path = v[0];
           if (!path) return IMAGE_FALLBACK;
-          if (path.startsWith('http')) {
+          if (/^https?:\/\//i.test(path)) {
             return path;
-        }
+          }
           return `${API_HOST}/${String(path).replace(/^\/+/, '')}`;
         } catch { return IMAGE_FALLBACK; }
       }
@@ -1182,6 +1112,8 @@
           return;
         }
       }
+
+      document.querySelectorAll('[data-index-loading]').forEach(el => el.remove());
 
       function sortProducts(list) {
         return list.slice().sort((a, b) => (Number(a.product_index) || 0) - (Number(b.product_index) || 0) || String(a.product_name || '').localeCompare(String(b.product_name || '')));
@@ -1205,10 +1137,8 @@
                 </a>
                 <div class="product-o__action-wrap">
                   <ul class="product-o__action-list">
-                    <li><a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View"><i class="fas fa-search-plus"></i></a></li>
-                    <li><a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-plus-circle"></i></a></li>
-                    <li><a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist"><i class="fas fa-heart"></i></a></li>
-                    <li><a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops"><i class="fas fa-envelope"></i></a></li>
+                    <li><a class="js-index-add-to-cart" href="#" data-product-id="${getId(p)}" data-tooltip="tooltip" data-placement="top" title="Add to Cart"><i class="fas fa-cart-plus"></i></a></li>
+                    <li><a href="${productLink(p)}" data-tooltip="tooltip" data-placement="top" title="View Details"><i class="fas fa-info-circle"></i></a></li>
                   </ul>
                 </div>
               </div>
@@ -1244,6 +1174,9 @@
                 <span class="product-l__category"><a href="shop-side-version-2.html">${category}</a></span>
                 <span class="product-l__name"><a href="${productLink(p)}">${name}</a></span>
                 <span class="product-l__price">${finalPrice} ${discHTML}</span>
+                <div class="product-l__action">
+                  <a class="btn btn--e-brand-b-2 js-index-add-to-cart" href="#" data-product-id="${getId(p)}">Add to Cart</a>
+                </div>
               </div>
             </div>
           </li>
@@ -1336,6 +1269,7 @@
             });
         } catch (error) {
             console.error("Failed to load dynamic site images:", error);
+            showGlobalError("We're having trouble loading the site content. Please refresh the page.");
         }
     })();
 </script>
@@ -1356,26 +1290,47 @@ async function populateTopRatedProducts() {
         const fullStars = Math.floor(rating);
         const halfStar = rating % 1 >= 0.5 ? 1 : 0;
         const emptyStars = 5 - fullStars - halfStar;
-        let starsHTML = '';
-        for (let i = 0; i < fullStars; i++) starsHTML += '<i class="fas fa-star"></i>';
-        if (halfStar) starsHTML += '<i class="fas fa-star-half-alt"></i>';
-        for (let i = 0; i < emptyStars; i++) starsHTML += '<i class="far fa-star"></i>';
-        return `<div class="gl-rating-style u-s-m-b-8">${starsHTML}</div>`;
+        let markup = '';
+        for (let i = 0; i < fullStars; i++) markup += '<i class="fas fa-star"></i>';
+        if (halfStar) markup += '<i class="fas fa-star-half-alt"></i>';
+        for (let i = 0; i < emptyStars; i++) markup += '<i class="far fa-star"></i>';
+        return markup;
     };
 
     const getImageUrl = (p) => {
         const IMAGE_FALLBACK = '';
         try {
-            let path = '';
-            const v = p.product_imagePath;
-            if (!v) return IMAGE_FALLBACK;
-            if (typeof v === 'string') {
-                try { const arr = JSON.parse(v); if (Array.isArray(arr) && arr.length) path = arr[0]; }
-                catch { path = v; }
-            } else if (Array.isArray(v) && v.length) path = v[0];
-            if (!path) return IMAGE_FALLBACK;
-            return `${API_HOST}/${String(path).replace(/^\/+/, '')}`;
-        } catch { return IMAGE_FALLBACK; }
+            const raw = p?.product_imagePath;
+            let primary = '';
+
+            if (!raw) return IMAGE_FALLBACK;
+
+            if (Array.isArray(raw) && raw.length) {
+                primary = raw[0];
+            } else if (typeof raw === 'string') {
+                try {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed) && parsed.length) {
+                        primary = parsed[0];
+                    } else {
+                        primary = raw;
+                    }
+                } catch {
+                    primary = raw;
+                }
+            }
+
+            if (!primary) return IMAGE_FALLBACK;
+
+            if (/^https?:\/\//i.test(primary)) {
+                return primary;
+            }
+
+            const normalised = String(primary).replace(/^\/+/, '');
+            return `${API_HOST}/${normalised}`;
+        } catch {
+            return IMAGE_FALLBACK;
+        }
     };
 
     // 1. Fetch Products and Reviews
@@ -1435,23 +1390,29 @@ async function populateTopRatedProducts() {
         const imageUrl = getImageUrl(p);
         const starsHtml = createStars(p.avgRating);
         // CORRECTED: Use 'review' and 'user' to match your data structure.
-        const reviewText = topReview.review;
-        const authorName = topReview.user;
+        const reviewText = topReview.review || 'Loved it!';
+        const authorName = topReview.user || 'Verified Customer';
 
+        const productUrl = `product-detail-variable.html?product_id=${encodeURIComponent(id)}&image=${encodeURIComponent(imageUrl)}`;
         sliderHtml += `
-            <div class="testimonial">
-                <div class="testimonial__img-wrap">
+            <article class="testimonial top-rated-card">
+                <div class="testimonial__img-wrap top-rated-card__media">
                     <img class="testimonial__img" src="${imageUrl}" alt="${p.product_name}">
                 </div>
-                <div class="testimonial__content-wrap">
-                    <span class="testimonial__double-quote"><i class="fas fa-quote-right"></i></span>
-                    ${starsHtml}
-                    <blockquote class="testimonial__block-quote">
-                        <p>${reviewText}</p>
-                    </blockquote>
-                    <span class="testimonial__author">${authorName} / on ${p.product_name}</span>
+                <div class="top-rated-card__body">
+                    <div class="top-rated-card__rating">
+                        <div class="top-rated-card__stars">${starsHtml}</div>
+                        <span class="top-rated-card__score">${p.avgRating.toFixed(1)}</span>
+                        <span class="top-rated-card__count">(${p.reviewCount} review${p.reviewCount === 1 ? '' : 's'})</span>
+                    </div>
+                    <h3 class="top-rated-card__title">${p.product_name}</h3>
+                    <p class="top-rated-card__quote">${reviewText}</p>
+                    <span class="top-rated-card__author">${authorName}</span>
+                    <div class="top-rated-card__cta">
+                        <a class="btn btn--e-brand-b-2" href="${productUrl}">View Product</a>
+                    </div>
                 </div>
-            </div>
+            </article>
         `;
     });
     

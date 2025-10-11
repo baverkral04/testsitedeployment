@@ -40,7 +40,7 @@
             }
             populateSelect();
         } catch (e) {
-            alert(`Error initializing: ${e.message}`);
+            showToast(`We couldn't load the admin data. ${e?.message || ''}`.trim(), { type: 'error' });
         }
     }
 
@@ -127,9 +127,9 @@
             await initialize();
             productSelect.value = updatedProduct.product_id;
             renderForm(updatedProduct);
-            alert('Product saved successfully!');
+            showToast('Product saved successfully.', { type: 'success' });
         } catch (e) {
-            alert(`Error saving product: ${e.message}`);
+            showToast(`We couldn't save that product. ${e?.message || ''}`.trim(), { type: 'error' });
         }
     }
 
@@ -146,9 +146,9 @@
             // Refresh and clear form
             await initialize();
             renderForm();
-            alert('Product deleted successfully!');
+            showToast('Product deleted successfully.', { type: 'success' });
         } catch (e) {
-            alert(`Error deleting product: ${e.message}`);
+            showToast(`We couldn't delete that product. ${e?.message || ''}`.trim(), { type: 'error' });
         }
     }
     

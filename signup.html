@@ -127,12 +127,12 @@
                                             <div class="gl-s-api">
                                                 <div class="u-s-m-b-15">
 
-                                                    <button class="gl-s-api__btn gl-s-api__btn--fb" type="button"><i class="fab fa-facebook-f"></i>
+                                                    <button class="gl-s-api__btn gl-s-api__btn--fb" type="button" data-oauth-provider="facebook"><i class="fab fa-facebook-f"></i>
 
                                                         <span>Signup with Facebook</span></button></div>
                                                 <div class="u-s-m-b-30">
 
-                                                    <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button"><i class="fab fa-google"></i>
+                                                    <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button" data-oauth-provider="google"><i class="fab fa-google"></i>
 
                                                         <span>Signup with Google</span></button></div>
                                             </div>
@@ -271,8 +271,7 @@
                         user_surname: document.getElementById('user_surname').value.trim(),
                         user_email: document.getElementById('user_email').value.trim(),
                         user_password: document.getElementById('user_password').value,
-                        user_id: randomSix(),
-                        user_isAdmin: false
+                        user_id: randomSix()
                     };
 
                     try{

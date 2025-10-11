@@ -17,13 +17,23 @@
             const messageEl = document.getElementById('status-message');
             const urlParams = new URLSearchParams(window.location.search);
             const sessionId = urlParams.get('session_id');
-            const user = window.getCurrentUser();
+            let user = null;
+
+            if (sessionId) {
+                const sessionResp = await fetch(`${window.API_ROOT}/auth/current_user`, {
+                    credentials: 'include'
+                });
+                if (sessionResp.status === 200) {
+                    user = await sessionResp.json();
+                }
+            }
 
             if (sessionId && user) {
                 try {
                     const response = await fetch(`${window.API_ROOT}/order/success`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
                         body: JSON.stringify({ session_id: sessionId, user: user })
                     });
                     const data = await response.json();

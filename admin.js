@@ -9,6 +9,24 @@
 
   log('Admin JS bootstrapping. API_ROOT =', window.API_ROOT);
 
+  const sessionReady = (async () => {
+    if (typeof window.checkSession === 'function') {
+      await window.checkSession();
+    }
+
+    const current = typeof window.getCurrentUser === 'function'
+      ? window.getCurrentUser()
+      : null;
+
+    if (!current || (current.role !== 'admin' && current.role !== 'super_admin')) {
+      showToast('Access denied. Please sign in as a super admin.', { type: 'error' });
+      window.location.href = 'signin.html';
+      throw new Error('Admin session missing');
+    }
+
+    return current;
+  })();
+
   // ───────────── DOM ELEMENT REFERENCES ─────────────
   const customerDisplay = document.getElementById('customerDisplay');
   
@@ -17,6 +35,9 @@
   const showBrandBtn = document.getElementById('showBrandBtn');
   const showImagesBtn = document.getElementById('showImagesBtn'); // NEW
   const showTextsBtn = document.getElementById('showTextsBtn'); // NEW
+  const showWinningProductsBtn = document.getElementById('showWinningProductsBtn'); // ADD THIS
+  const showContentHubBtn = document.getElementById('showContentHubBtn'); // ADD THIS
+  const showVideoCreatorBtn = document.getElementById('showVideoCreatorBtn'); // ADD THIS
 
 
   // --- Views ---
@@ -24,6 +45,9 @@
   const brandView = document.getElementById('brandView');
   const imagesView = document.getElementById('imagesView'); // NEW
   const textsView = document.getElementById('textsView'); // NEW
+  const winningProductsView = document.getElementById('winningProductsView'); // ADD THIS
+  const contentHubView = document.getElementById('contentHubView'); // ADD THIS
+  const videoCreatorView = document.getElementById('videoCreatorView'); // ADD THIS
 
 
   // --- Product Elements ---
@@ -47,94 +71,129 @@
 
   // ───────────── HELPER FUNCTIONS ─────────────
   async function fetchJSON(url, opts = {}) {
-    log('fetchJSON →', url, opts);
-    const res = await fetch(url, opts);
-    log('fetchJSON ← status', res.status, res.statusText);
-    let data;
+      await sessionReady;
+      log('fetchJSON →', url, opts);
+      opts.credentials = opts.credentials || 'include';
+
+      const res = await fetch(url, opts);
+      log('fetchJSON ← status', res.status, res.statusText);
+
+      // --- NEW: Handle session timeout ---
+      if (res.status === 401) {
+          // 401 Unauthorized means the session is invalid or expired.
+          showToast('Your session has expired. Please sign in again.', { type: 'warning' });
+          window.location.href = 'signin.html'; // Redirect to the login page
+          // Throw an error to stop the original function from continuing
+          throw new Error("Session expired"); 
+      }
+
+      let data;
+      try {
+        data = await res.json();
+        log('fetchJSON ← body', data);
+      } catch (e) {
+        log('fetchJSON ← no‑json body');
+      }
+
+      if (!res.ok) {
+          const errorMsg = data?.error || `${res.status} ${res.statusText}`;
+          throw new Error(errorMsg);
+      }
+      return data;
+  }
+
+  // Make the video product dropdown loader available before any handlers use it
+  async function loadProductsIntoSelector() {
+    const videoProductSelect = document.getElementById('video-product-select');
+    if (!videoProductSelect) return;
+
     try {
-      data = await res.json();
-      log('fetchJSON ← body', data);
-    } catch (e) {
-      log('fetchJSON ← no‑json body');
+      if (!window.allProducts || window.allProducts.length === 0) {
+        window.allProducts = await fetchJSON(PRODUCTS_API);
+      }
+    } catch (err) {
+      console.error('Video creator: failed to fetch products', err);
+      return;
     }
-    if (!res.ok) {
-        const errorMsg = data?.error || `${res.status} ${res.statusText}`;
-        throw new Error(errorMsg);
-    }
-    return data;
+
+    window.allProducts.forEach(product => {
+      const rawPaths = product.product_imagePath;
+      if (Array.isArray(rawPaths)) return;
+      if (typeof rawPaths === 'string') {
+        try {
+          const parsed = JSON.parse(rawPaths);
+          if (Array.isArray(parsed)) {
+            product.product_imagePath = parsed;
+            return;
+          }
+        } catch (_) {
+          // ignore JSON parse errors and fall through to defaulting below
+        }
+      }
+      if (!Array.isArray(product.product_imagePath)) {
+        product.product_imagePath = [];
+      }
+    });
+
+    videoProductSelect.innerHTML = '<option value="">-- Select a Product --</option>';
+    window.allProducts.forEach(product => {
+      const option = document.createElement('option');
+      option.value = product.product_id;
+      option.textContent = product.product_name;
+      videoProductSelect.appendChild(option);
+    });
   }
 
   // =================================================================
   // ====== 1. NAVIGATION LOGIC ======
   // =================================================================
 
-  showProductsBtn.addEventListener('click', () => {
-    productsView.style.display = 'block';
-    brandView.style.display = 'none';
-    imagesView.style.display = 'none'; // UPDATED
-    textsView.style.display = 'none'; // UPDATED
+// =================================================================
+  // ====== 1. NAVIGATION LOGIC ======
+  // =================================================================
 
-    
-    showProductsBtn.classList.add('active');
-    showBrandBtn.classList.remove('active');
-    showImagesBtn.classList.remove('active'); // UPDATED
-    showTextsBtn.classList.remove('active'); // UPDATED
+  // This one function will now control all view switching
+  function setActiveView(activeBtn, activeView) {
+      const allBtns = [showProductsBtn, showBrandBtn, showImagesBtn, showTextsBtn, showWinningProductsBtn, showContentHubBtn, showVideoCreatorBtn];
+      const allViews = [productsView, brandView, imagesView, textsView, winningProductsView, contentHubView, videoCreatorView];
 
+      // First, hide everything
+      allViews.forEach(view => view.style.display = 'none');
+      allBtns.forEach(btn => btn.classList.remove('active'));
 
-  });
+      // Then, show only the active ones
+      activeView.style.display = 'block';
+      activeBtn.classList.add('active');
+  }
 
+  // Now, each button just calls the helper function
+  showProductsBtn.addEventListener('click', () => setActiveView(showProductsBtn, productsView));
+  
   showBrandBtn.addEventListener('click', () => {
-    brandView.style.display = 'block';
-    productsView.style.display = 'none';
-    imagesView.style.display = 'none'; // UPDATED
-    textsView.style.display = 'none'; // UPDATED
-
-    
-    showBrandBtn.classList.add('active');
-    showProductsBtn.classList.remove('active');
-    showImagesBtn.classList.remove('active'); // UPDATED
-    showTextsBtn.classList.remove('active'); // UPDATED
-
-    
-    loadAndDisplayBrandInfo();
+      setActiveView(showBrandBtn, brandView);
+      loadAndDisplayBrandInfo(); // Also load brand info
   });
 
-  // NEW: Event listener for the Site Images button
   showImagesBtn.addEventListener('click', () => {
-    imagesView.style.display = 'block';
-    productsView.style.display = 'none';
-    brandView.style.display = 'none';
-    textsView.style.display = 'none'; // UPDATED
-
-    
-    showImagesBtn.classList.add('active');
-    showProductsBtn.classList.remove('active');
-    showBrandBtn.classList.remove('active');
-    showTextsBtn.classList.remove('active'); // UPDATED
-
-
-    
-    // This function is in the <script> tag in admin.html
-    if (typeof window.loadAndDisplayBrandImages === 'function') {
-        window.loadAndDisplayBrandImages();
-    }
+      setActiveView(showImagesBtn, imagesView);
+      if (typeof window.loadAndDisplayBrandImages === 'function') {
+          window.loadAndDisplayBrandImages();
+      }
   });
-
 
   showTextsBtn.addEventListener('click', () => {
-    textsView.style.display = 'block';
-    productsView.style.display = 'none';
-    brandView.style.display = 'none';
-    imagesView.style.display = 'none';
-    
-    showTextsBtn.classList.add('active');
-    showProductsBtn.classList.remove('active');
-    showBrandBtn.classList.remove('active');
-    showImagesBtn.classList.remove('active');
-    
-    loadAndDisplayPageTexts(); // Call our new function
+      setActiveView(showTextsBtn, textsView);
+      loadAndDisplayPageTexts();
   });
 
+  showWinningProductsBtn.addEventListener('click', () => setActiveView(showWinningProductsBtn, winningProductsView));
+  
+  showContentHubBtn.addEventListener('click', () => setActiveView(showContentHubBtn, contentHubView));
+  
+  showVideoCreatorBtn.addEventListener('click', () => {
+      setActiveView(showVideoCreatorBtn, videoCreatorView);
+      loadProductsIntoSelector(); // Also load products for the video creator
+  });
   // =================================================================
   // ====== 2. BRAND INFO MANAGEMENT ======
   // =================================================================
@@ -352,7 +411,9 @@
     return [...imageListEl.querySelectorAll('img')].map(i => i.dataset.path);
   }
   
-  let cols = [], firstCol, secondCol, allProducts = [];
+    
+  let cols = [], firstCol, secondCol;
+  window.allProducts = [];
   
   async function getSchema() {
     log('Fetching product schema');
@@ -361,18 +422,17 @@
   
   async function initProducts() {
     log('initProducts() start');
-    allProducts = await fetchJSON(PRODUCTS_API);
-    log('initProducts() fetched products:', allProducts);
-    if (allProducts.length > 0) {
-      cols = Object.keys(allProducts[0]).filter(k => k !== 'rowid');
+    window.allProducts = await fetchJSON(PRODUCTS_API);    log('initProducts() fetched products:', allProducts);
+    if (window.allProducts.length > 0) {
+        cols = Object.keys(window.allProducts[0]).filter(k => k !== 'rowid');
     } else {
       cols = await getSchema();
     }
     firstCol = "product_name";
     secondCol = "product_id";
     log('initProducts() columns derived:', cols);
-    populateSelect(allProducts);
-  }
+    populateSelect(window.allProducts); 
+   }
   
   function populateSelect(products) {
     log('populateSelect()', products);
@@ -395,6 +455,45 @@
     cols.forEach(c => {
       const label = document.createElement('label');
       label.textContent = c;
+
+
+      if (c === 'product_host') {
+          const select = document.createElement('select');
+          select.name = 'product_host';
+          select.innerHTML = `
+              <option value="self">Self-Hosted</option>
+              <option value="amazon">Amazon</option>
+              <option value="aliexpress">AliExpress</option>
+          `;
+          select.value = data[c] || 'self';
+          
+          // Add event listener to show/hide the host ID field
+          select.addEventListener('change', () => {
+              const hostIdField = document.querySelector('[name="product_host_productID"]');
+              if (hostIdField) {
+                  hostIdField.parentElement.style.display = select.value === 'self' ? 'none' : 'block';
+              }
+          });
+
+          label.appendChild(select);
+          formContainer.appendChild(label);
+          return; // Continue to next column
+      }
+
+      if (c === 'product_host_productID') {
+          const input = document.createElement('input');
+          input.name = c;
+          input.value = data[c] || '';
+          label.appendChild(input);
+          formContainer.appendChild(label);
+          // Hide this field by default if host is 'self'
+          if (!data.product_host || data.product_host === 'self') {
+              label.style.display = 'none';
+          }
+          return; // Continue to next column
+      }
+
+
       if (c === IMAGE_FIELD) {
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
@@ -418,7 +517,7 @@
               const up = await fetchJSON(UPLOAD_URL, { method: 'POST', body: fd });
               addThumb(up.path);
             } catch (e) {
-              alert('Upload failed: ' + e.message);
+              showToast(`Upload failed. ${e?.message || ''}`.trim(), { type: 'error' });
             }
           }
           fileInput.value = '';
@@ -689,7 +788,7 @@
       }
   
     } catch (e) {
-      alert('Error saving: ' + e.message);
+      showToast(`We couldn't save those changes. ${e?.message || ''}`.trim(), { type: 'error' });
     }
   }
   
@@ -705,7 +804,7 @@
       renderForm();
   
     } catch (e) {
-      alert('Error deleting: ' + e.message);
+      showToast(`We couldn't delete that item. ${e?.message || ''}`.trim(), { type: 'error' });
     }
   }
   
@@ -723,7 +822,7 @@
           throw new Error("Product not found in local cache.");
       }
     } catch (e) {
-      alert('Error loading product: ' + e.message);
+      showToast(`We couldn't load that product. ${e?.message || ''}`.trim(), { type: 'error' });
     }
   });
   
@@ -739,11 +838,309 @@
   // ====== 4. INITIALIZATION ======
   // =================================================================
   try {
+    await sessionReady;
     await initProducts();
   } catch (e) {
     log('Initialization failed', e);
     console.error('Init error:', e);
-    alert('Initialization failed: ' + e.message);
+    showToast(`Admin panel failed to initialize. ${e?.message || ''}`.trim(), { type: 'error' });
   }
 
-})();
+
+
+// admin.js
+
+  // ... (all of your existing product management code is here) ...
+
+// admin.js
+
+  function copyText(textElementId, hashtagElementId = null, buttonElement) {
+    const textElem = document.getElementById(textElementId);
+    let fullText = textElem.value;
+
+    if (hashtagElementId) {
+      const hashtagElem = document.getElementById(hashtagElementId);
+      if (hashtagElem.value) {
+        fullText += "\n\n" + hashtagElem.value; // Add hashtags on new lines
+      }
+    }
+
+    navigator.clipboard.writeText(fullText).then(() => {
+      const originalText = buttonElement.textContent;
+      buttonElement.textContent = 'Copied!';
+      setTimeout(() => {
+          buttonElement.textContent = originalText;
+      }, 2000); // Revert back after 2 seconds
+    }).catch(err => {
+      showToast('We couldn't copy that text. Please try again.', { type: 'error' });
+      console.error('Copy to clipboard failed: ', err);
+    });
+  }
+  // admin.js
+
+// ... (your copyText function is here) ...
+
+  async function handleAiEdit(platform, buttonElement) {
+      const platformPrefix = {
+          facebook: 'fb',
+          instagram: 'ig',
+          tiktok: 'tt'
+      }[platform];
+
+      const textElem = document.getElementById(`${platformPrefix}-text`);
+      const hashtagElem = document.getElementById(`${platformPrefix}-hashtags`);
+      let fullText = textElem.value;
+
+      if (hashtagElem && hashtagElem.value) {
+          fullText += "\n\nHashtags:\n" + hashtagElem.value;
+      }
+
+      if (!fullText.trim()) {
+          showToast('Add some content before using AI Edit.', { type: 'info' });
+          return;
+      }
+
+      // Show loading state
+      const originalText = buttonElement.textContent;
+      buttonElement.textContent = 'Editing...';
+      buttonElement.disabled = true;
+
+      try {
+          const response = await fetch(`${API_ROOT}/ai-edit-post`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify({
+                  platform: platform,
+                  text: fullText
+              })
+          });
+
+          const result = await response.json();
+          if (!response.ok) {
+              throw new Error(result.error || 'Failed to edit text.');
+          }
+
+          // Update the textarea with the AI-edited content
+          textElem.value = result.edited_text;
+
+      } catch (err) {
+          showToast(`We couldn't complete that request. ${err?.message || ''}`.trim(), { type: 'error' });
+      } finally {
+          // Reset button state
+          buttonElement.textContent = originalText;
+          buttonElement.disabled = false;
+      }
+  }
+// --- END: ADD THIS HELPER FUNCTION ---
+
+
+// --- START: UPDATED RESEARCH HUB SCRIPT ---
+// ...
+
+// --- START: UPDATED RESEARCH HUB SCRIPT (v2 - Hashtag Searches) ---
+try {
+    const keywordContainer = document.getElementById('keyword-container');
+    const addKeywordBtn = document.getElementById('add-keyword-btn');
+    const googleBtn = document.getElementById('search-google-btn');
+    const tiktokBtn = document.getElementById('search-tiktok-btn');
+    const instagramBtn = document.getElementById('search-instagram-btn');
+
+    // --- Logic for Adding and Removing Input Fields (No Changes Here) ---
+    function addKeywordInput() {
+        const firstInputGroup = keywordContainer.querySelector('.keyword-input-group');
+        const newInputGroup = firstInputGroup.cloneNode(true);
+        newInputGroup.querySelector('input').value = '';
+        newInputGroup.querySelector('.remove-keyword-btn').style.display = 'block';
+        keywordContainer.appendChild(newInputGroup);
+    }
+    addKeywordBtn.addEventListener('click', addKeywordInput);
+    keywordContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('remove-keyword-btn')) {
+            event.target.parentElement.remove();
+        }
+    });
+
+    // --- Logic for Search Buttons (Updated Below) ---
+    function getAllKeywords() {
+        const inputs = keywordContainer.querySelectorAll('.product-keyword-input');
+        const keywords = Array.from(inputs)
+                              .map(input => input.value.trim())
+                              .filter(kw => kw !== '');
+        if (keywords.length === 0) {
+            showToast('Please enter at least one keyword.', { type: 'warning' });
+            return null;
+        }
+        return keywords;
+    }
+
+    // Google Trends Search (No Changes Here)
+    googleBtn.addEventListener('click', () => {
+        const keywords = getAllKeywords();
+        if (keywords) {
+            const encodedKeywords = keywords.map(kw => encodeURIComponent(kw)).join(',');
+            const url = `https://trends.google.com/trends/explore?q=${encodedKeywords}`;
+            window.open(url, '_blank');
+        }
+    });
+
+    // --- START OF UPDATED LOGIC ---
+
+    // TikTok Hashtag Search (Opens a new tab for each keyword)
+    tiktokBtn.addEventListener('click', () => {
+        const keywords = getAllKeywords();
+        if (keywords) {
+            // TikTok hashtag searches are done one at a time.
+            // This will open a separate tab for each keyword as a hashtag.
+            keywords.forEach(kw => {
+                const cleanedKeyword = kw.replace(/\s+/g, ''); // Remove spaces
+                const url = `https://www.tiktok.com/tag/${cleanedKeyword}`;
+                window.open(url, '_blank');
+            });
+        }
+    });
+
+    // Instagram Hashtag Search (Opens a new tab for each keyword)
+    instagramBtn.addEventListener('click', () => {
+        const keywords = getAllKeywords();
+        if (keywords) {
+            // Instagram also searches one hashtag at a time.
+            keywords.forEach(kw => {
+                const cleanedKeyword = kw.replace(/\s+/g, ''); // Remove spaces
+                const url = `https://www.instagram.com/explore/tags/${cleanedKeyword}/`;
+                window.open(url, '_blank');
+            });
+        }
+    });
+    
+    // --- END OF UPDATED LOGIC ---
+
+} catch (e) {
+    console.warn("Could not initialize the Winning Product Research Hub scripts.", e);
+}
+
+
+// --- END: UPDATED RESEARCH HUB SCRIPT (v2 - Hashtag Searches) ---
+
+// admin.js -> At the very bottom, inside the main IIFE
+
+// --- START: AI VIDEO CREATOR LOGIC ---
+// admin.js -> At the very bottom of the file
+
+// --- START: FINAL AI VIDEO CREATOR LOGIC ---
+// admin.js -> At the very bottom of the file
+
+// --- START: FINAL AI VIDEO CREATOR LOGIC (v2 - SDK Method) ---
+// admin.js -> At the very bottom of the file
+
+// --- START: CORRECTED AI VIDEO CREATOR LOGIC ---
+try {
+    const generateBtn = document.getElementById('generate-video-btn');
+    const resultArea = document.getElementById('video-result-area');
+    const durationSlider = document.getElementById('video-duration');
+    const durationLabel = document.getElementById('duration-label');
+    const videoProductSelect = document.getElementById('video-product-select');
+    const imageSelector = document.getElementById('video-image-selector');
+    const thumbnailsContainer = document.getElementById('video-image-thumbnails');
+    let selectedImageUrl = '';
+
+    videoProductSelect.addEventListener('change', () => {
+        const selectedProductId = videoProductSelect.value;
+        thumbnailsContainer.innerHTML = '';
+        selectedImageUrl = '';
+        
+        if (!selectedProductId) {
+            imageSelector.style.display = 'none';
+            return;
+        }
+
+        const product = window.allProducts.find(p => p.product_id === selectedProductId);
+        if (product && product.product_imagePath && product.product_imagePath.length > 0) {
+            product.product_imagePath.forEach((url) => {
+                const img = document.createElement('img');
+                img.src = url;
+                img.style.width = '80px';
+                img.style.height = '80px';
+                img.style.objectFit = 'cover';
+                img.style.cursor = 'pointer';
+                img.style.border = '2px solid transparent';
+                img.dataset.url = url;
+
+                img.addEventListener('click', () => {
+                    thumbnailsContainer.querySelectorAll('img').forEach(i => i.style.borderColor = 'transparent');
+                    img.style.borderColor = '#3498db';
+                    selectedImageUrl = img.dataset.url;
+                });
+
+                thumbnailsContainer.appendChild(img);
+            });
+            imageSelector.style.display = 'block';
+        } else {
+            imageSelector.style.display = 'none';
+        }
+    });
+
+    durationSlider.addEventListener('input', () => {
+        durationLabel.textContent = `${durationSlider.value}s`;
+    });
+
+    generateBtn.addEventListener('click', async () => {
+        if (!selectedImageUrl) {
+            showToast('Select a product and an inspiration image first.', { type: 'warning' });
+            return;
+        }
+        const provider = document.getElementById('video-provider').value;
+        const duration = document.getElementById('video-duration').value;
+        const platform = document.getElementById('video-platform').value;
+        const prompt = document.getElementById('video-prompt').value;
+
+        if (!prompt) {
+            showToast('Please add motion instructions before generating a video.', { type: 'warning' });
+            return;
+        }
+
+        resultArea.innerHTML = `<p><strong>Generating video with ${provider}...</strong><br>This can take several minutes. Please do not close this page.</p>`;
+        generateBtn.disabled = true;
+        generateBtn.textContent = 'Generating...';
+
+        try {
+            const res = await fetch(`${API_ROOT}/generate-video`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ provider, image_url: selectedImageUrl, duration, platform, prompt })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error);
+
+            resultArea.innerHTML = `
+                <h4>Video Ready!</h4>
+                <video src="${data.video_url}" controls style="width: 100%; border-radius: 8px;"></video>
+                <a href="${data.video_url}" download="ai-generated-video.mpmp4">Download Video</a>
+            `;
+
+        } catch (err) {
+            resultArea.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+        } finally {
+            generateBtn.disabled = false;
+            generateBtn.textContent = 'Generate Video';
+        }
+    });
+
+} catch (e) {
+    console.warn("Could not initialize the AI Video Creator scripts.", e);
+}
+// --- END: CORRECTED AI VIDEO CREATOR LOGIC ---
+// --- END: FINAL AI VIDEO CREATOR LOGIC (v2 - SDK Method) ---
+// --- END: FINAL AI VIDEO CREATOR LOGIC ---
+
+
+
+
+// EXPOSE THE FUNCTION TO THE GLOBAL SCOPE
+
+window.handleAiEdit = handleAiEdit;
+
+// Also expose your copyText function if it's not already global
+window.copyText = copyText;
+})(); // This is the final line of your file

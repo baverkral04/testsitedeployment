@@ -12,20 +12,33 @@
   <script src="user.js"></script>
   <script>
   (() => {
-    try {
-      const user = window.getCurrentUser();
-      // The backend sends '1' for admin status
-      const isAdmin = user && user.user_isAdmin === 1;
+    async function guardAdminPanel() {
+      try {
+        if (typeof window.checkSession === 'function') {
+          await window.checkSession();
+        }
 
-      if (!isAdmin) {
-        // If there's no user or the user is not an admin, deny access
-        alert('Access Denied. You must be an admin to view this page.');
+        const user = (typeof window.getCurrentUser === 'function')
+          ? window.getCurrentUser()
+          : null;
+
+        const role = user?.user_role || user?.role;
+        const isAdmin = role === 'admin' || role === 'super_admin';
+
+        if (!isAdmin) {
+        showToast('Access denied. Please sign in with an admin account.', { type: 'error' });
+          window.location.href = 'index.html';
+        }
+      } catch (e) {
+        console.error('Admin check failed:', e);
         window.location.href = 'index.html';
       }
-    } catch (e) {
-      // If any error occurs, it's safest to deny access
-      console.error("Admin check failed:", e);
-      window.location.href = 'index.html';
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', guardAdminPanel, { once: true });
+    } else {
+      guardAdminPanel();
     }
   })();
 </script>

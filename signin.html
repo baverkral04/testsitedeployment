@@ -128,13 +128,13 @@
 
                                 <div class="gl-s-api u-s-m-b-30">
                                     <div class="u-s-m-b-15">
-                                    <button class="gl-s-api__btn gl-s-api__btn--fb" type="button">
+                                    <button class="gl-s-api__btn gl-s-api__btn--fb" type="button" data-oauth-provider="facebook">
                                         <i class="fab fa-facebook-f"></i>
                                         <span>Signin with Facebook</span>
                                     </button>
                                     </div>
                                     <div class="u-s-m-b-15">
-                                    <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button">
+                                    <button class="gl-s-api__btn gl-s-api__btn--gplus" type="button" data-oauth-provider="google">
                                         <i class="fab fa-google"></i>
                                         <span>Signin with Google</span>
                                     </button>
@@ -260,79 +260,8 @@
         </div>
     </noscript>
    
-    <!-- <script src="signin.js"></script> -->
+    <script src="signin.js"></script>
 
-<script>
-(function () {
-  // Set per-site customer id:
-  // Option A: define window.CUSTOMER_ID globally somewhere else
-  // Option B: edit the fallback below
-
-
-  function setCurrentUserFallback(user) {
-    try { localStorage.setItem('currentUser', JSON.stringify(user)); } catch (_) {}
-  }
-
-  // User greeting logic
-  function showGreeting() {
-    var greetingEl = document.getElementById('user-greeting');
-    var user = null;
-    try { user = JSON.parse(localStorage.getItem('currentUser') || 'null'); } catch(_){}
-    if (user && user.username) {
-      greetingEl.textContent = 'Hello, ' + user.username + '!';
-    } else {
-      greetingEl.textContent = '';
-    }
-  }
-  showGreeting();
-
-  var form = document.getElementById('signin-form');
-  if (!form) { console.error('No #signin-form found'); return; }
-
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    var email = (document.getElementById('signin-email').value || '').trim();
-    var password = (document.getElementById('signin-password').value || '');
-    var errEl = document.getElementById('signin-error');
-    errEl.style.display = 'none';
-    errEl.textContent = '';
-
-    if (!email || !password) {
-      errEl.textContent = 'Email and password are required.';
-      errEl.style.display = 'block';
-      return;
-    }
-
-    try {
-      var res = await fetch(API_ROOT + '/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: email, password: password })
-      });
-      if (!res.ok) {
-        var body = null; try { body = await res.json(); } catch(_){}
-        throw new Error((body && body.error) || ('Login failed (' + res.status + ')'));
-      }
-      var user = await res.json();
-
-      if (window.setCurrentUser) window.setCurrentUser(user);
-      else setCurrentUserFallback(user);
-
-      // Show greeting immediately
-      showGreeting();
-
-      // Redirect target (optional): ?redirect=/some/page.html or default dashboard.html
-      var params = new URLSearchParams(location.search);
-      var redirect = params.get('redirect') || 'dashboard.html';
-      location.href = redirect;
-    } catch (err) {
-      errEl.textContent = err.message || 'Network error';
-      errEl.style.display = 'block';
-    }
-  });
-})();
-</script>
 
 
 

@@ -554,7 +554,7 @@
         if (!currentUser) return [];
 
         try {
-          const response = await fetch(ORDERS_API);
+          const response = await fetch(ORDERS_API, { credentials: 'include' });
           if (!response.ok) return [];
           
           const allOrders = await response.json();

@@ -160,7 +160,32 @@
         .pd-social-list a {
             font-size: 20px;
         }
-        
+
+        .pd-detail__feedback {
+            display: none;
+            margin: 12px 0 18px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            letter-spacing: 0.02em;
+        }
+
+        .pd-detail__feedback.is-visible {
+            display: block;
+        }
+
+        .pd-detail__feedback.is-success {
+            background: #ecfdf5;
+            border: 1px solid #bbf7d0;
+            color: #047857;
+        }
+
+        .pd-detail__feedback.is-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+        }
+
         /* Related products section */
         .section__intro {
             margin-bottom: 30px;
@@ -185,6 +210,266 @@
         .gallery-thumbs img.active{border-color:#3498db;}
         /* Hide placeholder single‑image container – gallery now handles main image */
         #main-image-container{display:none;}
+
+        /* ---------- Review summary redesign ---------- */
+        .pd-review-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            align-items: stretch;
+            padding: 28px 32px;
+            border-radius: 22px;
+            border: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pd-review-summary__score {
+            position: relative;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center;
+        }
+
+        .rating-ring {
+            --rating-deg: 0deg;
+            --ring-size: 132px;
+            width: var(--ring-size);
+            height: var(--ring-size);
+            border-radius: 50%;
+            background: conic-gradient(#f97316 var(--ring-progress, 0deg), #e2e8f0 var(--ring-progress, 0deg));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: background 0.9s ease;
+        }
+
+        .rating-ring::after {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.08);
+        }
+
+        .pd-review-summary.is-animated .rating-ring {
+            --ring-progress: var(--rating-deg);
+        }
+
+        .rating-ring__value {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-weight: 600;
+            color: #1f2937;
+            z-index: 1;
+        }
+
+        .rating-ring__value span {
+            font-size: 2.6rem;
+            line-height: 1;
+        }
+
+        .rating-ring__value small {
+            margin-top: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #94a3b8;
+        }
+
+        .rating-ring__caption {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .rating-ring__stars {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .rating-ring__stars i {
+            margin-right: 0;
+        }
+
+        .pd-review-summary__breakdown {
+            flex: 1;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .rating-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #475569;
+            font-size: 0.9rem;
+        }
+
+        .rating-bar__label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 70px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .rating-bar__label strong {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .rating-bar__label i {
+            color: #f59e0b;
+        }
+
+        .rating-bar__track {
+            flex: 1;
+            height: 10px;
+            border-radius: 999px;
+            background: #e2e8f0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .rating-bar__fill {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, #fbbf24 0%, #f97316 100%);
+            box-shadow: 0 8px 18px rgba(249, 115, 22, 0.25);
+            transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pd-review-summary.is-animated .rating-bar__fill {
+            width: var(--fill, 0%);
+        }
+
+        .rating-bar__count {
+            min-width: 40px;
+            text-align: right;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .rating-bar__count small {
+            display: block;
+            font-size: 0.65rem;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .rating-bar--highlight .rating-bar__label,
+        .rating-bar--highlight .rating-bar__count {
+            color: #f97316;
+        }
+
+        .pd-review-summary__score::before {
+            content: '';
+            position: absolute;
+            inset: -12px;
+            border-radius: 26px;
+            background: rgba(255, 255, 255, 0.45);
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .pd-review-summary.is-animated .pd-review-summary__score::before {
+            opacity: 1;
+        }
+
+        #product-reviews .gl-rating-style-2 i,
+        .pd-review-card__rating i {
+            color: #f59e0b;
+            margin-right: 2px;
+        }
+
+        #product-reviews .gl-rating-style-2 i.far {
+            color: #cbd5f5;
+        }
+
+        #product-reviews .gl-rating-style-2 i.fa-star-half-alt {
+            color: #facc15;
+        }
+
+        .pd-review-card {
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .pd-review-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+        }
+
+        .pd-review-card__rating {
+            display: flex;
+        }
+
+        .pd-review-card__rating i {
+            opacity: 0;
+            transform: scale(0.85);
+            animation: starPop 0.4s ease forwards;
+        }
+
+        .pd-review-card__rating i:nth-child(1) { animation-delay: 0.05s; }
+        .pd-review-card__rating i:nth-child(2) { animation-delay: 0.1s; }
+        .pd-review-card__rating i:nth-child(3) { animation-delay: 0.15s; }
+        .pd-review-card__rating i:nth-child(4) { animation-delay: 0.2s; }
+        .pd-review-card__rating i:nth-child(5) { animation-delay: 0.25s; }
+
+        @keyframes starPop {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) translateY(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .pd-review-empty {
+            padding: 40px;
+            border: 2px dashed #cbd5f5;
+            border-radius: 16px;
+            text-align: center;
+            color: #64748b;
+            background: rgba(226, 232, 240, 0.3);
+        }
+
+        @media (max-width: 767px) {
+            .pd-review-summary {
+                padding: 24px;
+                gap: 24px;
+            }
+
+            .pd-review-summary__score {
+                width: 100%;
+            }
+
+            .rating-ring {
+                --ring-size: 118px;
+            }
+        }
     </style>
 </head>
 <body class="config">
@@ -385,7 +670,7 @@
         const log = (...args) => DEBUG && console.log('[DEBUG]', ...args);
         const PRODUCTS_API = `${API_ROOT}/products`;
         const USER_API = `${API_ROOT}/users`;
-        const IMAGE_FALLBACK = 'images/product/default.jpg';
+        const IMAGE_FALLBACK = '';
         const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='; // 1×1 transparent GIF
         
         // grab an optional override from the URL
@@ -404,6 +689,41 @@
         const productDescription = document.getElementById('product-description');
         const productReviews = document.getElementById('product-reviews');
         const relatedProducts = document.getElementById('related-products');
+        let relatedEventsBound = false;
+
+        function bindRelatedProductEvents() {
+            if (relatedEventsBound || !relatedProducts) return;
+            relatedProducts.addEventListener('click', async (event) => {
+                const btn = event.target.closest('.js-related-add');
+                if (!btn) return;
+                event.preventDefault();
+
+                const productId = btn.dataset.productId;
+                if (!productId) return;
+
+                const user = getUserSafe();
+                if (!user) {
+                    window.location.href = 'signin.html';
+                    return;
+                }
+
+                if (btn.dataset.busy === '1') return;
+                const originalHtml = btn.innerHTML;
+                btn.dataset.busy = '1';
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+                try {
+                    await addToCart(productId, 1);
+                } catch (err) {
+                    console.error('[related-add-to-cart]', err);
+                    showDetailMessage('Could not add related product to cart.', 'error');
+                } finally {
+                    btn.innerHTML = originalHtml;
+                    delete btn.dataset.busy;
+                }
+            });
+            relatedEventsBound = true;
+        }
         
         // ========== HELPER FUNCTIONS ==========
         function showLoading() {
@@ -428,6 +748,13 @@
 
         function getUserSafe(){ try { return (typeof getCurrentUser === 'function') ? getCurrentUser() : null; } catch(e){ return null; } }
 
+        function showDetailMessage(message, type = 'success') {
+            const box = document.getElementById('pd-detail-feedback');
+            if (!box) return;
+            box.textContent = message;
+            box.className = 'pd-detail__feedback is-visible ' + (type === 'error' ? 'is-error' : 'is-success');
+        }
+
 
         async function addToCart(productId, qty) {
             const user = getUserSafe();
@@ -449,13 +776,11 @@
                     options[optionName] = select.value;
                 }
             });
-            // --- END: Missing logic ---
 
-            // Add the now-populated 'options' object to the payload
             const payload = {
                 product_id: productId,
                 product_amount,
-                options, // This will no longer be empty
+                options,
                 user_id: user.user_id,
                 user_email: user.user_email
             };
@@ -465,6 +790,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
+                credentials: 'include',
                 body: JSON.stringify(payload)
             });
             if (!res.ok) throw new Error(`Add to cart failed (${res.status})`);
@@ -494,10 +820,12 @@
                 }
                 u.user_cart = JSON.stringify(arr);
                 if (updated && updated.user_cart !== undefined) {
-                    u.user_cart = updated.user_cart; // prefer server truth
+                    if (typeof setCurrentUser === 'function') setCurrentUser(updated);
+                } else {
+                    if (typeof setCurrentUser === 'function') setCurrentUser(u);
                 }
-                if (typeof setCurrentUser === 'function') setCurrentUser(u);
             } catch (_) {}
+            showDetailMessage('Added to cart!', 'success');
             return true;
         }
 
@@ -542,7 +870,12 @@ async function serverWishlistAdd(pid) {
   const res = await fetch(WISHLIST_ADD_URL, {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ user_id: u.user_id, user_email: u.user_email, product_id: String(pid) })
+    credentials: 'include',
+    body: JSON.stringify({
+      product_id: String(pid),
+      user_id: u.user_id,
+      user_email: u.user_email
+    })
   });
   if (!res.ok) throw new Error('wishlist add failed ' + res.status);
   return res.json();
@@ -552,7 +885,12 @@ async function serverWishlistRemove(pid) {
   const res = await fetch(WISHLIST_REMOVE_URL, {
     method: 'POST',
     headers: { 'Content-Type':'application/json' },
-    body: JSON.stringify({ user_id: u.user_id, user_email: u.user_email, product_id: String(pid) })
+    credentials: 'include',
+    body: JSON.stringify({
+      product_id: String(pid),
+      user_id: u.user_id,
+      user_email: u.user_email
+    })
   });
   if (!res.ok) throw new Error('wishlist remove failed ' + res.status);
   return res.json();
@@ -563,7 +901,7 @@ async function syncWishlistFromServer() {
     ? `user_id=${encodeURIComponent(u.user_id)}`
     : `user_email=${encodeURIComponent(u.user_email)}`;
   try {
-    const res = await fetch(`${WISHLIST_GET_URL}?${q}`);
+    const res = await fetch(`${WISHLIST_GET_URL}?${q}`, { credentials: 'include' });
     if (!res.ok) return;
     const list = await res.json(); // normalized [{product_id:""}]
     const updated = { ...(u || {}), user_wishlist: JSON.stringify(list) };
@@ -608,7 +946,7 @@ function wireWishlist(product) {
       updateWishlistCountDisplay();
     } catch (err) {
       console.error('[wishlist]', err);
-      alert('Could not update wishlist. Please try again.');
+      showToast('We couldn\'t update your wishlist. Please try again.', { type: 'error' });
     }
   });
 }
@@ -637,12 +975,30 @@ function wireWishlist(product) {
             try {
                 list = JSON.parse(product.product_reviews || '[]');
                 if (!Array.isArray(list)) list = [];
-            } catch (_) { list = []; }
+            } catch (_) {
+                list = [];
+            }
+
             const count = list.length;
-            const avg = count > 0
-                ? list.reduce((s, r) => s + (Number(r.star) || 0), 0) / count
-                : 0;
-            return { list, count, avg };
+            const total = list.reduce((sum, review) => sum + (Number(review.star) || 0), 0);
+            const avg = count > 0 ? total / count : 0;
+
+            const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+            list.forEach(review => {
+                const rawValue = Number(review.star);
+                const bucket = Math.round(isNaN(rawValue) ? 0 : rawValue);
+                if (bucket >= 1 && bucket <= 5) {
+                    counts[bucket] = (counts[bucket] || 0) + 1;
+                }
+            });
+
+            const breakdown = [5, 4, 3, 2, 1].map(value => {
+                const starCount = counts[value] || 0;
+                const percent = count > 0 ? Math.round((starCount / count) * 100) : 0;
+                return { value, count: starCount, percent };
+            });
+
+            return { list, count, avg, breakdown };
         }
         
         // ========== FETCH PRODUCT DATA ==========
@@ -702,7 +1058,7 @@ function wireWishlist(product) {
         
         // This one new function replaces the three old ones.
         function getFirstImageUrl(product) {
-            const fallback = 'images/product/default.jpg';
+            const fallback = '';
             
             // The backend now provides a clean array, so we just check it.
             if (product && Array.isArray(product.product_imagePath) && product.product_imagePath.length > 0) {
@@ -835,6 +1191,8 @@ function wireWishlist(product) {
                     </div>
                 </div>
 
+                <div id="pd-detail-feedback" class="pd-detail__feedback" aria-live="polite"></div>
+
                 <!-- ✅ NEW wishlist UI (clickable) -->
                 <div class="u-s-m-b-15">
                   <div class="pd-detail__inline">
@@ -893,16 +1251,51 @@ function wireWishlist(product) {
                 const qty  = qtyEl ? qtyEl.value : '1';
                 if (btn) { btn.disabled = true; btn.textContent = 'Adding...'; }
                 try {
-                  const ok = await addToCart(product.product_id || new URLSearchParams(window.location.search).get('product_id'), qty);
-                  if (ok) alert('Added to cart!');
+                  await addToCart(product.product_id || new URLSearchParams(window.location.search).get('product_id'), qty);
                 } catch (err) {
                   console.error(err);
-                  alert('Could not add to cart.');
+                  showDetailMessage('Could not add to cart. Please try again.', 'error');
                 } finally {
                   if (btn) { btn.disabled = false; btn.textContent = 'Add to Cart'; }
                 }
               });
+
+              const counter = form.querySelector('.input-counter');
+              if (counter) {
+                const input = counter.querySelector('.input-counter__text');
+                const minus = counter.querySelector('.input-counter__minus');
+                const plus  = counter.querySelector('.input-counter__plus');
+                if (input) {
+                  const min = parseInt(input.dataset.min, 10) || 1;
+                  const max = parseInt(input.dataset.max, 10) || Infinity;
+                  const normalize = () => {
+                    let val = parseInt(input.value, 10);
+                    if (Number.isNaN(val) || val < min) val = min;
+                    if (val > max) val = max;
+                    input.value = val;
+                  };
+                  minus?.addEventListener('click', (evt) => {
+                    evt.preventDefault();
+                    let val = parseInt(input.value, 10) || min;
+                    if (val > min) val -= 1;
+                    input.value = val;
+                    normalize();
+                  });
+                  plus?.addEventListener('click', (evt) => {
+                    evt.preventDefault();
+                    let val = parseInt(input.value, 10) || min;
+                    val += 1;
+                    input.value = val;
+                    normalize();
+                  });
+                  input.addEventListener('change', normalize);
+                  input.addEventListener('blur', normalize);
+                }
+              }
+
+
             }
+
 
             // ✅ Add this call at the END of renderProductDetails:
             wireWishlist(product);
@@ -966,72 +1359,116 @@ function wireWishlist(product) {
             productDescription.innerHTML = descriptionHtml;
         }
         
+        function ensureSignedInForReviews() {
+            const form = document.getElementById('product-review-form');
+            if (!form) return;
+            const user = getUserSafe();
+            if (!user) {
+                form.innerHTML = '<p style="color:#475569;">Please <a href="signin.html">sign in</a> to leave a review.</p>';
+                return;
+            }
+
+            if (!form.querySelector('.pd-review-notice')) {
+                const notice = document.createElement('p');
+                notice.className = 'pd-review-notice u-s-m-b-15';
+                notice.style.color = '#475569';
+                notice.textContent = `Reviewing as ${user.user_name || user.user_email || 'you'}.`;
+                form.insertBefore(notice, form.firstChild.nextSibling);
+            }
+        }
+
+        function renderReviewFeedback(message, type = 'success') {
+            const feedbackDiv = document.getElementById('review-feedback');
+            if (!feedbackDiv) return;
+            feedbackDiv.textContent = message;
+            feedbackDiv.className = 'pd-detail__feedback is-visible ' + (type === 'error' ? 'is-error' : 'is-success');
+        }
+
         async function renderProductReviews(product) {
-            // Use helper to parse and summarize reviews
-            const { list: reviews, count, avg } = getReviewStats(product);
+            const { list: reviews, count, avg, breakdown } = getReviewStats(product);
+            const ratingDeg = Math.max(0, Math.min(360, (avg / 5) * 360));
+            const reviewWord = count === 1 ? 'Review' : 'Reviews';
+            const summaryTagline = count > 0
+                ? 'Based on what our customers are saying.'
+                : 'Share your story and help other shoppers.';
+            const highestCount = breakdown.reduce((max, entry) => Math.max(max, entry.count), 0);
 
-            // Render existing reviews
-            let reviewsListHtml = '';
-            reviews.forEach(r => {
-                reviewsListHtml += `
-                    <div class="review-o u-s-m-b-15">
-                        <div class="review-o__info u-s-m-b-8">
-                            <span class="review-o__name">${r.user}</span>
-                            <span class="review-o__date">${r.date}</span>
-                        </div>
-                        <div class="review-o__rating gl-rating-style u-s-m-b-8">
-                            ${renderStars(Number(r.star) || 0)}
-                            <span>(${r.star})</span>
-                        </div>
-                        <p class="review-o__text">${r.review}</p>
-                    </div>
+            const breakdownHtml = breakdown.map(entry => {
+                const highlightClass = entry.count > 0 && entry.count === highestCount ? ' rating-bar--highlight' : '';
+                const percentLabel = count > 0 ? `<small>${entry.percent}%</small>` : '';
+                return `
+                        <div class="rating-bar${highlightClass}" data-stars="${entry.value}" aria-label="${entry.value}-star rating · ${entry.count} ${entry.count === 1 ? 'review' : 'reviews'}">
+                            <span class="rating-bar__label"><strong>${entry.value}</strong><i class="fas fa-star"></i></span>
+                            <div class="rating-bar__track">
+                                <div class="rating-bar__fill" style="--fill:${entry.percent}%"></div>
+                            </div>
+                            <span class="rating-bar__count">${entry.count}${percentLabel}</span>
+                        </div>`;
+            }).join('');
+
+            const reviewCards = reviews.map(r => {
+                const stars = renderStars(Number(r.star) || 0);
+                return `
+                    <article class="pd-review-card">
+                        <header class="pd-review-card__header">
+                            <div>
+                                <span class="pd-review-card__name">${r.user}</span>
+                                <span class="pd-review-card__date">${r.date}</span>
+                            </div>
+                            <div class="pd-review-card__rating">${stars}</div>
+                        </header>
+                        <p class="pd-review-card__body">${r.review}</p>
+                    </article>
                 `;
-            });
+            }).join('');
 
-            // Review summary and form
+            const reviewListHtml = reviewCards || '<div class="pd-review-empty">No reviews yet. Be the first to share your experience.</div>';
+
             const reviewsHtmlContent = `
-                <div class="u-s-m-b-30">
-                    <div class="pd-tab__rev-score">
-                        <div class="u-s-m-b-8">
-                            <h2>${count} Reviews - ${avg.toFixed(1)} (Overall)</h2>
+                <div class="pd-review-summary" data-review-count="${count}">
+                    <div class="pd-review-summary__score">
+                        <div class="rating-ring" style="--rating-deg:${ratingDeg}deg" aria-label="${avg.toFixed(1)} out of 5 stars">
+                            <div class="rating-ring__value">
+                                <span>${avg.toFixed(1)}</span>
+                                <small>out of 5</small>
+                            </div>
                         </div>
-                        <div class="gl-rating-style-2 u-s-m-b-8">
+                        <div class="rating-ring__stars gl-rating-style-2" aria-hidden="true">
                             ${renderStars(avg)}
                         </div>
-                        <div class="u-s-m-b-8">
-                            <h4>We want to hear from you!</h4>
-                        </div>
-                        <span class="gl-text">Tell us what you think about this item</span>
+                        <p class="rating-ring__caption">${count ? `${count} ${reviewWord}` : 'Awaiting reviews'}</p>
+                        <span class="gl-text">${summaryTagline}</span>
+                    </div>
+                    <div class="pd-review-summary__breakdown">
+                        ${breakdownHtml}
                     </div>
                 </div>
                 <div class="u-s-m-b-30">
                     <div class="rev-f1__group">
                         <div class="u-s-m-b-15">
-                            <h2 class="u-s-m-b-15">${count} Review(s) for ${product.product_name}</h2>
+                            <h2 class="u-s-m-b-10">${count ? `${count} ${reviewWord} for ${product.product_name}` : 'Reviews'}</h2>
+                            <span class="gl-text">${count ? 'Recent feedback from verified buyers.' : 'No reviews yet. Be the first to share your experience.'}</span>
                         </div>
                     </div>
                     <div class="rev-f1__review">
-                        ${reviewsListHtml || '<div>No reviews yet.</div>'}
+                        ${reviewListHtml}
                     </div>
                 </div>
                 <div class="u-s-m-b-30">
-                    <div id="review-feedback" class="u-s-m-b-15" style="display:none;color:green;"></div>
-                    <form class="pd-tab__rev-f2">
+                    <div id="review-feedback" class="pd-detail__feedback"></div>
+                    <form class="pd-tab__rev-f2" id="product-review-form">
                         <h2 class="u-s-m-b-15">Add a Review</h2>
                         <span class="gl-text u-s-m-b-15">Your email address will not be published. Required fields are marked *</span>
                         <div class="u-s-m-b-15">
-                            <label for="review-user">Name *</label>
-                            <input class="input-text input-text--primary-style" id="review-user" name="user" type="text" required>
-                        </div>
-                        <div class="u-s-m-b-15">
-                            <label for="review-star">Rating *</label>
-                            <select class="select-box select-box--primary-style" id="review-star" name="star" required>
-                                <option value="5">5 - Excellent</option>
-                                <option value="4">4 - Good</option>
-                                <option value="3">3 - Average</option>
-                                <option value="2">2 - Poor</option>
-                                <option value="1">1 - Terrible</option>
-                            </select>
+                            <label>Rating *</label>
+                            <div class="pd-rating-input" role="radiogroup" aria-required="true">
+                              ${[5,4,3,2,1].map(value => `
+                                <label class="pd-rating-input__star">
+                                  <input type="radio" name="star" value="${value}" ${value === 5 ? 'checked' : ''} required>
+                                  <span class="pd-rating-input__icon" aria-hidden="true">★</span>
+                                  <span class="pd-rating-input__label">${value}</span>
+                                </label>`).join('')}
+                            </div>
                         </div>
                         <div class="u-s-m-b-15">
                             <label for="review-text">Your Review *</label>
@@ -1044,50 +1481,60 @@ function wireWishlist(product) {
                 </div>
             `;
 
-            // Insert into container
             productReviews.innerHTML = reviewsHtmlContent;
 
-            // Hook up review submission
+            requestAnimationFrame(() => {
+                const summaryEl = productReviews.querySelector('.pd-review-summary');
+                if (summaryEl) summaryEl.classList.add('is-animated');
+            });
+
             const reviewForm = document.querySelector('.pd-tab__rev-f2');
             if (reviewForm) {
+                ensureSignedInForReviews();
                 reviewForm.addEventListener('submit', async e => {
                     e.preventDefault();
-                    const feedbackDiv = document.getElementById('review-feedback');
+                    const user = getUserSafe();
+                    if (!user) {
+                        window.location.href = 'signin.html';
+                        return;
+                    }
+                    renderReviewFeedback('', 'success');
                     const submitBtn = reviewForm.querySelector('button[type="submit"]');
-                    feedbackDiv.style.display = 'none';
                     submitBtn.disabled = true;
                     submitBtn.textContent = 'Submitting...';
                     const formData = new FormData(reviewForm);
                     const newReview = {
-                        user: formData.get('user') || 'Anonymous',
-                        date: new Date().toLocaleDateString(),
                         star: formData.get('star') || '0',
                         review: formData.get('review') || ''
                     };
-                    // Send to backend
                     const urlParams = new URLSearchParams(window.location.search);
                     const productId = urlParams.get('product_id');
                     const res = await fetch(`${PRODUCTS_API}/${productId}/reviews`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
                         body: JSON.stringify(newReview)
                     });
                     if (res.ok) {
-                        // Success feedback
-                        feedbackDiv.innerText = 'Review submitted successfully!';
-                        feedbackDiv.style.display = 'block';
-                        // Reset form fields
+                        renderReviewFeedback('Thanks for sharing your feedback!', 'success');
                         reviewForm.reset();
-                        // Update UI
-                        reviews.push(newReview);
+                        reviews.push({
+                            user: user.user_name || user.user_email || 'Verified Buyer',
+                            user_id: user.user_id,
+                            star: newReview.star,
+                            review: newReview.review,
+                            date: new Date().toLocaleDateString()
+                        });
                         renderProductReviews({ ...product, product_reviews: JSON.stringify(reviews) });
                         renderProductDetails({ ...product, product_reviews: JSON.stringify(reviews) });
                     } else {
-                        // Error feedback
-                        feedbackDiv.innerText = 'Failed to submit review. Please try again.';
-                        feedbackDiv.style.display = 'block';
+                        let message = 'Failed to submit review. Please try again.';
+                        try {
+                            const err = await res.json();
+                            if (err?.error) message = err.error;
+                        } catch (_) {}
+                        renderReviewFeedback(message, 'error');
                     }
-                    // Restore button
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Submit Review';
                 });
@@ -1128,23 +1575,13 @@ function wireWishlist(product) {
                                     <div class="product-o__action-wrap">
                                         <ul class="product-o__action-list">
                                             <li>
-                                                <a data-modal="modal" data-modal-id="#quick-look" data-tooltip="tooltip" data-placement="top" title="Quick View">
-                                                    <i class="fas fa-search-plus"></i>
+                                                <a class="js-related-add" href="#" data-product-id="${product.product_id}" data-tooltip="tooltip" data-placement="top" title="Add to Cart">
+                                                    <i class="fas fa-cart-plus"></i>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a data-modal="modal" data-modal-id="#add-to-cart" data-tooltip="tooltip" data-placement="top" title="Add to Cart">
-                                                    <i class="fas fa-plus-circle"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Add to Wishlist">
-                                                    <i class="fas fa-heart"></i>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="signin.html" data-tooltip="tooltip" data-placement="top" title="Email me When the price drops">
-                                                    <i class="fas fa-envelope"></i>
+                                                <a href="product-detail-variable.html?product_id=${product.product_id}&image=${encodeURIComponent(imagePath)}" data-tooltip="tooltip" data-placement="top" title="View Details">
+                                                    <i class="fas fa-info-circle"></i>
                                                 </a>
                                             </li>
                                         </ul>
@@ -1170,6 +1607,7 @@ function wireWishlist(product) {
                 });
                 
                 relatedProducts.innerHTML = productsHtml;
+                bindRelatedProductEvents();
             } catch (error) {
                 console.error('Error fetching related products:', error);
                 relatedProducts.innerHTML = '<p>Could not load related products</p>';

@@ -191,32 +191,32 @@
 
   let currentFilter = 'paid';
 
-  async function fetchAndFilterOrders() {
-    const currentUser = getUserSafe();
-    if (!currentUser) {
+async function fetchAndFilterOrders() {
+    try {
+        // This API call now securely returns ONLY the orders for the logged-in user.
+        const response = await fetch(ORDERS_API, { credentials: 'include' });
+
+
+        if (response.status === 401) {
+             window.location.href = 'signin.html'; // Redirect if not logged in
+             return [];
+        }
+
+        if (!response.ok) {
+            // Handle other potential server errors
+            console.error("Server returned an error:", response.status);
+            return [];
+        }
+        
+        // No more filtering is needed on the frontend. Just return the data.
+        const userOrders = await response.json();
+        return userOrders;
+
+    } catch (error) {
+        console.error("Error fetching orders:", error);
         return [];
     }
-    try {
-      const response = await fetch(ORDERS_API);
-      if (!response.ok) return [];
-      const allOrders = await response.json();
-      const userOrders = allOrders.filter(order => {
-        try {
-          const orderUser = JSON.parse(order.order_user);
-          const hasUserId = currentUser.user_id && (orderUser.user_id == currentUser.user_id);
-          const hasUserEmail = currentUser.user_email && (orderUser.user_email == currentUser.user_email);
-          return hasUserId || hasUserEmail;
-        } catch (e) {
-          return false;
-        }
-      });
-      return userOrders;
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-      return [];
-    }
-  }
-
+}
   function formatProducts(jsonStr) {
     try {
       const prods = JSON.parse(jsonStr);
@@ -316,14 +316,14 @@
                       body: JSON.stringify({})
                   });
                   if (r.ok){
-                      alert('Return requested. Your request is being processed.');
+                      showToast("Return request submitted. We'll keep you posted.", { type: 'success' });
                       init();
                   } else {
                       const err = await r.json();
-                      alert('Failed to request return: ' + (err.error || 'Unknown error'));
+                      showToast(`We couldn't submit that return request. ${err?.error || 'Unknown error.'}`, { type: 'error' });
                   }
               } catch (e) {
-                  alert('An error occurred.');
+                  showToast('Something went wrong. Please try again.', { type: 'error' });
               }
       } else if (status === 'shipped') {
           window.openReturnModal(order_id);
@@ -368,11 +368,11 @@
                     image_path = uploadData.path; // On success, we get the real path
                 } else {
                     console.error('Image upload failed, but proceeding with the request.');
-                    alert('Warning: Your image could not be uploaded, but the return request will continue without it.');
+                    showToast('We could not upload your photo, but the return request will continue without it.', { type: 'warning' });
                 }
             } catch (uploadError) {
                 console.error('An error occurred during image upload:', uploadError);
-                alert('Warning: Your image could not be uploaded, but the return request will continue without it.');
+                showToast('We could not upload your photo, but the return request will continue without it.', { type: 'warning' });
             }
 
             // Second, ALWAYS submit the return request
@@ -384,7 +384,7 @@
                 });
 
                 if (returnRes.ok) {
-                    alert('Return request submitted successfully!');
+                    showToast('Return request submitted successfully.', { type: 'success' });
                     window.closeReturnModal();
                     init(); // Refresh the list
                 } else {
@@ -392,7 +392,7 @@
                     throw new Error(err.error || 'Failed to submit return request');
                 }
             } catch (err) {
-                alert('Error submitting your return request: ' + err.message);
+                showToast(`We couldn't submit your return request. ${err?.message || ''}`.trim(), { type: 'error' });
             }
         });
     }

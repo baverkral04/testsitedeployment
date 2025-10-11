@@ -24,7 +24,7 @@
   async function loadCurrentUser() {
     try {
       const user = await fetchJSON(`${API_BASE}/current_user`);
-      window.currentUser = { ...user, isAdmin: user.user_isAdmin };
+      window.currentUser = user ? { ...user } : null;
       log('Loaded current user', user);
     } catch (e) {
       window.currentUser = null;
@@ -40,7 +40,7 @@
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    window.currentUser = { ...user, isAdmin: user.user_isAdmin };
+    window.currentUser = { ...user };
     return user;
   }
 

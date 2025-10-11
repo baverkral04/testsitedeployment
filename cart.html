@@ -296,7 +296,7 @@
   const PRODUCTS_API = `${API_ROOT}/products`;
   const USERS_API = `${API_ROOT}/users`;
 
-  const IMAGE_FALLBACK = 'images/product/default.jpg';
+  const IMAGE_FALLBACK = '';
   const TAX_RATE = 0.10;      // 10%
   const SHIPPING_FLAT = 5.00; // $5 flat
 
@@ -345,7 +345,8 @@
     const res = await fetch(`${USERS_API}/update-cart-amount`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_id: productId, product_amount: qty, user_id: user.user_id, user_email: user.user_email })
+      credentials: 'include',
+      body: JSON.stringify({ product_id: productId, product_amount: qty})
     });
     if (!res.ok) throw new Error(`Update failed (${res.status})`);
     const updatedUser = await res.json();
@@ -361,7 +362,8 @@
     const res = await fetch(`${USERS_API}/remove-from-cart`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ product_id: productId, user_id: user.user_id, user_email: user.user_email })
+      credentials: 'include',
+      body: JSON.stringify({ product_id: productId})
     });
     if (!res.ok) throw new Error(`Remove failed (${res.status})`);
     const updatedUser = await res.json();
@@ -410,7 +412,7 @@
     tr.innerHTML = `
       <td>
         <div class="table-p__box">
-          <div class="table-p__img-wrap"><img class="u-img-fluid" src="${imagePath}" alt="${name}" onerror="this.src='${IMAGE_FALLBACK}'"></div>
+          <div class="table-p__img-wrap"><img class="u-img-fluid" src="${imagePath}" alt="${name}"></div>
           <div class="table-p__info">
             <span class="table-p__name"><a href="product-detail-variable.html?product_id=${productId}">${name}</a></span>
             ${category ? `<span class="table-p__category"><a href="#">${category}</a></span>` : ''}
@@ -555,9 +557,12 @@
   const debouncedUpdate = debounce((productId, qty) => updateCartAmount(productId, qty), 400);
 
   // --- Start the application ---
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', async () => {
     initializeCartActions();
-    renderCart();
+    if (typeof window.checkSession === 'function') {
+      await window.checkSession();
+    }
+    await renderCart();
   });
   // Re-render the cart whenever the user state changes from another source
   document.addEventListener('user:changed', debounce(renderCart, 100));

@@ -22,24 +22,30 @@
     <link rel="stylesheet" href="css/app.css">
     <script src="user.js"></script>
     <script>
-  (() => {
-    try {
-      const user = window.getCurrentUser();
-      // The backend sends '1' for admin status
-      const isAdmin = user && user.user_isAdmin === 1;
+      (async () => {
+        try {
+          if (typeof window.checkSession === 'function') {
+            await window.checkSession(); // refresh session so role is up-to-date
+          }
 
-      if (!isAdmin) {
-        // If there's no user or the user is not an admin, deny access
-        alert('Access Denied. You must be an admin to view this page.');
-        window.location.href = 'index.html';
-      }
-    } catch (e) {
-      // If any error occurs, it's safest to deny access
-      console.error("Admin check failed:", e);
-      window.location.href = 'index.html';
-    }
-  })();
-</script>
+          const user = typeof window.getCurrentUser === 'function'
+            ? window.getCurrentUser()
+            : null;
+
+          const role = user?.role || user?.user_role || '';
+          const isAdmin = role === 'admin' || role === 'super_admin';
+
+          if (!isAdmin) {
+            showToast('Access denied. Please sign in with an admin account.', { type: 'error' });
+            window.location.href = 'index.html';
+          }
+        } catch (err) {
+          console.error('Admin check failed:', err);
+          window.location.href = 'index.html';
+        }
+      })();
+    </script>
+
 </head>
 <body class="config">
     <div class="preloader is-active">
@@ -59,7 +65,8 @@
         const resp = await fetch('top_bar.html?_=' + Date.now()); // bust cache
         const html = await resp.text();
         el.innerHTML = html;
-
+        
+        await window.checkSession();
         // Execute any <script> tags inside the injected HTML
 
         document.dispatchEvent(new CustomEvent('user:changed'));
@@ -190,7 +197,7 @@
 
   async function fetchOrders() {
     try {
-      const r = await fetch(ORDERS_API);
+      const r = await fetch(ORDERS_API, { credentials: 'include' });
       if (!r.ok) return [];
       return await r.json();
     } catch { return []; }
@@ -218,6 +225,11 @@
 
         // The original product info string
         let productInfo = `${p.product_name} x ${p.product_amount}`;
+        if (p.host && p.host.toLowerCase() === 'amazon' && p.host_id) {
+          const amazonUrl = `https://www.amazon.com/dp/${p.host_id}`;
+          // Append a small, non-intrusive link to the product name
+          productInfo += ` <a href="${amazonUrl}" target="_blank" style="font-size: 0.8em; text-decoration: underline; color: #007bff;">(View Product)</a>`;
+        }
         // Add pricing for the admin view
         if (p.product_unit_price) {
             productInfo += ` @ $${p.product_unit_price} = $${p.product_total}`;
@@ -252,46 +264,55 @@
           const ord = filtered[i + j];
           if (!ord) break;
 
-          // --- NEW LOGIC FOR ADMIN VIEW ---
+
+
+
+// --- CORE NEW LOGIC: Determine actions based on order_host ---
           let detailsHtml = '';
-          // If it's a standard order, show tracking input
-          if (['paid', 'shipped'].includes(ord.order_status)) {
-              detailsHtml = `
-                  <tr><td>Status</td><td>${ord.order_status}</td></tr>
-                  <tr><td>Tracking</td><td><input type="text" id="track-${ord.order_id}" value="${ord.order_trackingNumber || ''}" class="input-text input-text--primary-style"></td></tr>
-                  <tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="saveTrack('${ord.order_id}')">Save</button></td></tr>
-              `;
-          } 
-          // If it's a return request, show details and action buttons
+          const hostType = (ord.order_host || 'self').toLowerCase();
+
           if (ord.order_status === 'paid') {
-              detailsHtml = `
-                  <tr><td>Status</td><td>Ready to Ship</td></tr>
-                  <tr><td colspan="2">
-                      <button class="btn btn--e-brand-b-2" onclick="generateTicket('${ord.order_id}')">Generate Shipping Ticket 🎟️</button>
-                  </td></tr>
-              `;
-          // In admin_order.html -> renderOrders
+              if (hostType === 'amazon') {
+                  detailsHtml = `
+                      <tr><td>Fulfillment</td><td><strong style="color: #ff9900;">Manual (Amazon)</strong></td></tr>
+                      <tr><td>Status</td><td>Awaiting Tracking Info</td></tr>
+                      <tr><td>Tracking #</td><td><input type="text" id="track-${ord.order_id}" class="input-text" placeholder="Enter tracking number"></td></tr>
+                      <tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="saveManualTracking('${ord.order_id}')">Save Tracking</button></td></tr>
+                  `;
+              } else if (hostType === 'aliexpress') {
+                  detailsHtml = `
+                      <tr><td>Fulfillment</td><td><strong style="color: #ff4747;">Automated (DSers)</strong></td></tr>
+                      <tr><td>DSers Ref ID</td><td>${ord.order_host_reference || 'Pending...'}</td></tr>
+                      <tr><td>Status</td><td>Awaiting Tracking Sync</td></tr>
+                      <tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="syncDsersTracking('${ord.order_id}', this)">Sync Tracking from DSers</button></td></tr>
+                  `;
+              } else { // Self-hosted
+                  detailsHtml = `
+                      <tr><td>Fulfillment</td><td><strong>Self-Hosted</strong></td></tr>
+                      <tr><td>Status</td><td>Ready to Ship</td></tr>
+                      <tr><td colspan="2"><button class="btn btn--e-brand-b-2" onclick="generateTicket('${ord.order_id}')">Generate Shipping Ticket 🎟️</button></td></tr>
+                  `;
+              }
           } else if (ord.order_status === 'shipped') {
-              // Use the direct tracking URL if it exists, otherwise fall back to Google search
               const trackingUrl = ord.order_trackingURL || `https://www.google.com/search?q=${encodeURIComponent(ord.order_trackingNumber)}`;
+              
               detailsHtml = `
-                  <tr><td>Status</td><td>Shipped</td></tr>
+                  <tr><td>Status</td><td><strong style="color: #28a745;">Shipped</strong></td></tr>
                   <tr><td>Tracking</td><td>
                       <a href="${trackingUrl}" target="_blank">${ord.order_trackingNumber || 'N/A'}</a>
                   </td></tr>
-                  <tr><td>Shipping Label</td><td>
-                      <a href="${ord.order_labelURL}" target="_blank" class="btn btn--e-brand-b-2 btn--s">View/Print Label</a>
-                  </td></tr>
               `;
-          }
-
-          // For completed returns, just show the final status
-          else {
-              let finalStatus = ord.order_status === 'returnapproved' ? 'Return Approved' : 'Return Rejected';
-              detailsHtml = `<tr><td>Status</td><td>${finalStatus}</td></tr>`;
-              if(ord.order_rejection_reason) {
-                  detailsHtml += `<tr><td>Rejection Reason</td><td>${ord.order_rejection_reason}</td></tr>`;
+              
+              // Only show the "View/Print Label" button for self-hosted orders that have a label URL
+              if (hostType === 'self' && ord.order_labelURL) {
+                  detailsHtml += `
+                      <tr><td>Shipping Label</td><td>
+                          <a href="${ord.order_labelURL}" target="_blank" class="btn btn--e-brand-b-2 btn--s">View/Print Label</a>
+                      </td></tr>
+                  `;
               }
+          } else { // For returnreq, returnapproved, etc.
+              detailsHtml = `<tr><td>Status</td><td>${ord.order_status}</td></tr>`;
           }
 
           const colDiv = document.createElement('div');
@@ -322,31 +343,43 @@
           const r = await fetch(`${ORDERS_API}/${order_id}/manage-return`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
               body: JSON.stringify({ action: 'approve' })
           });
           if (r.ok) {
               init(); // Refresh list
-          } else { alert('Failed to approve.'); }
-      } catch { alert('Error approving.'); }
+              showToast('Return approved successfully.', { type: 'success' });
+          } else {
+              showToast('We couldn\'t approve that return. Please try again.', { type: 'error' });
+          }
+      } catch {
+          showToast('Something went wrong while approving. Please try again.', { type: 'error' });
+      }
   };
 
   window.declineReturn = async function(order_id) {
       const reason = prompt('Please provide a reason for declining this return request:');
       if (reason === null) return; // User clicked cancel
       if (!reason.trim()) {
-          alert('A reason is required to decline a return.');
+          showToast('Please provide a reason before declining a return.', { type: 'warning' });
           return;
       }
       try {
           const r = await fetch(`${ORDERS_API}/${order_id}/manage-return`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
               body: JSON.stringify({ action: 'decline', reason: reason.trim() })
           });
           if (r.ok) {
               init(); // Refresh list
-          } else { alert('Failed to decline.'); }
-      } catch { alert('Error declining.'); }
+              showToast('Return declined successfully.', { type: 'success' });
+          } else {
+              showToast('We couldn\'t decline that return. Please try again.', { type: 'error' });
+          }
+      } catch {
+          showToast('Something went wrong while declining. Please try again.', { type: 'error' });
+      }
   };
 
   window.showFilter = async function(filter) {
@@ -363,47 +396,46 @@
       const r = await fetch(`${ORDERS_API}/${order_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ order_trackingNumber: track })
       });
       if (r.ok) {
         await init();
       } else {
-        alert('Failed to update');
+        showToast('We couldn\'t update that tracking number.', { type: 'error' });
       }
     } catch {
-      alert('Error updating');
+      showToast('Something went wrong while updating the tracking number.', { type: 'error' });
     }
   };
 
-
-  // In admin_order.html, near your other window functions
-
   window.generateTicket = async function(order_id) {
-      const button = event.target;
-      button.textContent = 'Generating...';
-      button.disabled = true;
+        const button = event.target;
+        button.textContent = 'Generating...';
+        button.disabled = true;
 
-      try {
-          const r = await fetch(`${ORDERS_API}/${order_id}/generate-ticket`, {
-              method: 'POST'
-          });
-          const result = await r.json();
+        try {
+            const res = await fetch(`${ORDERS_API}/${order_id}/generate-ticket`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+            const result = await res.json();
 
-          if (r.ok) {
-              // Redirect the admin to Stripe to pay for the ticket
-              window.location.href = result.payment_url;
-          } else {
-              alert('Error generating ticket: ' + result.error);
-              button.textContent = 'Generate Shipping Ticket 🎟️';
-              button.disabled = false;
-          }
-      } catch (e) {
-          alert('An unknown error occurred.');
-          button.textContent = 'Generate Shipping Ticket 🎟️';
-          button.disabled = false;
-      }
-  };  
-  
+            if (!res.ok) {
+                throw new Error(result.error || 'An unknown error occurred.');
+            }
+            
+            // No redirect needed. Just show a success message and refresh the list.
+            showToast(`Shipping label created. Tracking: ${result.tracking_number}`, { type: 'success' });
+            fetchOrders(); // This refreshes the order list, moving the order to "Shipped"
+
+        } catch (e) {
+            showToast(`We couldn't generate the shipping label. ${e.message || ''}`.trim(), { type: 'error' });
+            button.textContent = 'Generate Shipping Ticket 🎟️';
+            button.disabled = false;
+        }
+    };
+    
   
   
   async function init() {

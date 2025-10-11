@@ -1,6 +1,8 @@
 <!-- Header Content -->
 <header class="header--style-1">
   <!-- Nav 1 -->
+  <link rel="stylesheet" href="css/app.css">
+
   <nav class="primary-nav primary-nav-wrapper--border">
     <div class="container">
       <div class="primary-nav">
@@ -17,7 +19,9 @@
         <div id="search-results-dropdown"></div>
 
         <button id="hamburger-button" class="hamburger-button" type="button" aria-label="Open Menu">
-          <i class="fas fa-bars"></i>
+          <span class="hamburger-button__box" aria-hidden="true">
+            <span class="hamburger-button__inner"></span>
+          </span>
         </button>
         <div class="menu-init" id="navigation">
           <button class="btn btn--icon toggle-button toggle-button--secondary fas fa-cogs" type="button"></button>
@@ -42,7 +46,7 @@
                       <a href="user_admin_panel.html"><i class="fas fa-users-cog u-s-m-r-6"></i><span>User Panel</span></a>
                     </li>
                     <li data-show-when="signed-in" style="display: none;">
-                      <a href="#" onclick="clearCurrentUser(); window.location.reload(); return false;">
+                      <a href="#" onclick="window.logout(); return false;">
                         <i class="fas fa-lock-open u-s-m-r-6"></i><span>Sign out</span>
                       </a>
                     </li>
@@ -56,11 +60,17 @@
                 </li>
               
               <li data-tooltip="tooltip" data-placement="left" title="Contact">
-                <a data-brand-link="phone" href="#"><i class="fas fa-phone-volume"></i></a>
+                <a data-brand-link="phone" href="#">
+                  <i class="fas fa-phone-volume"></i>
+                  <span class="nav-link-label">Call Us</span>
+                </a>
               </li>
               
               <li data-tooltip="tooltip" data-placement="left" title="Mail">
-                <a data-brand-link="email" href="#"><i class="far fa-envelope"></i></a>
+                <a data-brand-link="email" href="#">
+                  <i class="far fa-envelope"></i>
+                  <span class="nav-link-label">Email</span>
+                </a>              
               </li>
             </ul>
           </div>
@@ -145,12 +155,75 @@
 
   .hamburger-button {
     display: none;
-    font-size: 20px;
-    color: #333;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
     background: transparent;
     border: none;
+    border-radius: 10px;
     cursor: pointer;
     order: 5;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .hamburger-button:hover,
+  .hamburger-button:focus {
+    background-color: rgba(31, 41, 51, 0.08);
+    box-shadow: 0 0 0 3px rgba(31, 41, 51, 0.12);
+    outline: none;
+  }
+
+  .hamburger-button__box {
+    position: relative;
+    width: 22px;
+    height: 16px;
+    display: inline-block;
+  }
+
+  .hamburger-button__inner {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #1f2933;
+    border-radius: 1px;
+    transform: translateY(-50%);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .hamburger-button__inner::before,
+  .hamburger-button__inner::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #1f2933;
+    border-radius: 1px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  .hamburger-button__inner::before {
+    top: -6px;
+  }
+
+  .hamburger-button__inner::after {
+    top: 6px;
+  }
+
+  .hamburger-button.is-active .hamburger-button__inner {
+    background-color: transparent;
+  }
+
+  .hamburger-button.is-active .hamburger-button__inner::before {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .hamburger-button.is-active .hamburger-button__inner::after {
+    transform: translateY(-6px) rotate(-45deg);
   }
 
   .mobile-menu-panel {
@@ -182,6 +255,107 @@
     cursor: pointer;
   }
 
+  #mobile-menu-panel .total-item-round {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    padding: 0 6px;
+    background-color: #1f2933;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  #navigation3 .mini-product__image-wrapper,
+  #mobile-menu-panel .mini-product__image-wrapper {
+    width: 60px;
+    height: 60px;
+    margin-right: 12px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f5f6f8;
+  }
+
+  #navigation3 .mini-product__link,
+  #mobile-menu-panel .mini-product__link {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #navigation3 .mini-product__link img,
+  #mobile-menu-panel .mini-product__link img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover;
+    display: block;
+  }
+
+  .mini-product__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+
+  .mini-product__quantity-control {
+    margin-top: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(226, 232, 240, 0.45);
+    border-radius: 999px;
+    padding: 4px 10px;
+  }
+
+  .mini-qty-btn {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(148, 163, 184, 0.4);
+    color: #0f172a;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .mini-qty-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.15);
+  }
+
+  .mini-qty-btn--increase {
+    background: linear-gradient(135deg, #6366f1, #3b82f6);
+    color: #ffffff;
+  }
+
+  .mini-qty-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    box-shadow: none;
+  }
+
+  .mini-qty-count {
+    min-width: 24px;
+    text-align: center;
+    font-weight: 600;
+    color: #0f172a;
+  }
+
+
+  
   /* --- Mobile Menu Content Styling --- */
   .mobile-menu-content .ah-list {
     flex-direction: column;
@@ -261,7 +435,7 @@
   /* --- Mobile Screen Rules --- */
   @media (max-width: 991px) {
     .hamburger-button {
-      display: block;
+      display: inline-flex;
     }
     .primary-nav .menu-init,
     .secondary-nav {
@@ -274,27 +448,116 @@
 
 <!-- Mega Menu Styles -->
 <style>
-  .mega-menu { display:none; position:absolute; background:#fff; border:1px solid #ddd; padding:14px; z-index:1000; min-width:720px; }
-  .menu-init:hover .mega-menu { display:block !important; opacity:1; visibility:visible; }
+  .mega-menu {
+    display: none;
+    position: absolute;
+    background: linear-gradient(175deg, #ffffff 0%, #f8fbff 100%);
+    border: 1px solid #dbe4f3;
+    padding: 24px;
+    z-index: 1000;
+    min-width: 720px;
+    border-radius: 18px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+  .menu-init:hover .mega-menu,
+  .menu-init.open .mega-menu {
+    display: block !important;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
 
-  .mega-menu-grid { display:flex; gap:24px; align-items:flex-start; }
+  .mega-menu-grid {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+  }
 
-  .mm-col { min-width:220px; max-width:320px; }
-  .mm-col .col-title { font-weight:700; font-size:13px; text-transform:uppercase; margin-bottom:8px; color:#555; }
-  .mm-list { list-style:none; margin:0; padding:0; max-height:420px; overflow:auto; }
-  .mm-list li { margin:2px 0; }
-  .mm-list a { display:block; padding:6px 8px; color:#000; text-decoration:none; border-radius:6px; }
-  .mm-list a:hover { background:#f3f5f7; color:#007bff; }
-  .mm-list a.active { background:#e9eef5; color:#0d6efd; }
+  .mm-col {
+    min-width: 220px;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mm-col .col-title {
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    color: #64748b;
+  }
+  .mm-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 420px;
+    overflow: auto;
+  }
+  .mm-list li { margin: 0; }
+  .mm-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 12px;
+    color: #0f172a;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: background 0.18s ease, transform 0.18s ease;
+  }
+  .mm-list a span {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  .mm-list a:hover,
+  .mm-list a.active {
+    background: rgba(59, 130, 246, 0.12);
+    color: #1d4ed8;
+    transform: translateX(3px);
+  }
 
-  .mm-products { min-width:320px; max-width:380px; }
-  .mm-products .col-title { margin-bottom:8px; }
-  .mm-prod-list { display:grid; grid-template-columns:1fr; gap:8px; }
-  .mm-prod { display:flex; align-items:center; gap:10px; padding:8px; border:1px solid #eee; border-radius:8px; }
-  .mm-prod:hover { border-color:#ddd; }
-  .mm-prod img { width:44px; height:44px; object-fit:cover; border-radius:6px; }
-  .mm-prod .name { font-size:13px; line-height:1.25; color:#111; }
-  .mm-prod .price { font-size:12px; color:#0a7; margin-left:auto; white-space:nowrap; }
+  .mm-products { min-width: 320px; max-width: 380px; }
+  .mm-products .col-title { margin-bottom: 8px; }
+  .mm-prod-list { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  .mm-prod {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    border-radius: 12px;
+    background: #fff;
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
+  }
+  .mm-prod:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+  }
+  .mm-prod img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f1f5f9;
+  }
+  .mm-prod .name {
+    font-size: 13px;
+    line-height: 1.4;
+    color: #0f172a;
+  }
+  .mm-prod .price {
+    font-size: 12px;
+    color: #047857;
+    margin-left: auto;
+    white-space: nowrap;
+    font-weight: 600;
+  }
   #navigation1.open .mega-menu { display:block !important; }
   /* Mini-cart list can show many items */
   .mini-cart .mini-product-container {
@@ -351,7 +614,22 @@
 .search-result-item .info .price {
   font-size: 0.8em;
   color: #0b7;
-}    
+}
+
+.search-result-view-all {
+  display: block;
+  padding: 10px 12px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f2933;
+  text-decoration: none;
+  border-top: 1px solid #eee;
+}
+
+.search-result-view-all:hover {
+  background-color: #f5f7f9;
+}
 
 </style>
 <!-- Dynamic Mega Menu Script -->
@@ -361,7 +639,7 @@ async function initHeaderMenu() {
   const log = (...a)=> DEBUG && console.log('[MEGA]', ...a);
 
   const PRODUCTS_API = `${API_ROOT}/products`; // Use global API_ROOT
-  const IMAGE_FALLBACK = 'images/product/default.jpg';
+  const IMAGE_FALLBACK = '';
 
   const grid = document.getElementById('mega-grid');
   if (!grid) return console.error('mega-grid not found');
@@ -370,7 +648,7 @@ async function initHeaderMenu() {
   const fmtMoney = n => Number(n||0).toLocaleString('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2});
   const getId = p => p.product_id ?? p.rowid ?? p.id;
   function imageURL(p) {
-      const IMAGE_FALLBACK = 'images/product/default.jpg';
+      const IMAGE_FALLBACK = '';
       try {
           let primaryPath = '';
           const v = p.product_imagePath;
@@ -710,7 +988,7 @@ async function initHeaderMenu() {
   const subtotalEl = nav3.querySelector('.subtotal-value');
   const badgeEls = nav3.querySelectorAll('.total-item-round');
 
-  const IMAGE_FALLBACK = 'images/product/default.jpg';
+  const IMAGE_FALLBACK = '';
 
   let productsMapCache = null;
 
@@ -725,7 +1003,7 @@ async function initHeaderMenu() {
   const getUserSafe = () => (typeof window.getCurrentUser === 'function') ? window.getCurrentUser() : null;
   const setCurrentUserSafe = u => (typeof window.setCurrentUser === 'function') ? window.setCurrentUser(u) : null;
   const imageURL = (p) => {
-      const IMAGE_FALLBACK = 'images/product/default.jpg';
+      const IMAGE_FALLBACK = '';
       try {
           let primaryPath = '';
           const v = p.product_imagePath;
@@ -769,35 +1047,63 @@ async function initHeaderMenu() {
   async function getProductsMap() {
     if (productsMapCache) return productsMapCache;
     try {
-      const allProducts = window.__ALL_PRODUCTS__ || (await (await fetch(`${API_ROOT}/products`)).json());
-      
+      let allProducts = window.__ALL_PRODUCTS__;
+      if (!allProducts || !Array.isArray(allProducts) || allProducts.length === 0) {
+        const response = await fetch(`${API_ROOT}/products`);
+        if (!response.ok) throw new Error('Products fetch failed');
+        allProducts = await response.json();
+        window.__ALL_PRODUCTS__ = allProducts;
+      }
+
       // *** FIX: Build the map using product_id as the key ***
       productsMapCache = new Map(allProducts.map(p => [String(p.product_id), p]));
-
-      window.__ALL_PRODUCTS__ = allProducts;
       return productsMapCache;
     } catch (error) {
       console.error("Mini-cart: Failed to fetch products.", error);
+      showGlobalError("We're having trouble loading products. Please refresh the page.");
       return new Map();
     }
   }
 
-    async function removeFromCartAPI(productId) {
+  async function removeFromCartAPI(productId) {
       const user = getUserSafe();
       if (!user) return;
       try {
-        // CHANGED: Call the new 'decrement-cart-item' endpoint
         const res = await fetch(`${API_ROOT}/users/decrement-cart-item`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ product_id: productId, user_id: user.user_id, user_email: user.user_email })
+          credentials: 'include',
+          body: JSON.stringify({ product_id: productId })
         });
         if (!res.ok) throw new Error("Server failed to remove item.");
         const updatedUser = await res.json();
         setCurrentUserSafe(updatedUser);
       } catch (error) {
         console.error("Mini-cart: Failed to remove item via API.", error);
-        alert("Could not remove item. Please try again.");
+        showToast('We couldn\'t update your cart right now. Please try again.', { type: 'error' });
+      }
+    }
+
+    async function addToCartAPI(productId) {
+      const user = getUserSafe();
+      if (!user) return;
+      try {
+        const res = await fetch(`${API_ROOT}/users/add-to-cart`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            product_id: productId,
+            product_amount: 1,
+            options: {}
+          })
+        });
+        if (!res.ok) throw new Error('Server failed to add item.');
+        const updatedUser = await res.json();
+        setCurrentUserSafe(updatedUser);
+      } catch (error) {
+        console.error('Mini-cart: Failed to add item via API.', error);
+        showToast('We couldn\'t update your cart right now. Please try again.', { type: 'error' });
       }
     }
 
@@ -831,8 +1137,12 @@ async function initHeaderMenu() {
       if (!product) continue;
 
       const price = Number(product.product_price) || 0;
-      subtotal += price * item.product_amount;
+      const discountPct = Number(product.product_discount) || 0;
+      const finalPrice = discountPct > 0 ? price * (1 - discountPct / 100) : price;
+      subtotal += finalPrice * item.product_amount;
       totalItems += item.product_amount;
+
+      const lineTotal = finalPrice * item.product_amount;
 
       html += `
         <div class="card-mini-product" data-product-id="${getProductId(product)}">
@@ -844,10 +1154,17 @@ async function initHeaderMenu() {
             </div>
             <div class="mini-product__info-wrapper">
               <span class="mini-product__name"><a href="#">${product.product_name || 'Product'}</a></span>
-              <span class="mini-product__quantity">${item.product_amount} &times; ${money(price)}</span>
+              <div class="mini-product__meta">
+                <span>${money(finalPrice)} each</span>
+                <span>${money(lineTotal)} total</span>
+              </div>
+              <div class="mini-product__quantity-control">
+                <button class="mini-qty-btn" type="button" data-qty-action="decrease" aria-label="Decrease quantity">&minus;</button>
+                <span class="mini-qty-count">${item.product_amount}</span>
+                <button class="mini-qty-btn mini-qty-btn--increase" type="button" data-qty-action="increase" aria-label="Increase quantity">+</button>
+              </div>
             </div>
           </div>
-          <a class="mini-product__delete-link far fa-trash-alt" href="#" data-remove-id="${getProductId(product)}"></a>
         </div>
       `;
     }
@@ -861,14 +1178,26 @@ async function initHeaderMenu() {
   // 5. EVENT LISTENERS & INITIALIZATION
   // =================================================================
   containerEl.addEventListener('click', (e) => {
-    const removeBtn = e.target.closest('[data-remove-id]');
-    if (removeBtn) {
-      e.preventDefault();
-      const productId = removeBtn.dataset.removeId;
-      removeBtn.style.pointerEvents = 'none';
-      removeBtn.parentElement.style.opacity = '0.5';
-      removeFromCartAPI(productId);
-    }
+    const actionBtn = e.target.closest('[data-qty-action]');
+    if (!actionBtn) return;
+
+    e.preventDefault();
+    const card = actionBtn.closest('.card-mini-product');
+    const productId = card?.dataset.productId;
+    if (!productId) return;
+
+    const action = actionBtn.dataset.qtyAction;
+    actionBtn.disabled = true;
+
+    const promise = action === 'increase'
+      ? addToCartAPI(productId)
+      : removeFromCartAPI(productId);
+
+    Promise.resolve(promise).finally(() => {
+      if (actionBtn.isConnected) {
+        actionBtn.disabled = false;
+      }
+    });
   });
 
   document.addEventListener('user:changed', renderMiniCart);
@@ -878,105 +1207,115 @@ async function initHeaderMenu() {
 </script>
 <script>
 (function(){
-  // Handle special category pages like shop-side-version-2.html?special=...
   const params = new URLSearchParams(window.location.search);
   const specialRaw = params.get('special');
-  if (!specialRaw) return; // nothing to do
+  if (!specialRaw) return;
 
   const SPECIAL = specialRaw.trim();
+  if (!SPECIAL) return;
 
-  // Config (reuse globals if present)
+  const tryHandle = () => {
+    if (typeof window.handleSpecialCategory === 'function') {
+      window.handleSpecialCategory(SPECIAL);
+      return true;
+    }
+    return false;
+  };
 
-  const PRODUCTS_URL = `${API_ROOT}/products`;
-  const IMAGE_FALLBACK = 'images/product/default.jpg';
-
-  const money = n => Number(n||0).toLocaleString('en-US', { style:'currency', currency:'USD' });
-  const getId = p => p?.product_id ?? p?.rowid ?? p?.id;
-
-  function imageURL(p) {
-    try {
-      let path = '';
-      const v = p.product_imagePath;
-      if (!v) return IMAGE_FALLBACK;
-      if (typeof v === 'string') {
-        try { const arr = JSON.parse(v); if (Array.isArray(arr) && arr.length) path = arr[0]; }
-        catch { path = v; }
-      } else if (Array.isArray(v) && v.length) { path = v[0]; }
-      if (!path) return IMAGE_FALLBACK;
-      return `${API_HOST}/${String(path).replace(/^\/+/, '')}`;
-    } catch { return IMAGE_FALLBACK; }
+  if (tryHandle()) {
+    return;
   }
 
-  function productLink(p) {
-    const img = encodeURIComponent(imageURL(p));
-    return `product-detail-variable.html?product_id=${encodeURIComponent(getId(p))}&image=${img}`;
-  }
+  window.__pendingSpecial = SPECIAL;
 
-  async function fetchProducts() {
-    if (Array.isArray(window.__ALL_PRODUCTS__) && window.__ALL_PRODUCTS__.length) return window.__ALL_PRODUCTS__;
-    try {
-      const res = await fetch(PRODUCTS_URL);
-      if (res.ok) {
+  setTimeout(async () => {
+    if (tryHandle()) {
+      return;
+    }
+
+    const PRODUCTS_URL = `${API_ROOT}/products`;
+    const IMAGE_FALLBACK = '';
+    const money = n => Number(n||0).toLocaleString('en-US', { style:'currency', currency:'USD' });
+    const getId = p => p?.product_id ?? p?.rowid ?? p?.id;
+
+    const imageURL = (p) => {
+      try {
+        let path = '';
+        const v = p.product_imagePath;
+        if (!v) return IMAGE_FALLBACK;
+        if (typeof v === 'string') {
+          try { const arr = JSON.parse(v); if (Array.isArray(arr) && arr.length) path = arr[0]; }
+          catch { path = v; }
+        } else if (Array.isArray(v) && v.length) { path = v[0]; }
+        if (!path) return IMAGE_FALLBACK;
+        return `${API_HOST}/${String(path).replace(/^\/+/, '')}`;
+      } catch { return IMAGE_FALLBACK; }
+    };
+
+    const productLink = (p) => {
+      const img = encodeURIComponent(imageURL(p));
+      return `product-detail-variable.html?product_id=${encodeURIComponent(getId(p))}&image=${img}`;
+    };
+
+    const ensureContainer = () => {
+      let el = document.querySelector('#product-grid')
+        || document.querySelector('.product-grid')
+        || document.querySelector('.shop-p__collection .row');
+      if (el) return el;
+
+      el = document.createElement('div');
+      el.id = 'product-grid';
+      el.style.marginTop = '16px';
+      el.style.display = 'grid';
+      el.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
+      el.style.gap = '16px';
+
+      const title = document.createElement('h3');
+      title.className = 'special-title';
+      title.textContent = `Special: ${SPECIAL}`;
+
+      const wrapper = document.createElement('section');
+      wrapper.className = 'special-results';
+      wrapper.style.padding = '16px';
+      wrapper.appendChild(title);
+      wrapper.appendChild(el);
+
+      const anchor = document.querySelector('main') || document.body;
+      anchor.insertBefore(wrapper, anchor.firstChild ? anchor.firstChild.nextSibling : null);
+      return el;
+    };
+
+    const card = (p) => {
+      const price = Number(p.product_price)||0;
+      const disc  = Number(p.product_discount)||0;
+      const final = disc > 0 ? price * (1 - disc/100) : price;
+      return `
+        <a class="c-card" href="${productLink(p)}" style="display:block;border:1px solid #eee;border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;">
+          <div style="padding:8px 8px 0">
+            <img src="${imageURL(p)}" alt="" style="width:100%;height:160px;object-fit:cover;border-radius:6px">
+          </div>
+          <div style="padding:10px">
+            <div style="font-size:14px;font-weight:600;line-height:1.3;min-height:36px">${p.product_name || 'Product'}</div>
+            <div style="margin-top:6px;font-size:13px;color:#0a7">${money(final)}</div>
+          </div>
+        </a>`;
+    };
+
+    const fetchProducts = async () => {
+      if (Array.isArray(window.__ALL_PRODUCTS__) && window.__ALL_PRODUCTS__.length) return window.__ALL_PRODUCTS__;
+      try {
+        const res = await fetch(PRODUCTS_URL);
+        if (!res.ok) throw new Error('Products fetch failed');
         const data = await res.json();
         window.__ALL_PRODUCTS__ = data;
         return data;
+      } catch (error) {
+        console.error('Special category: failed to fetch products', error);
+        showGlobalError("We're having trouble loading products. Please refresh the page.");
+        return [];
       }
-    } catch {}
-    return [];
-  }
+    };
 
-  function findTargetContainer() {
-    // Try common grid containers on your listing page. Adjust selectors if you have a known one.
-    return document.querySelector('#product-grid')
-        || document.querySelector('.product-grid')
-        || document.querySelector('.shop-p__collection .row')
-        || null;
-  }
-
-  function ensureContainer() {
-    let el = findTargetContainer();
-    if (el) return el;
-    // Fallback: create a simple responsive grid near top of the page
-    el = document.createElement('div');
-    el.id = 'product-grid';
-    el.style.marginTop = '16px';
-    el.style.display = 'grid';
-    el.style.gridTemplateColumns = 'repeat(auto-fill, minmax(220px, 1fr))';
-    el.style.gap = '16px';
-
-    const title = document.createElement('h3');
-    title.className = 'special-title';
-    title.textContent = `Special: ${SPECIAL}`;
-
-    const wrapper = document.createElement('section');
-    wrapper.className = 'special-results';
-    wrapper.style.padding = '16px';
-    wrapper.appendChild(title);
-    wrapper.appendChild(el);
-
-    const anchor = document.querySelector('main') || document.body;
-    anchor.insertBefore(wrapper, anchor.firstChild ? anchor.firstChild.nextSibling : null);
-    return el;
-  }
-
-  function card(p) {
-    const price = Number(p.product_price)||0;
-    const disc  = Number(p.product_discount)||0;
-    const final = disc > 0 ? price * (1 - disc/100) : price;
-    return `
-      <a class="c-card" href="${productLink(p)}" style="display:block;border:1px solid #eee;border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;">
-        <div style="padding:8px 8px 0">
-          <img src="${imageURL(p)}" alt="" style="width:100%;height:160px;object-fit:cover;border-radius:6px">
-        </div>
-        <div style="padding:10px">
-          <div style="font-size:14px;font-weight:600;line-height:1.3;min-height:36px">${p.product_name || 'Product'}</div>
-          <div style="margin-top:6px;font-size:13px;color:#0a7">${money(final)}</div>
-        </div>
-      </a>`;
-  }
-
-  (async function run(){
-    document.title = `${SPECIAL} – ${document.title}`;
     const all = await fetchProducts();
     const list = all.filter(p => String(p.products_specialDescription || '').trim().toLowerCase() === SPECIAL.toLowerCase());
 
@@ -988,7 +1327,7 @@ async function initHeaderMenu() {
 
     list.sort((a,b) => (Number(a.product_index)||0) - (Number(b.product_index)||0) || String(a.product_name||'').localeCompare(String(b.product_name||'')));
     grid.innerHTML = list.map(card).join('');
-  })();
+  }, 400);
 })();
 </script>
 <script>
@@ -1043,7 +1382,7 @@ async function initHeaderMenu() {
   const getUserSafe = () => (typeof window.getCurrentUser === 'function') ? window.getCurrentUser() : null;
   const setCurrentUserSafe = u => (typeof window.setCurrentUser === 'function') ? window.setCurrentUser(u) : null;
   const imageURL = (p) => {
-    const IMAGE_FALLBACK = 'images/product/default.jpg';
+    const IMAGE_FALLBACK = '';
     try {
       let primaryPath = '';
       const v = p.product_imagePath;
@@ -1065,14 +1404,15 @@ async function initHeaderMenu() {
       const res = await fetch(`${API_ROOT}/users/decrement-cart-item`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ product_id: productId, user_id: user.user_id, user_email: user.user_email })
+        credentials: 'include',
+        body: JSON.stringify({ product_id: productId })
       });
       if (!res.ok) throw new Error(`Server responded with status ${res.status}`);
       const updatedUser = await res.json();
       setCurrentUserSafe(updatedUser);
     } catch (error) {
       console.error("Mobile Menu Cart: Failed to remove item.", error);
-      alert("Could not remove the item. Please refresh and try again.");
+      showToast('We couldn\'t update your cart right now. Please refresh and try again.', { type: 'error' });
     }
   }
   
@@ -1176,7 +1516,10 @@ async function initHeaderMenu() {
         const product = productsMap.get(item.product_id);
         if (!product) continue;
         const price = Number(product.product_price) || 0;
-        subtotal += price * item.product_amount;
+        const discountPct = Number(product.product_discount) || 0;
+        const finalPrice = discountPct > 0 ? price * (1 - discountPct / 100) : price;
+        const lineTotal = finalPrice * item.product_amount;
+        subtotal += lineTotal;
 
         productsHtml += `
           <div class="card-mini-product" data-product-id="${product.product_id}">
@@ -1184,10 +1527,17 @@ async function initHeaderMenu() {
               <div class="mini-product__image-wrapper"><a class="mini-product__link" href="product-detail-variable.html?product_id=${product.product_id}"><img class="u-img-fluid" src="${imageURL(product)}" alt=""></a></div>
               <div class="mini-product__info-wrapper">
                 <span class="mini-product__name"><a href="#">${product.product_name}</a></span>
-                <span class="mini-product__quantity">${item.product_amount} &times; ${money(price)}</span>
+                <div class="mini-product__meta">
+                  <span>${money(finalPrice)} each</span>
+                  <span>${money(lineTotal)} total</span>
+                </div>
+                <div class="mini-product__quantity-control">
+                  <button class="mini-qty-btn" type="button" data-qty-action="decrease" aria-label="Decrease quantity">&minus;</button>
+                  <span class="mini-qty-count">${item.product_amount}</span>
+                  <button class="mini-qty-btn mini-qty-btn--increase" type="button" data-qty-action="increase" aria-label="Increase quantity">+</button>
+                </div>
               </div>
             </div>
-            <a class="mini-product__delete-link far fa-trash-alt" href="#" data-remove-id="${product.product_id}"></a>
           </div>`;
       }
       productsHtml += '</div>';
@@ -1196,7 +1546,7 @@ async function initHeaderMenu() {
     }
 
     cartLi.innerHTML = `
-      <a><i class="fas fa-shopping-bag u-s-m-r-6"></i><span>Cart</span><span class="total-item-round" style="margin-left:8px; display:inline-flex;">${totalItems}</span></a>
+      <a><i class="fas fa-shopping-bag u-s-m-r-6"></i><span>Cart</span><span class="total-item-round" style="margin-left:8px;">${totalItems}</span></a>
       <div class="mini-cart">
         ${productsHtml}
         <div class="mini-product-stat">
@@ -1216,8 +1566,29 @@ async function initHeaderMenu() {
   menuContent.addEventListener('click', handleMenuClick);
 
   function handleMenuClick(e) {
-      const trigger = e.target.closest('a');
+      const trigger = e.target.closest('a, button');
       if (!trigger) return;
+
+      if (trigger.dataset.qtyAction) {
+        e.preventDefault();
+        e.stopPropagation();
+        const card = trigger.closest('.card-mini-product');
+        const productId = card?.dataset.productId;
+        if (!productId) return;
+
+        trigger.disabled = true;
+        const action = trigger.dataset.qtyAction;
+        const promise = action === 'increase'
+          ? addToCartAPI(productId)
+          : removeFromCartAPI(productId);
+
+        Promise.resolve(promise).finally(() => {
+          if (trigger.isConnected) {
+            trigger.disabled = false;
+          }
+        });
+        return;
+      }
 
       const parentLi = trigger.parentElement;
 
@@ -1284,17 +1655,7 @@ async function initHeaderMenu() {
         }
       }
 
-      // --- DELETE FROM CART LOGIC ---
-      if (trigger.matches('.mini-product__delete-link[data-remove-id]')) {
-        e.preventDefault();
-        e.stopPropagation();
-        const productId = trigger.dataset.removeId;
-        if (productId) {
-          trigger.style.pointerEvents = 'none';
-          trigger.closest('.card-mini-product').style.opacity = '0.5';
-          removeFromCartAPI(productId);
-        }
-      }
+
     }
 
   // Panel Open/Close Listeners
@@ -1302,6 +1663,7 @@ async function initHeaderMenu() {
     menuPanel.classList.add('is-open');
     overlay.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+    hamburgerBtn.classList.add('is-active');
     waitForDataAndBuild(true);
   }
 
@@ -1309,6 +1671,7 @@ async function initHeaderMenu() {
     menuPanel.classList.remove('is-open');
     overlay.classList.remove('is-open');
     document.body.style.overflow = '';
+    hamburgerBtn.classList.remove('is-active');
   }
 
   hamburgerBtn.addEventListener('click', openMenu);
@@ -1346,10 +1709,20 @@ async function initHeaderMenu() {
 </script>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  const initTopBarSearch = () => {
     const searchInput = document.getElementById('main-search');
     const resultsDropdown = document.getElementById('search-results-dropdown');
+    const searchForm = document.getElementById('main-search-form');
+    if (!searchInput || !resultsDropdown || !searchForm) {
+      return;
+    }
     let debounceTimer;
+
+    const redirectToSearchPage = (query) => {
+      if (!query || query.length < 2) return;
+      const url = `search-results.html?q=${encodeURIComponent(query)}`;
+      window.location.href = url;
+    };
 
     // --- 1. Listen for typing in the search bar ---
     searchInput.addEventListener('input', () => {
@@ -1359,6 +1732,28 @@ async function initHeaderMenu() {
         performSearch(searchInput.value.trim());
       }, 300); // Wait 300ms after user stops typing
     });
+
+    searchForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const query = searchInput.value.trim();
+      if (query.length >= 2) {
+        redirectToSearchPage(query);
+      } else {
+        resultsDropdown.style.display = 'none';
+        resultsDropdown.innerHTML = '';
+      }
+    });
+
+    const resolveSearchImage = (value) => {
+      try {
+        const arr = Array.isArray(value) ? value : JSON.parse(value);
+        const path = Array.isArray(arr) && arr.length ? arr[0] : null;
+        if (!path) return '';
+        return path.startsWith('http') ? path : `${API_HOST}/${String(path).replace(/^\/+/,'')}`;
+      } catch {
+        return '';
+      }
+    };
 
     // --- 2. Perform the actual search ---
     const performSearch = async (query) => {
@@ -1376,7 +1771,7 @@ async function initHeaderMenu() {
         const response = await fetch(API_SEARCH_URL);
         if (!response.ok) throw new Error('Search request failed');
         const products = await response.json();
-        displayResults(products);
+        displayResults(products, query);
       } catch (error) {
         console.error('Search error:', error);
         resultsDropdown.style.display = 'none';
@@ -1384,7 +1779,7 @@ async function initHeaderMenu() {
     };
 
     // --- 3. Display the results in the dropdown ---
-    const displayResults = (products) => {
+    const displayResults = (products, query) => {
       if (products.length === 0) {
         resultsDropdown.style.display = 'none';
         return;
@@ -1397,9 +1792,7 @@ async function initHeaderMenu() {
       const top5Products = products.slice(0, 5);
 
       top5Products.forEach(product => {
-        const primaryImage = Array.isArray(product.product_imagePath) && product.product_imagePath.length > 0
-          ? product.product_imagePath[0]
-          : 'images/product/default.jpg';
+        const primaryImage = resolveSearchImage(product.product_imagePath);
         
         const price = Number(product.product_price || 0).toLocaleString('en-US', {
             style: 'currency', currency: 'USD'
@@ -1418,6 +1811,14 @@ async function initHeaderMenu() {
         `;
         resultsDropdown.appendChild(itemLink);
       });
+
+      if (products.length > 5) {
+        const viewAllLink = document.createElement('a');
+        viewAllLink.className = 'search-result-view-all';
+        viewAllLink.href = `search-results.html?q=${encodeURIComponent(query)}`;
+        viewAllLink.textContent = `View all results (${products.length})`;
+        resultsDropdown.appendChild(viewAllLink);
+      }
       
       // Show the dropdown
       resultsDropdown.style.display = 'block';
@@ -1430,5 +1831,16 @@ async function initHeaderMenu() {
       }
     });
 
-  });
+    const initialQuery = new URLSearchParams(window.location.search).get('q');
+    if (initialQuery && initialQuery.trim().length >= 2) {
+      searchInput.value = initialQuery.trim();
+      performSearch(initialQuery.trim());
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTopBarSearch);
+  } else {
+    initTopBarSearch();
+  }
 </script>

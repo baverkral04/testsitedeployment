@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="images/favicon.png" rel="shortcut icon">
+  <title>Search Results</title>
+  <link rel="stylesheet" href="css/vendor.css">
+  <link rel="stylesheet" href="css/utility.css">
+  <script src="user.js"></script>
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    .search-results-header {
+      padding: 40px 0 10px;
+      text-align: left;
+    }
+    .search-results-header h1 {
+      font-size: 26px;
+      margin-bottom: 6px;
+    }
+    .search-results-header p {
+      color: #64748b;
+      margin: 0;
+    }
+    .search-empty-state {
+      padding: 60px 0;
+      text-align: center;
+      color: #475569;
+    }
+    .search-feedback {
+      display: none;
+      margin-bottom: 16px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+    }
+    .search-feedback.is-visible {
+      display: block;
+    }
+    .search-feedback.is-success {
+      background: #ecfdf5;
+      border: 1px solid #bbf7d0;
+      color: #047857;
+    }
+    .search-feedback.is-error {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+    }
+    .search-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+      gap: 24px;
+    }
+    .search-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .search-card:hover {
+      box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+      transform: translateY(-4px);
+    }
+    .search-card__thumb {
+      position: relative;
+      padding-top: 100%;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .search-card__thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .search-card__body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1 1 auto;
+    }
+    .search-card__title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0;
+      line-height: 1.35;
+      min-height: 44px;
+    }
+    .search-card__price {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0f766e;
+    }
+    .search-card__meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #64748b;
+    }
+    .search-card__actions {
+      margin-top: auto;
+      display: flex;
+      gap: 8px;
+    }
+    .btn-search-add {
+      flex: 1 1 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      color: #fff;
+      background: #2563eb;
+    }
+    .btn-search-add:hover {
+      background: #1d4ed8;
+    }
+    .btn-search-detail {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #cbd5f5;
+      background: #f8fafc;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+    .btn-search-detail:hover {
+      background: #eff6ff;
+    }
+  </style>
+</head>
+<body class="config">
+  <div class="preloader is-active">
+    <div class="preloader__wrap">
+      <img class="preloader__img" src="images/preloader.png" alt="">
+    </div>
+  </div>
+
+  <div id="app">
+    <div id="header-placeholder"></div>
+    <script>
+      (async () => {
+        const el = document.getElementById('header-placeholder');
+        const resp = await fetch('top_bar.html?_=' + Date.now());
+        const html = await resp.text();
+        el.innerHTML = html;
+
+        document.dispatchEvent(new CustomEvent('user:changed'));
+
+        el.querySelectorAll('script').forEach((oldScript) => {
+          const newScript = document.createElement('script');
+          if (oldScript.src) {
+            newScript.src = oldScript.src;
+            newScript.defer = oldScript.defer || false;
+            newScript.async = oldScript.async;
+          } else {
+            newScript.textContent = oldScript.textContent;
+          }
+          document.head.appendChild(newScript);
+        });
+
+        const tryInitMenu = () => {
+          if (typeof window.initHeaderMenu === 'function') {
+            window.initHeaderMenu(window.__ALL_PRODUCTS__ || null);
+          }
+        };
+        setTimeout(tryInitMenu, 0);
+      })();
+    </script>
+
+    <div class="app-content">
+      <div class="u-s-p-y-60">
+        <div class="section__content">
+          <div class="container">
+            <div class="search-results-header">
+              <h1 id="search-title">Search</h1>
+              <p id="search-subtitle"></p>
+              <div id="search-feedback" class="search-feedback" aria-live="polite"></div>
+            </div>
+            <div id="search-empty" class="search-empty-state" style="display:none;">
+              No products matched your search.
+            </div>
+            <div id="search-grid" class="search-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer-placeholder"></div>
+    <script>
+      (async () => {
+        const el = document.getElementById('footer-placeholder');
+        const resp = await fetch('footer.html?_=' + Date.now());
+        const html = await resp.text();
+        el.innerHTML = html;
+      })();
+    </script>
+  </div>
+
+  <script src="js/vendor.js"></script>
+  <script src="js/jquery.shopnav.js"></script>
+  <script src="js/app.js"></script>
+
+  <script>
+    const SEARCH_ADD_TO_CART_URL = `${window.API_ROOT}/users/add-to-cart`;
+    const SEARCH_PRODUCTS_API = `${window.API_ROOT}/products/search`;
+
+    const searchGetUserSafe = () => {
+      try { return (typeof getCurrentUser === 'function') ? getCurrentUser() : null; }
+      catch (_) { return null; }
+    };
+
+    const searchFeedbackEl = document.getElementById('search-feedback');
+
+    function clearSearchFeedback() {
+      if (!searchFeedbackEl) return;
+      searchFeedbackEl.className = 'search-feedback';
+      searchFeedbackEl.textContent = '';
+    }
+
+    function showSearchFeedback(message, type = 'success') {
+      if (!searchFeedbackEl) return;
+      searchFeedbackEl.innerHTML = message;
+      searchFeedbackEl.className = 'search-feedback is-visible ' + (type === 'error' ? 'is-error' : 'is-success');
+    }
+
+    const getReviewCount = (product) => {
+      try {
+        const arr = JSON.parse(product.product_reviews || '[]');
+        return Array.isArray(arr) ? arr.length : 0;
+      } catch (_) {
+        return 0;
+      }
+    };
+
+    async function searchAddToCart(productId, user) {
+      const payload = {
+        product_id: productId,
+        product_amount: 1,
+        options: {},
+        user_id: user.user_id,
+        user_email: user.user_email
+      };
+      const res = await fetch(SEARCH_ADD_TO_CART_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error(`Add to cart failed (${res.status})`);
+      const updatedUser = await res.json().catch(() => null);
+      if (updatedUser && typeof setCurrentUser === 'function') {
+        setCurrentUser(updatedUser);
+      } else if (typeof window.checkSession === 'function') {
+        await window.checkSession();
+      }
+    }
+
+    const money = (n) => Number(n || 0).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+    const resolveImage = (value) => {
+      try {
+        const arr = Array.isArray(value) ? value : JSON.parse(value);
+        const path = Array.isArray(arr) && arr.length ? arr[0] : null;
+        if (!path) return '';
+        return path.startsWith('http') ? path : `${window.API_HOST}/${String(path).replace(/^\/+/,'')}`;
+      } catch {
+        return '';
+      }
+    };
+
+    function buildCard(product) {
+      const imageUrl = resolveImage(product.product_imagePath);
+      const price = money(product.product_price);
+      const discount = Number(product.product_discount) || 0;
+      const hasDiscount = discount > 0;
+      const finalPrice = hasDiscount ? money((Number(product.product_price) || 0) * (1 - discount / 100)) : price;
+      const productId = product.product_id ?? product.id ?? product.rowid;
+
+      return `
+        <div class="search-card">
+          <a class="search-card__thumb" href="product-detail-variable.html?product_id=${encodeURIComponent(productId)}&image=${encodeURIComponent(imageUrl)}">
+            <img src="${imageUrl}" alt="${product.product_name || 'Product'}">
+          </a>
+          <div class="search-card__body">
+            <h2 class="search-card__title">${product.product_name || 'Product'}</h2>
+            <div class="search-card__price">
+              ${finalPrice}
+              ${hasDiscount ? `<span style="margin-left:6px;color:#94a3b8;font-size:13px;text-decoration:line-through;">${price}</span>` : ''}
+            </div>
+            <div class="search-card__meta">
+              <span>${product.product_tree1 || 'General'}</span>
+              <span>${getReviewCount(product)} reviews</span>
+            </div>
+            <div class="search-card__actions">
+              <button class="btn-search-add" data-product-id="${encodeURIComponent(productId)}">
+                <i class="fas fa-shopping-cart"></i>
+                Add to Cart
+              </button>
+              <a class="btn-search-detail" href="product-detail-variable.html?product_id=${encodeURIComponent(productId)}&image=${encodeURIComponent(imageUrl)}">Details</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    document.addEventListener('click', async (event) => {
+      const addBtn = event.target.closest('.btn-search-add');
+      if (!addBtn) return;
+      event.preventDefault();
+      const productId = addBtn.dataset.productId;
+      if (!productId) return;
+
+      const user = searchGetUserSafe();
+      if (!user) {
+        showSearchFeedback('Please <a href="signin.html">sign in</a> to add items to your cart.', 'error');
+        return;
+      }
+
+      if (addBtn.dataset.busy === '1') return;
+      const originalHtml = addBtn.innerHTML;
+      addBtn.dataset.busy = '1';
+      addBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding...';
+
+      try {
+        await searchAddToCart(productId, user);
+        addBtn.innerHTML = '<i class="fas fa-check"></i> Added';
+        showSearchFeedback('Item added to your cart.', 'success');
+        setTimeout(() => {
+          addBtn.innerHTML = originalHtml;
+        }, 1000);
+      } catch (err) {
+        console.error('[search-add-to-cart]', err);
+        showSearchFeedback('Could not add to cart. Please try again.', 'error');
+        addBtn.innerHTML = originalHtml;
+      } finally {
+        delete addBtn.dataset.busy;
+      }
+    });
+
+    (async () => {
+      const params = new URLSearchParams(window.location.search);
+      const query = (params.get('q') || '').trim();
+      const titleEl = document.getElementById('search-title');
+      const subtitleEl = document.getElementById('search-subtitle');
+      const emptyEl = document.getElementById('search-empty');
+      const gridEl = document.getElementById('search-grid');
+
+      if (query) {
+        titleEl.textContent = `Search results for “${query}”`;
+        subtitleEl.textContent = 'Showing products that match your search.';
+        clearSearchFeedback();
+      } else {
+        titleEl.textContent = 'Search';
+        subtitleEl.textContent = 'Enter a search term above to find products.';
+        emptyEl.style.display = 'block';
+        return;
+      }
+
+      try {
+        const response = await fetch(`${SEARCH_PRODUCTS_API}?q=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error('Search request failed');
+        const products = await response.json();
+
+        if (!Array.isArray(products) || !products.length) {
+          clearSearchFeedback();
+          emptyEl.style.display = 'block';
+          return;
+        }
+
+        emptyEl.style.display = 'none';
+        gridEl.innerHTML = products.map(buildCard).join('');
+      } catch (error) {
+        console.error('search-results', error);
+        emptyEl.textContent = 'Something went wrong while searching. Please try again.';
+        emptyEl.style.display = 'block';
+        showSearchFeedback('We could not complete the search. Please try again.', 'error');
+        showGlobalError("We're having trouble loading search results. Please refresh the page.");
+      }
+    })();
+  </script>
+</body>
+</html>
