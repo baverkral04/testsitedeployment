@@ -872,7 +872,7 @@
           buttonElement.textContent = originalText;
       }, 2000); // Revert back after 2 seconds
     }).catch(err => {
-      showToast('We couldn't copy that text. Please try again.', { type: 'error' });
+      showToast("We couldn't copy that text. Please try again.", { type: 'error' });
       console.error('Copy to clipboard failed: ', err);
     });
   }

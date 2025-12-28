@@ -887,11 +887,10 @@ async function initHeaderMenu() {
     }
     const EXCEPTIONS = ["FEATURED PRODUCTS","SPECIAL PRODUCTS", "WEEKLY PRODUCTS","FLASH PRODUCTS"]
 
-    // Collect unique specials from products_specialDescription
     const seen = new Set();
     const specials = [];
     for (const p of products) {
-      const raw = (p.products_specialDescription ?? '').trim();
+      const raw = (p.product_special_description || '').trim();
       if (!raw) continue;
 
       if (EXCEPTIONS.some(ex => ex.toLowerCase() === raw.toLowerCase())) continue;
@@ -1317,7 +1316,7 @@ async function initHeaderMenu() {
     };
 
     const all = await fetchProducts();
-    const list = all.filter(p => String(p.products_specialDescription || '').trim().toLowerCase() === SPECIAL.toLowerCase());
+    const list = all.filter(p => String(p.product_special_description || '').trim().toLowerCase() === SPECIAL.toLowerCase());
 
     const grid = ensureContainer();
     if (!list.length) {

@@ -1081,7 +1081,7 @@
       function imageURL(p) {
         try {
           let path = '';
-          const v = p.product_imagePath;
+          const v = p.product_image_path;
           if (!v) return IMAGE_FALLBACK;
           if (typeof v === 'string') {
             try { const arr = JSON.parse(v); if (Array.isArray(arr) && arr.length) path = arr[0]; }
@@ -1191,7 +1191,7 @@
       ];
 
       sections.forEach(sec => {
-        const filtered = products.filter(p => (p.products_specialDescription || '').toLowerCase() === sec.key.toLowerCase());
+        const filtered = products.filter(p => (p.product_special_description || '').toLowerCase() === sec.key.toLowerCase());
         if (filtered.length) {
           const sorted = sortProducts(filtered).slice(0, sec.limit);
           const html = sorted.map(p => sec.render(p, sec.key)).join('');
@@ -1274,6 +1274,17 @@
     })();
 </script>
 <script>
+
+async function waitForProducts(maxMs = 5000) {
+    const start = Date.now();
+    while ((!window.__ALL_PRODUCTS__ || !window.__ALL_PRODUCTS__.length) &&
+         Date.now() - start < maxMs){
+            await new Promise(resolve => setTimeout(resolve, 200) );
+    }
+    return window.__ALL_PRODUCTS__ && window.__ALL_PRODUCTS__.length;
+    
+}
+
 async function populateTopRatedProducts() {
     // This helper function mimics the logic from your product page for consistency.
     const getReviewStats = (reviews) => {
@@ -1300,7 +1311,7 @@ async function populateTopRatedProducts() {
     const getImageUrl = (p) => {
         const IMAGE_FALLBACK = '';
         try {
-            const raw = p?.product_imagePath;
+            const raw = p?.product_image_path;
             let primary = '';
 
             if (!raw) return IMAGE_FALLBACK;
@@ -1334,16 +1345,12 @@ async function populateTopRatedProducts() {
     };
 
     // 1. Fetch Products and Reviews
-    if (!window.__ALL_PRODUCTS__ || window.__ALL_PRODUCTS__.length === 0) {
-        console.log('Waiting for products to load...');
-        await new Promise(resolve => setTimeout(resolve, 500));
-        if (!window.__ALL_PRODUCTS__ || window.__ALL_PRODUCTS__.length === 0) {
-             console.error('Products not found on window object. Cannot populate reviews section.');
-             document.querySelector('#testimonial-slider').innerHTML = '<p>Could not load reviews.</p>';
-             return;
-        }
+    if (!await waitForProducts()) {
+    console.error('Products not found on window object. Cannot populate reviews section.');
+    document.querySelector('#testimonial-slider').innerHTML = '<p>Could not load reviews.</p>';
+    return;
     }
-    
+
     const products = window.__ALL_PRODUCTS__;
     let allReviews = [];
     try {

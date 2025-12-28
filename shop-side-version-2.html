@@ -1058,7 +1058,7 @@
         function getImageUrl(product) {
             try {
                 let primaryPath = '';
-                const v = product.product_imagePath;
+                const v = product.product_image_path;
 
                 if (v) {
                     // This handles both new arrays and old JSON strings gracefully
@@ -1216,7 +1216,7 @@
 
             filteredProducts = products.filter(product => {
                 if (activeSpecialLower) {
-                    const productSpecial = String(product.products_specialDescription || '').trim().toLowerCase();
+                    const productSpecial = String(product.product_special_description || '').trim().toLowerCase();
                     if (productSpecial !== activeSpecialLower) {
                         return false;
                     }

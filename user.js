@@ -1,6 +1,6 @@
 // ====== Auth + User State (frontend-only) ======
 // All shared variables are explicitly attached to the global 'window' object.
-window.CUSTOMER_ID = window.CUSTOMER_ID || 'products_test_user';
+window.CUSTOMER_ID = window.CUSTOMER_ID || 'expressites_kardiy';
 window.customerId = window.CUSTOMER_ID; // Alias for admin.js compatibility
 window.API_HOST = 'http://localhost:5050';
 window.API_ROOT = `${window.API_HOST}/api/${window.CUSTOMER_ID}`;

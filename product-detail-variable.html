@@ -1153,7 +1153,7 @@ function wireWishlist(product) {
             
             // Stock status
             const stock = Number(product.product_stock) || 0;
-            const sold = Number(product.product_sale) || 0;
+            const sold = Number(product.product_sold) || 0;
             const stockStatus = stock > 0 
                 ? `<span class="pd-detail__stock">${sold} sold</span>`
                 : `<span class="pd-detail__stock u-c-danger">Out of stock</span>`;
