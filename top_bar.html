@@ -1791,7 +1791,7 @@ async function initHeaderMenu() {
       const top5Products = products.slice(0, 5);
 
       top5Products.forEach(product => {
-        const primaryImage = resolveSearchImage(product.product_imagePath);
+        const primaryImage = resolveSearchImage(product.product_image_path);
         
         const price = Number(product.product_price || 0).toLocaleString('en-US', {
             style: 'currency', currency: 'USD'
