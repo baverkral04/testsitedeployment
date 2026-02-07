@@ -1205,17 +1205,23 @@
     </script>
 <script>
     (async () => {
-        function setImage(selector, path, fallback, isBackground = false) {
+        function setImage(selector, path, isBackground = false) {
             // Find ALL elements that match (originals and clones)
             const elements = document.querySelectorAll(selector);
             
             // Loop through each found element and apply the style
             elements.forEach(element => {
-            let imageUrl = fallback; // Default to the fallback
-            if (path) {
-                // If the path is a full URL, use it directly. Otherwise, build it.
-                imageUrl = path.startsWith('http') ? path : `${window.API_HOST}/${path}`;
+            if (!path) {
+                if (isBackground) {
+                    element.style.backgroundImage = '';
+                } else {
+                    element.removeAttribute('src');
+                }
+                return;
             }
+
+            // If the path is a full URL, use it directly. Otherwise, build it.
+            const imageUrl = path.startsWith('http') ? path : `${window.API_HOST}/${path}`;
 
                 if (isBackground) {
                     element.style.backgroundImage = `url('${imageUrl}')`;
@@ -1235,22 +1241,22 @@
             // --- Update Images on the Page ---
 
             // Hero Slider Backgrounds
-            setImage('.hero-slide--1', imagePaths.hero1, '', true);
-            setImage('.hero-slide--2', imagePaths.hero2, '', true);
-            setImage('.hero-slide--3', imagePaths.hero3, '', true);
+            setImage('.hero-slide--1', imagePaths.hero1, true);
+            setImage('.hero-slide--2', imagePaths.hero2, true);
+            setImage('.hero-slide--3', imagePaths.hero3, true);
 
             // Collection "Shop by Deals" Images
-            setImage('.collection__img[data-id="coll-1"]', imagePaths.coll1, '');
-            setImage('.collection__img[data-id="coll-2"]', imagePaths.coll2, '');
-            setImage('.collection__img[data-id="coll-3"]', imagePaths.coll3, '');
-            setImage('.collection__img[data-id="coll-4"]', imagePaths.coll4, '');
+            setImage('.collection__img[data-id="coll-1"]', imagePaths.coll1);
+            setImage('.collection__img[data-id="coll-2"]', imagePaths.coll2);
+            setImage('.collection__img[data-id="coll-3"]', imagePaths.coll3);
+            setImage('.collection__img[data-id="coll-4"]', imagePaths.coll4);
 
-            setImage('.banner-bg', imagePaths.globalOffers, '', true);
+            setImage('.banner-bg', imagePaths.globalOffers, true);
 
             // Promotion Section Images
-            setImage('.promotion__img[data-id="promo-1"]', imagePaths.promo1, '');
-            setImage('.promotion__img[data-id="promo-2"]', imagePaths.promo2, '');
-            setImage('.promotion__img[data-id="promo-3"]', imagePaths.promo3, '');
+            setImage('.promotion__img[data-id="promo-1"]', imagePaths.promo1);
+            setImage('.promotion__img[data-id="promo-2"]', imagePaths.promo2);
+            setImage('.promotion__img[data-id="promo-3"]', imagePaths.promo3);
             const slider = $('#hero-slider');
             
             // First, destroy the old, incorrectly sized slider instance

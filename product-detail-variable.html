@@ -671,7 +671,6 @@
         const PRODUCTS_API = `${API_ROOT}/products`;
         const USER_API = `${API_ROOT}/users`;
         const IMAGE_FALLBACK = '';
-        const BLANK_IMAGE = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs='; // 1×1 transparent GIF
         
         // grab an optional override from the URL
         const urlParams     = new URLSearchParams(window.location.search);
@@ -1079,7 +1078,12 @@ function wireWishlist(product) {
 
             // Fallback logic for safety
             if (imagePaths.length === 0) {
-                imagePaths.push(overrideImage || IMAGE_FALLBACK);
+                if (overrideImage) {
+                    imagePaths.push(overrideImage);
+                } else {
+                    productGallery.innerHTML = '';
+                    return;
+                }
             }
             
             const mainUrl = imagePaths[0]; // The first image is the main one.
